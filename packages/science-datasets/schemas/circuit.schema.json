@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fruitfly.local/schemas/circuit.schema.json",
+  "title": "fruitfly circuit",
+  "type": "object",
+  "required": ["id", "version", "neurons", "edges", "provenance"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "provenance": { "type": "object" },
+    "neurons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "class": { "type": "string" },
+          "roi": { "type": "string" },
+          "sex": { "type": "string" }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pre", "post", "weight", "sign"],
+        "properties": {
+          "pre": { "type": "string" },
+          "post": { "type": "string" },
+          "weight": { "type": "number" },
+          "sign": { "type": "integer" },
+          "synapses": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

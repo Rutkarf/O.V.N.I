@@ -1,0 +1,11 @@
+id: escape_feed_v1
+version: "1.0.0"
+hash_note: Computed at runtime via SHA-256 prefix of circuit.json
+license: research-internal
+citation:
+  - MaleCNS v1.0 (Berg et al., Cell 2026) — nomenclature / pathways
+  - FlyWire / looming escape literature (LPLC2, LC4, DNp01)
+roi: [LOP, SEZ, VEN, VNC, MB, LH]
+files:
+  circuit: circuit.json
+  adapters: adapters.json

@@ -1,0 +1,314 @@
+{
+  "id": "flywire_roi_fuite_lop_v1",
+  "name": "ROI FlyWire contrôle fuite (femelle)",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "roi_connectome_pipeline",
+    "not_full_connectome": true,
+    "claim_level": "reconstruction_roi_en_attente_export",
+    "roi": [
+      "LOP",
+      "VEN",
+      "SEZ",
+      "VNC",
+      "LH"
+    ],
+    "sexe": "female",
+    "citations": [
+      "MaleCNS v1.0 Berg et al. Cell 2026 — nomenclature types",
+      "FlyWire female brain — contrôle concordance",
+      "Littérature fuite visuelle LPLC2/LC4→DNp01"
+    ],
+    "disclaimer": "Sous-graphe ROI pour claims dès que les body_id PLACEHOLDER sont remplacés par un export neuPrint/FlyWire via scripts/importer_roi_connectome.py. Poids d'arêtes = reconstruction literature jusqu'à synaptomes officiels.",
+    "comment_claimer": "Après import export officiel : claim_level=export_neuprint|export_flywire + empreinte."
+  },
+  "neurons": [
+    {
+      "id": "LPLC2",
+      "malecns_type": "LPLC2",
+      "malecns_body_id": "MCNS_PLACEHOLDER_LPLC2_R",
+      "flywire_root_id": "FW_PLACEHOLDER_LPLC2",
+      "type": "visuel",
+      "class": "LPLC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "female",
+      "tags": [
+        "menace"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "LC4",
+      "malecns_type": "LC4",
+      "malecns_body_id": "MCNS_PLACEHOLDER_LC4_R",
+      "flywire_root_id": "FW_PLACEHOLDER_LC4",
+      "type": "visuel",
+      "class": "LC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "female",
+      "tags": [
+        "menace"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "LPLC1",
+      "malecns_type": "LPLC1",
+      "malecns_body_id": "MCNS_PLACEHOLDER_LPLC1_R",
+      "flywire_root_id": "FW_PLACEHOLDER_LPLC1",
+      "type": "visuel",
+      "class": "LPLC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "female",
+      "tags": [
+        "menace"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "DNp01_L",
+      "malecns_type": "DNp01",
+      "malecns_body_id": "MCNS_PLACEHOLDER_DNp01_L",
+      "flywire_root_id": "FW_PLACEHOLDER_DNp01_L",
+      "type": "descendant",
+      "class": "DNp01",
+      "hemisphere": "G",
+      "roi": "VEN",
+      "sex": "female",
+      "tags": [
+        "fuite",
+        "readout"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "DNp01_R",
+      "malecns_type": "DNp01",
+      "malecns_body_id": "MCNS_PLACEHOLDER_DNp01_R",
+      "flywire_root_id": "FW_PLACEHOLDER_DNp01_R",
+      "type": "descendant",
+      "class": "DNp01",
+      "hemisphere": "D",
+      "roi": "VEN",
+      "sex": "female",
+      "tags": [
+        "fuite",
+        "readout"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "GF_L",
+      "malecns_type": "giant_fiber",
+      "malecns_body_id": "MCNS_PLACEHOLDER_GF_L",
+      "flywire_root_id": "FW_PLACEHOLDER_GF_L",
+      "type": "descendant",
+      "class": "GF",
+      "hemisphere": "G",
+      "roi": "VEN",
+      "sex": "female",
+      "tags": [
+        "fuite"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "sugar_sensory",
+      "malecns_type": "GRN_sugar",
+      "malecns_body_id": "MCNS_PLACEHOLDER_GRN_S",
+      "flywire_root_id": "FW_PLACEHOLDER_GRN_S",
+      "type": "sensoriel",
+      "class": "gustatif",
+      "hemisphere": "bilateral",
+      "roi": "SEZ",
+      "sex": "female",
+      "tags": [
+        "gout"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "bitter_sensory",
+      "malecns_type": "GRN_bitter",
+      "malecns_body_id": "MCNS_PLACEHOLDER_GRN_B",
+      "flywire_root_id": "FW_PLACEHOLDER_GRN_B",
+      "type": "sensoriel",
+      "class": "gustatif",
+      "hemisphere": "bilateral",
+      "roi": "SEZ",
+      "sex": "female",
+      "tags": [
+        "gout"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "MN9",
+      "malecns_type": "MN9",
+      "malecns_body_id": "MCNS_PLACEHOLDER_MN9",
+      "flywire_root_id": "FW_PLACEHOLDER_MN9",
+      "type": "moteur",
+      "class": "MN9",
+      "hemisphere": "bilateral",
+      "roi": "VNC",
+      "sex": "female",
+      "tags": [
+        "alimentation",
+        "readout"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    },
+    {
+      "id": "M_loom",
+      "malecns_type": "interneuron_gate",
+      "malecns_body_id": "MCNS_PLACEHOLDER_MLOOM",
+      "flywire_root_id": "FW_PLACEHOLDER_MLOOM",
+      "type": "interneurone",
+      "class": "inhibiteur",
+      "hemisphere": "bilateral",
+      "roi": "LH",
+      "sex": "female",
+      "tags": [
+        "porte"
+      ],
+      "provenance_cellule": "nomenclature_FlyWire_controle"
+    }
+  ],
+  "edges": [
+    {
+      "pre": "LPLC2",
+      "post": "DNp01_L",
+      "weight": 2.4,
+      "sign": 1,
+      "synapses": 15,
+      "source": "reconstruction_literature_roi",
+      "citation": "voie menace LPLC2→DNp01 (littérature + nomenclature MaleCNS)",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LPLC2",
+      "post": "DNp01_R",
+      "weight": 2.2,
+      "sign": 1,
+      "synapses": 14,
+      "source": "reconstruction_literature_roi",
+      "citation": "voie menace LPLC2→DNp01",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LC4",
+      "post": "DNp01_L",
+      "weight": 2.0,
+      "sign": 1,
+      "synapses": 11,
+      "source": "reconstruction_literature_roi",
+      "citation": "voie menace LC4→DNp01",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LC4",
+      "post": "DNp01_R",
+      "weight": 2.1,
+      "sign": 1,
+      "synapses": 12,
+      "source": "reconstruction_literature_roi",
+      "citation": "voie menace LC4→DNp01",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LPLC1",
+      "post": "DNp01_L",
+      "weight": 1.6,
+      "sign": 1,
+      "synapses": 8,
+      "source": "reconstruction_literature_roi",
+      "citation": "voie complémentaire LPLC1",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LPLC2",
+      "post": "GF_L",
+      "weight": 1.4,
+      "sign": 1,
+      "synapses": 6,
+      "source": "reconstruction_literature_roi",
+      "citation": "couplage GF (hypothèse pondérée)",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "sugar_sensory",
+      "post": "MN9",
+      "weight": 1.8,
+      "sign": 1,
+      "synapses": 12,
+      "source": "reconstruction_literature_roi",
+      "citation": "voie sucre→MN9",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "multi"
+    },
+    {
+      "pre": "sugar_sensory",
+      "post": "M_loom",
+      "weight": 1.4,
+      "sign": 1,
+      "synapses": 6,
+      "source": "reconstruction_literature_roi",
+      "citation": "porte alimentation/menace",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "multi"
+    },
+    {
+      "pre": "bitter_sensory",
+      "post": "MN9",
+      "weight": 4.5,
+      "sign": -1,
+      "synapses": 10,
+      "source": "reconstruction_literature_roi",
+      "citation": "inhibition amère",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "multi"
+    },
+    {
+      "pre": "M_loom",
+      "post": "LPLC2",
+      "weight": 1.8,
+      "sign": -1,
+      "synapses": 9,
+      "source": "reconstruction_literature_roi",
+      "citation": "porte inhibitrice",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "multi"
+    },
+    {
+      "pre": "M_loom",
+      "post": "LC4",
+      "weight": 1.8,
+      "sign": -1,
+      "synapses": 9,
+      "source": "reconstruction_literature_roi",
+      "citation": "porte inhibitrice",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "multi"
+    },
+    {
+      "pre": "DNp01_L",
+      "post": "GF_L",
+      "weight": 1.1,
+      "sign": 1,
+      "synapses": 4,
+      "source": "reconstruction_literature_roi",
+      "citation": "relais descendant",
+      "claim_level": "remplacer_par_export_neuprint",
+      "roi": "multi"
+    }
+  ]
+}

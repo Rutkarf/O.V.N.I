@@ -1,0 +1,98 @@
+{
+  "id": "olfaction_champignon_v1",
+  "name": "Olfaction corps pédonculé",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "motif_literature",
+    "not_full_connectome": true,
+    "disclaimer": "Stub KC–MBON valence. Hypothèse jusqu'à câblage sourcé.",
+    "citations": [
+      "Littérature corps pédonculé / MBON"
+    ]
+  },
+  "neurons": [
+    {
+      "id": "OR_app",
+      "type": "sensoriel",
+      "class": "olfactif",
+      "hemisphere": "D",
+      "roi": "AL",
+      "sex": "iso"
+    },
+    {
+      "id": "OR_av",
+      "type": "sensoriel",
+      "class": "olfactif",
+      "hemisphere": "D",
+      "roi": "AL",
+      "sex": "iso"
+    },
+    {
+      "id": "KC",
+      "type": "kenyon",
+      "class": "KC",
+      "hemisphere": "D",
+      "roi": "MB",
+      "sex": "iso"
+    },
+    {
+      "id": "MBON_app",
+      "type": "mbon",
+      "class": "MBON",
+      "hemisphere": "D",
+      "roi": "MB",
+      "sex": "iso",
+      "tags": [
+        "approche"
+      ]
+    },
+    {
+      "id": "MBON_av",
+      "type": "mbon",
+      "class": "MBON",
+      "hemisphere": "D",
+      "roi": "MB",
+      "sex": "iso",
+      "tags": [
+        "evitement"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "pre": "OR_app",
+      "post": "KC",
+      "weight": 1.5,
+      "sign": 1,
+      "synapses": 8
+    },
+    {
+      "pre": "OR_av",
+      "post": "KC",
+      "weight": 1.5,
+      "sign": 1,
+      "synapses": 8
+    },
+    {
+      "pre": "KC",
+      "post": "MBON_app",
+      "weight": 1.2,
+      "sign": 1,
+      "synapses": 6
+    },
+    {
+      "pre": "KC",
+      "post": "MBON_av",
+      "weight": 0.8,
+      "sign": 1,
+      "synapses": 5
+    },
+    {
+      "pre": "OR_av",
+      "post": "MBON_av",
+      "weight": 1.4,
+      "sign": 1,
+      "synapses": 4
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+<section class="page">
+  <header>
+    <h1>Organismes</h1>
+    <p>
+      <i>D. melanogaster</i> = production LIF. Roadmap multi-organismes (teaser) — un moteur + atlas + claim par espèce.
+    </p>
+  </header>
+
+  @if (registry().length) {
+    <ul class="registry">
+      @for (o of registry(); track o.id) {
+        <li [class.teaser]="o.statut === 'teaser'">
+          <strong>{{ o.nom }}</strong>
+          <span>{{ o.statut }}</span>
+        </li>
+      }
+    </ul>
+  }
+
+  <form class="create" (submit)="$event.preventDefault(); create()">
+    <input [(ngModel)]="name" name="name" placeholder="Nom du labo / clone" required />
+    <input [(ngModel)]="species" name="species" placeholder="Espèce" />
+    <button type="submit">Créer</button>
+  </form>
+
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  <ul>
+    @for (item of items(); track item.id) {
+      <li>
+        <div>
+          <strong>{{ item.name }}</strong>
+          <span>{{ item.species }} · {{ item.status }}</span>
+        </div>
+        <div class="meta">
+          <button type="button" class="linkish" (click)="selectedOrganismId = item.id">sélectionner</button>
+          <a routerLink="/lab">labo en direct</a>
+        </div>
+      </li>
+    } @empty {
+      <li class="empty">Aucun organisme — créez le premier.</li>
+    }
+  </ul>
+
+  <section class="jobs">
+    <h2>Tâches de simulation → moteur</h2>
+    <form class="job-form" (submit)="$event.preventDefault(); enqueue()">
+      <select [(ngModel)]="selectedOrganismId" name="organismId" required>
+        <option value="" disabled>Organisme</option>
+        @for (item of items(); track item.id) {
+          <option [value]="item.id">{{ item.name }}</option>
+        }
+      </select>
+      <select [(ngModel)]="jobMode" name="mode">
+        <option value="rules">règles</option>
+        <option value="fruitfly">O.V.N.I. (clé technique legacy)</option>
+      </select>
+      <input [(ngModel)]="jobTicks" name="ticks" type="number" min="1" max="50" />
+      <button type="submit">Mettre en file</button>
+    </form>
+
+    <ul class="job-list">
+      @for (job of jobs(); track job.id) {
+        <li>
+          <div>
+            <strong>{{ job.status }}</strong>
+            <span>{{ job.mode }} · {{ job.ticks }} pas · org {{ job.organismId.slice(0, 8) }}</span>
+          </div>
+          <div class="meta">
+            @if (job.errorMessage) {
+              <em class="err">{{ job.errorMessage }}</em>
+            } @else {
+              <em>{{ job.id.slice(0, 8) }}</em>
+            }
+          </div>
+        </li>
+      } @empty {
+        <li class="empty">Aucune tâche.</li>
+      }
+    </ul>
+  </section>
+</section>

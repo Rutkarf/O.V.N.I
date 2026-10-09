@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "reference": "Drosophila melanogaster",
+  "organismes": [
+    {
+      "id": "drosophila_melanogaster",
+      "nom": "Drosophila melanogaster",
+      "statut": "production",
+      "moteur": "fruitfly-lif",
+      "atlas": "malecns_roi_fuite_lop_v1",
+      "claim": "instrument de référence IBDML"
+    },
+    {
+      "id": "homo_sapiens",
+      "nom": "Homo sapiens",
+      "statut": "teaser",
+      "moteur": "a_specifier",
+      "note": "Easter egg — atlas et claims séparés"
+    },
+    {
+      "id": "canis_familiaris",
+      "nom": "Canis familiaris",
+      "statut": "teaser",
+      "moteur": "a_specifier"
+    },
+    {
+      "id": "arabidopsis_thaliana",
+      "nom": "Arabidopsis thaliana",
+      "statut": "teaser",
+      "moteur": "a_specifier"
+    },
+    {
+      "id": "schizosaccharomyces_pombe",
+      "nom": "Schizosaccharomyces pombe",
+      "statut": "teaser",
+      "moteur": "a_specifier"
+    }
+  ]
+}

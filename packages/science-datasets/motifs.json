@@ -1,0 +1,44 @@
+{
+  "motifs": [
+    {
+      "id": "escape_feed_v1",
+      "nom": "Fuite × alimentation",
+      "niveau": "motif_literature"
+    },
+    {
+      "id": "vision_menace_v1",
+      "nom": "Vision menace",
+      "niveau": "motif_literature"
+    },
+    {
+      "id": "gout_alimentation_v1",
+      "nom": "Goût et alimentation",
+      "niveau": "motif_literature"
+    },
+    {
+      "id": "olfaction_champignon_v1",
+      "nom": "Olfaction corps pédonculé",
+      "niveau": "motif_literature"
+    },
+    {
+      "id": "cour_agression_v1",
+      "nom": "Cour et agression",
+      "niveau": "hypothese"
+    },
+    {
+      "id": "horloge_sommeil_v1",
+      "nom": "Horloge / sommeil",
+      "niveau": "lecture_seule"
+    },
+    {
+      "id": "malecns_roi_fuite_lop_v1",
+      "nom": "ROI MaleCNS fuite LOP/VEN",
+      "niveau": "reconstruction_roi"
+    },
+    {
+      "id": "flywire_roi_fuite_lop_v1",
+      "nom": "ROI FlyWire contrôle fuite",
+      "niveau": "reconstruction_roi"
+    }
+  ]
+}

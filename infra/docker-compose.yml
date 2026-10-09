@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fruitfly-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fruitfly
+      POSTGRES_USER: fruitfly
+      POSTGRES_PASSWORD: fruitfly
+    ports:
+      - "5432:5432"
+    volumes:
+      - fruitfly_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fruitfly -d fruitfly"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  worker:
+    image: python:3.12-slim
+    container_name: fruitfly-worker
+    working_dir: /app/worker
+    volumes:
+      - ..:/app
+    environment:
+      FRUITFLY_DATASETS: /app/packages/science-datasets
+      FRUITFLY_RUNTIME: /app/worker/science/data
+      PYTHONPATH: /app/packages/science-engine/src
+    command: ["python3", "-u", "server.py", "--host", "0.0.0.0", "--port", "8765"]
+    ports:
+      - "8765:8765"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Backend / frontend : lancer en local (Java 21 / Node) ou étendre ce compose.
+  # Voir scripts/dev.sh pour le one-shot labo.
+
+volumes:
+  fruitfly_pg:

@@ -1,0 +1,92 @@
+<section class="page">
+  <header>
+    <p class="eyebrow">protocole labo · IBDML</p>
+    <h1>Lignée → motif → essai → Méthodes → PiCsL</h1>
+    <p class="lede">
+      Enchaînement recommandé pour un travail de recherche. CRISPR&nbsp;2 (Cas12a / éditeurs)
+      entre ici comme couche génétique — pas comme preuve de connectome.
+    </p>
+  </header>
+
+  <ol class="steps">
+    <li [class.on]="etape() >= 1">1 · Motif ROI</li>
+    <li [class.on]="etape() >= 2">2 · Lignée / CRISPR</li>
+    <li [class.on]="etape() >= 3">3 · Essai</li>
+    <li [class.on]="etape() >= 4">4 · Méthodes</li>
+    <li [class.on]="etape() >= 5">5 · Pont PiCsL</li>
+  </ol>
+
+  @if (erreur()) {
+    <p class="err">{{ erreur() }}</p>
+  }
+  @if (statut()) {
+    <p class="banner">{{ statut() }}</p>
+  }
+
+  <div class="grid">
+    <div class="panel">
+      <h2>1. Choisir le motif</h2>
+      <select [(ngModel)]="motifId" name="m">
+        @for (m of motifs(); track m.id) {
+          <option [value]="m.id">{{ m.nom }}</option>
+        }
+      </select>
+      <button type="button" (click)="etape1()">Activer le motif</button>
+
+      <h2>2. Carte génétique</h2>
+      <label>Lignée / stock <input [(ngModel)]="ligne" name="lg" placeholder="Bloomington / TRiP…" /></label>
+      <label>Driver <input [(ngModel)]="driver" name="dr" /></label>
+      <label>Outil
+        <select [(ngModel)]="outil" name="ou">
+          <option>CRISPR/Cas9</option>
+          <option>CRISPR 2 / Cas12a</option>
+          <option>GAL4/UAS</option>
+          <option>GeneSwitch</option>
+          <option>Base editor</option>
+          <option>Prime editor</option>
+        </select>
+      </label>
+      <button type="button" (click)="etape2()" [disabled]="etape() < 2">Enregistrer la carte</button>
+
+      @if (isCrisprLayer()) {
+        <div class="crispr-panel">
+          <h3>Visualisation CRISPR&nbsp;2</h3>
+          <app-crispr2-viz [driver]="driver" [outil]="outil" />
+          <p class="hint">
+            Schéma pédagogique Cas12a / éditeurs — valider cibles et off-targets via pipelines
+            <strong>Maelstrom</strong> et rejouer l’analyse dans un environnement <strong>Argon</strong>.
+          </p>
+        </div>
+      }
+
+      <h2>3. Lancer l’essai</h2>
+      <label>menace <input type="range" min="0" max="1" step="0.05" [(ngModel)]="looming" name="lo" /></label>
+      <label>sucre <input type="range" min="0" max="1" step="0.05" [(ngModel)]="sugar" name="su" /></label>
+      <label>amer <input type="range" min="0" max="1" step="0.05" [(ngModel)]="bitter" name="bi" /></label>
+      <label>graine <input type="number" [(ngModel)]="seed" name="se" /></label>
+      <button type="button" (click)="etape3()" [disabled]="etape() < 3">Stimuler</button>
+
+      <h2>4–5. Exports</h2>
+      <button type="button" (click)="etape4()" [disabled]="!runId()">Pont imagerie PiCsL</button>
+      <button type="button" class="ghost" (click)="exportMaelstrom()">Export Maelstrom</button>
+      <button type="button" class="ghost" (click)="exportArgon()" [disabled]="!runId()">Manifeste Argon</button>
+      <p class="hint">Zenodo : <code>python3 scripts/deposer_zenodo.py</code> (voir encart).</p>
+      <p class="links">
+        <a routerLink="/passerelles">Passerelles</a>
+        ·
+        <a routerLink="/experiment">Expérience</a>
+        ·
+        <a routerLink="/runs">Essais</a>
+      </p>
+    </div>
+
+    <aside class="out">
+      <h2>Méthodes</h2>
+      <pre>{{ methodes() || 'Les Méthodes apparaîtront après l’essai.' }}</pre>
+      <h2>Pont / carte</h2>
+      <pre>{{ pont() || 'Carte génétique ou pont PiCsL…' }}</pre>
+      <h2>Zenodo / TGML</h2>
+      <pre>{{ zenodo() || 'Métadonnées dépôt…' }}</pre>
+    </aside>
+  </div>
+</section>

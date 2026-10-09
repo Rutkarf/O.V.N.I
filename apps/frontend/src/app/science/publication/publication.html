@@ -1,0 +1,49 @@
+<section class="page">
+  <header class="hero">
+    <p class="eyebrow">publication · JOSS · PLOS · Argon</p>
+    <h1>Bundle reproductibilité</h1>
+    <p class="lede">
+      DOI Argon, RO-Crate, sweeps GPU, courbe opto, ponts napari/Fiji — pour JOSS puis PLOS Comp Biol.
+      Mode <strong>Methods-only</strong> disponible dans le Labo.
+    </p>
+  </header>
+
+  <app-claim-banner
+    titre="Charte"
+    texte="Preuve = motif LIF + empreintes + validation PiCsL. La scène 3D reste pédagogique."
+  />
+
+  @if (err()) {
+    <p class="err">{{ err() }}</p>
+  }
+
+  <div class="grid">
+    <div class="panel">
+      <label>
+        run_id (optionnel)
+        <input [(ngModel)]="runId" name="rid" placeholder="uuid" />
+      </label>
+      <div class="actions">
+        <button type="button" class="primary" (click)="publishArgon()">Argon + DOI bundle</button>
+        <button type="button" (click)="exportRocrate()">RO-Crate 1.1</button>
+        <button type="button" (click)="gpuSweep()">GPU sweep looming</button>
+        <button type="button" (click)="opto()">Courbe opto calibrée</button>
+        <button type="button" (click)="bridges()">Pont napari</button>
+        <button type="button" (click)="refreshAtlas()">Statut atlas / neuPrint</button>
+        <button type="button" (click)="store.setMethodsOnly(true)">Activer Methods-only</button>
+      </div>
+      <p class="muted">
+        Docs :
+        <a href="/docs/publication/JOSS_PAPER.md" target="_blank" rel="noopener">JOSS</a>
+        ·
+        <a routerLink="/validation">Validation PiCsL</a>
+        ·
+        <a routerLink="/lab">Labo</a>
+      </p>
+    </div>
+    <aside class="out">
+      <h2>Sortie</h2>
+      <pre>{{ out() || 'Lancez une action…' }}</pre>
+    </aside>
+  </div>
+</section>

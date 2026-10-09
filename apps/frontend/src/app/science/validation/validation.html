@@ -1,0 +1,48 @@
+<section class="page">
+  <header class="hero">
+    <p class="eyebrow">validation · PiCsL</p>
+    <h1>Simulation ↔ observation</h1>
+    <p class="lede">
+      Comparez la proportion de fuite observée en labo avec un essai LIF ou un lot d’essais.
+      Test χ² approximatif + correction Bonferroni si plusieurs contrastes (voir Lots / dose-réponse).
+    </p>
+  </header>
+
+  <app-claim-banner
+    titre="Étape 8 du plan produit"
+    texte="Cette page documente l’écart sim↔obs — elle ne remplace pas un protocole PiCsL signé."
+  />
+
+  @if (erreur()) {
+    <p class="err">{{ erreur() }}</p>
+  }
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Concordance fuite</h2>
+      <label>run_id LIF (référence)
+        <input [(ngModel)]="runId" name="rid" placeholder="uuid essai" />
+      </label>
+      <label>ou run_ids simulés (séparés par espace)
+        <textarea [(ngModel)]="batchIds" name="batch" rows="2" placeholder="uuid1 uuid2…"></textarea>
+      </label>
+      <label>n observé (PiCsL)
+        <input type="number" min="1" [(ngModel)]="nObs" name="nobs" />
+      </label>
+      <label>fuite observée (k)
+        <input type="number" min="0" [(ngModel)]="kEscapeObs" name="kesc" />
+      </label>
+      <div class="actions">
+        <button type="button" (click)="chargerPicsl()">Charger échantillon PiCsL</button>
+        <button type="button" class="primary" (click)="comparer()">Calculer χ²</button>
+        <button type="button" (click)="comparerAvecSample()">χ² vs sample PiCsL</button>
+      </div>
+    </div>
+    <aside class="out">
+      <h2>Rapport</h2>
+      <pre>{{ rapport() || 'Renseignez run_id ou lot + observation.' }}</pre>
+      <h2>Statut atlas</h2>
+      <pre>{{ atlasStatus() }}</pre>
+    </aside>
+  </div>
+</section>

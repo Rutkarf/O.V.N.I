@@ -1,0 +1,58 @@
+{
+  "id": "gout_alimentation_v1",
+  "name": "Goût et alimentation",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "motif_literature",
+    "not_full_connectome": true,
+    "disclaimer": "Motif goût→MN9. Hypothèses d'adaptateurs.",
+    "citations": [
+      "Motif moteur alimentation MN9"
+    ]
+  },
+  "neurons": [
+    {
+      "id": "sugar_sensory",
+      "type": "sensoriel",
+      "class": "gustatif",
+      "hemisphere": "bilateral",
+      "roi": "SEZ",
+      "sex": "iso"
+    },
+    {
+      "id": "bitter_sensory",
+      "type": "sensoriel",
+      "class": "gustatif",
+      "hemisphere": "bilateral",
+      "roi": "SEZ",
+      "sex": "iso"
+    },
+    {
+      "id": "MN9",
+      "type": "moteur",
+      "class": "MN9",
+      "hemisphere": "bilateral",
+      "roi": "VNC",
+      "sex": "iso",
+      "tags": [
+        "alimentation"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "pre": "sugar_sensory",
+      "post": "MN9",
+      "weight": 1.8,
+      "sign": 1,
+      "synapses": 12
+    },
+    {
+      "pre": "bitter_sensory",
+      "post": "MN9",
+      "weight": 4.5,
+      "sign": -1,
+      "synapses": 10
+    }
+  ]
+}

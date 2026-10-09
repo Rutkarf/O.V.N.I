@@ -1,0 +1,71 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "O.V.N.I. science API",
+    "version": "0.4.0",
+    "description": "Instrument LIF drosophile — preuve = motif + empreintes. Proxied via Spring /api/v1/science/*.",
+    "license": { "name": "CC-BY-4.0" }
+  },
+  "servers": [
+    { "url": "http://127.0.0.1:8080/api/v1/science", "description": "Spring proxy" },
+    { "url": "http://127.0.0.1:8765/api/science", "description": "Worker direct" }
+  ],
+  "paths": {
+    "/stimulate": {
+      "post": {
+        "summary": "Essai LIF",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sugar": { "type": "number" },
+                  "bitter": { "type": "number" },
+                  "looming": { "type": "number" },
+                  "hunger": { "type": "number" },
+                  "seed": { "type": "integer" },
+                  "opto_calibrated": {
+                    "type": "object",
+                    "properties": {
+                      "intensity": { "type": "number" },
+                      "max_hz": { "type": "number" },
+                      "gal4": { "type": "string" },
+                      "uas": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "run_card + action" } }
+      }
+    },
+    "/replay": { "post": { "summary": "Replay bit-identique", "responses": { "200": { "description": "OK" } } } },
+    "/validation/imagerie": {
+      "post": {
+        "summary": "Validation PiCsL sim↔obs",
+        "responses": { "200": { "description": "χ² + pret_publication_picsl" } }
+      }
+    },
+    "/picsl/sample": { "get": { "summary": "Observation PiCsL échantillon", "responses": { "200": { "description": "JSON" } } } },
+    "/atlas/status": { "get": { "summary": "Claim connectome / placeholders", "responses": { "200": { "description": "OK" } } } },
+    "/passerelles/argon": { "get": { "summary": "Manifeste Argon", "responses": { "200": { "description": "OK" } } } },
+    "/argon/doi": { "post": { "summary": "Argon + DOI / publication bundle", "responses": { "200": { "description": "OK" } } } },
+    "/rocrate": { "post": { "summary": "Export RO-Crate 1.1", "responses": { "200": { "description": "OK" } } } },
+    "/gpu-sweep": { "post": { "summary": "Dose-réponse + agrégation NumPy/CuPy", "responses": { "200": { "description": "OK" } } } },
+    "/opto/curve": { "post": { "summary": "Courbe intensité→Hz calibrée", "responses": { "200": { "description": "OK" } } } },
+    "/bridges/fiji": { "get": { "summary": "Pont Fiji/ImageJ", "responses": { "200": { "description": "OK" } } } },
+    "/bridges/napari": { "get": { "summary": "Pont napari", "responses": { "200": { "description": "OK" } } } },
+    "/genetics/cross": { "post": { "summary": "Croisement mendélien", "responses": { "200": { "description": "OK" } } } },
+    "/genetics/drivers": { "post": { "summary": "GAL4/UAS/split-GAL4", "responses": { "200": { "description": "OK" } } } },
+    "/openapi.json": { "get": { "summary": "Ce document", "responses": { "200": { "description": "OpenAPI" } } } }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    }
+  },
+  "security": [{ "bearerAuth": [] }]
+}

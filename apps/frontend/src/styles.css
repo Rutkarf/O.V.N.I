@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap');
+
+/* Charte IBDML / instrument — noir, blanc, vert, rouge */
+:root {
+  --noir: #0a0a0a;
+  --blanc: #f5f5f2;
+  --vert: #007a3d;
+  --vert-clair: #1faa56;
+  --vert-profond: #004d26;
+  --rouge: #ce1126;
+  --rouge-profond: #8f0c1a;
+
+  --bg: #0a0a0a;
+  --plate: #121212;
+  --panel: #161616;
+  --ink: #f5f5f2;
+  --muted: #9c9c97;
+  --signal: var(--vert-clair);
+  --axon: var(--vert);
+  --synapse: var(--rouge);
+  --bitter: #e8e8e4;
+  --line: rgba(245, 245, 242, 0.12);
+  --line-axon: rgba(0, 122, 61, 0.4);
+  --amber: var(--vert-clair);
+  --toxin: var(--blanc);
+  --threat: var(--rouge);
+  --font-ui: 'Inter', sans-serif;
+  --font-display: 'Orbitron', sans-serif;
+  --font-data: 'Roboto', sans-serif;
+  /* Alias historiques — uniquement les 3 polices ci-dessus */
+  --mono: var(--font-data);
+  --display: var(--font-display);
+  --radius: 0;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --grid:
+    linear-gradient(rgba(245, 245, 242, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 245, 242, 0.03) 1px, transparent 1px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 20000;
+  padding: 0.5rem 0.75rem;
+  background: var(--vert);
+  color: var(--blanc);
+  font-family: var(--font-ui);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--vert-clair);
+  outline-offset: 2px;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    var(--grid),
+    linear-gradient(90deg, rgba(206, 17, 38, 0.16) 0%, transparent 14%),
+    radial-gradient(ellipse 55% 45% at 100% 0%, rgba(0, 122, 61, 0.2), transparent 55%);
+  background-size: 40px 40px, auto, auto;
+}
+
+::selection {
+  background: rgba(0, 122, 61, 0.5);
+  color: #fff;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+pre,
+code,
+kbd {
+  font-family: var(--font-data);
+}
+
+a {
+  color: var(--vert-clair);
+}
+
+a:hover {
+  color: var(--blanc);
+}
+
+h1,
+h2,
+.display {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+/* Composants partagés pages science */
+.page {
+  padding: 1.5rem 1.4rem 3rem;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.page .hero {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.page .eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.page h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+.page .lede {
+  margin: 0;
+  max-width: 46rem;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.claim-strip {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.85rem;
+  border-left: 3px solid var(--rouge);
+  background: linear-gradient(90deg, rgba(206, 17, 38, 0.12), transparent 70%);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #d8d8d4;
+}
+
+.claim-strip strong {
+  color: var(--blanc);
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flag-bar {
+  height: 4px;
+  width: 100%;
+  margin-bottom: 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--noir) 0 22%,
+    var(--blanc) 22% 44%,
+    var(--vert) 44% 66%,
+    var(--rouge) 66% 100%
+  );
+}

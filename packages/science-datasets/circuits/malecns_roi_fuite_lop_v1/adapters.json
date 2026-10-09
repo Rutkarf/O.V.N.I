@@ -1,0 +1,56 @@
+{
+  "version": "1.1.0-malecns-export-neuprint",
+  "dataset_claim": "malecns_roi_fuite_lop_v1",
+  "notes": "Adaptateurs sur ROI export_neuprint (body IDs numériques). Hypothèses sensor→neurone jusqu'à calibration PiCsL.",
+  "inputs": {
+    "sugar": {
+      "targets": ["SugarGRN", "Hunger"],
+      "max_rate_hz": 120.0,
+      "gain_by_hunger": 1.5
+    },
+    "bitter": {
+      "targets": ["BitterGRN"],
+      "max_rate_hz": 100.0
+    },
+    "looming": {
+      "targets": ["LPLC2", "LC4", "LPLC1"],
+      "max_rate_hz": 80.0,
+      "bypass_retina": true
+    }
+  },
+  "policies": {
+    "bitter_suppresses_sugar": true,
+    "bitter_gate_threshold": 0.4,
+    "bitter_sugar_scale": 0.04,
+    "shuffle_keep_fraction": 0.2,
+    "syn_strength": 8.0,
+    "syn_tau_ms": 5.0
+  },
+  "readouts": {
+    "ESCAPE": {
+      "neurons": ["DNp01_L", "DNp01_R", "MN_escape_L", "MN_escape_R"],
+      "rule": "any_spike",
+      "window_ms": 50
+    },
+    "EAT": {
+      "neurons": ["MN9"],
+      "rule": "spike_count_ge",
+      "count": 2,
+      "window_ms": 100
+    },
+    "IDLE": {
+      "rule": "default"
+    }
+  },
+  "priority": ["ESCAPE", "EAT", "IDLE"],
+  "parameters": {
+    "dt_ms": 0.1,
+    "duration_ms": 500,
+    "v_rest": -65.0,
+    "v_reset": -70.0,
+    "v_thresh": -50.0,
+    "tau_ms": 20.0,
+    "r_mohm": 10.0,
+    "refractory_ms": 2.0
+  }
+}

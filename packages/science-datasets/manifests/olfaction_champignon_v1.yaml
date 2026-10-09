@@ -1,0 +1,7 @@
+id: olfaction_champignon_v1
+name: Olfaction corps pédonculé
+version: "1.0.0"
+claim_level: motif_literature
+paths:
+  circuit: circuits/olfaction_champignon_v1/circuit.json
+  adapters: circuits/olfaction_champignon_v1/adapters.json

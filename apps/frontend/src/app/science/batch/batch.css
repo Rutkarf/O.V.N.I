@@ -1,0 +1,201 @@
+.page {
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 1.4rem 1.2rem 2.5rem;
+}
+
+.hero {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--axon);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0.25rem 0 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--signal);
+}
+
+.lede {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+.err {
+  color: var(--synapse);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 1rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--axon);
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+label.check {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  background: #07110e;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.45rem 0.5rem;
+  font-family: inherit;
+}
+
+fieldset {
+  border: 1px solid var(--line-axon);
+  margin: 0;
+  padding: 0.65rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+legend {
+  color: var(--axon);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+button {
+  background: var(--signal);
+  color: #03140c;
+  border: 0;
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.counts {
+  font-size: 0.8rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.counts div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.compare {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.78rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.curve {
+  margin-top: 1.5rem;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.curve-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.curve h2 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--axon);
+}
+
+.exports {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.exports .ghost,
+button.ghost {
+  background: transparent;
+  color: var(--axon);
+  border: 1px solid var(--line-axon);
+  padding: 0.4rem 0.65rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.bars {
+  display: flex;
+  gap: 2px;
+  min-width: 10rem;
+  height: 0.85rem;
+  background: #07110e;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  min-width: 0;
+}
+
+.bar.esc {
+  background: var(--synapse);
+}
+
+.bar.eat {
+  background: var(--signal);
+}
+
+.bar.idle {
+  background: #44554c;
+}

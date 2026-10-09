@@ -1,0 +1,133 @@
+{
+  "version": "1.1.0",
+  "organisme": "Drosophila melanogaster",
+  "loci": [
+    {
+      "id": "w",
+      "nom": "white (yeux)",
+      "dominant": "w+",
+      "recessif": "w",
+      "phenotype_recessif": { "eye": "white", "eye_hex": 14540253 }
+    },
+    {
+      "id": "y",
+      "nom": "yellow (cuticule)",
+      "dominant": "y+",
+      "recessif": "y",
+      "phenotype_recessif": { "cuticle_amber_shift": -0.04 }
+    },
+    {
+      "id": "b",
+      "nom": "miniature (ailes)",
+      "dominant": "b+",
+      "recessif": "b",
+      "phenotype_recessif": { "wing_scale": 0.72 }
+    },
+    {
+      "id": "Tb",
+      "nom": "tubby / taille (Argon)",
+      "dominant": "Tb+",
+      "recessif": "Tb",
+      "phenotype_recessif": { "argon_scale": 1.22 },
+      "phenotype_dominant_het": { "argon_scale": 1.1 }
+    },
+    {
+      "id": "s",
+      "nom": "sable (pigment)",
+      "dominant": "s+",
+      "recessif": "s",
+      "phenotype_recessif": { "cuticle_amber_shift": 0.06 }
+    }
+  ],
+  "cross_types": [
+    { "id": "mono_hybrid", "nom": "Monohybride F1", "description": "Hétérozygote × hétérozygote (1 locus)" },
+    { "id": "dihybrid", "nom": "Dihybride F2", "description": "Deux loci indépendants — loi de Mendel 9:3:3:1" },
+    { "id": "test_cross", "nom": "Croisement test", "description": "F1 × récessif homozygote" },
+    { "id": "backcross", "nom": "Rétrocroisement", "description": "F1 × parent parental" },
+    { "id": "reciprocal", "nom": "Réciproque", "description": "Échange mâle / femelle (annotation sexe)" },
+    { "id": "sibling", "nom": "Fratrie F2", "description": "F2 × F2 (même vigueur)" }
+  ],
+  "outils": [
+    { "id": "crispr1_cas9", "nom": "CRISPR 1 / Cas9", "famille": "CRISPR1" },
+    { "id": "crispr2_cas12a", "nom": "CRISPR 2 / Cas12a", "famille": "CRISPR2" },
+    { "id": "kepler", "nom": "Ciseaux Kepler (multiplex Cas12a)", "famille": "KEPLER" }
+  ],
+  "drivers": [
+    {
+      "id": "elav-GAL4",
+      "nom": "elav-GAL4",
+      "type": "GAL4",
+      "pattern": "pan-neuronal",
+      "neuron_glow": 1.35,
+      "description": "Expression pan-neuronale (pédagogie motif LIF)"
+    },
+    {
+      "id": "GMR-GAL4",
+      "nom": "GMR-GAL4",
+      "type": "GAL4",
+      "pattern": "oeil",
+      "neuron_glow": 0.9,
+      "eye_boost": true,
+      "description": "Motif rétine / oeil composé"
+    },
+    {
+      "id": "OK107-GAL4",
+      "nom": "OK107-GAL4",
+      "type": "GAL4",
+      "pattern": "mushroom_body",
+      "neuron_glow": 1.15,
+      "description": "Corps pédonculés (mémoire / olfaction)"
+    },
+    {
+      "id": "LPLC2-split-AD",
+      "nom": "LPLC2-split-GAL4-AD",
+      "type": "SPLIT_AD",
+      "pattern": "LPLC2",
+      "neuron_glow": 1.25,
+      "description": "Hémidriver AD — intersection split-GAL4 LPLC2"
+    },
+    {
+      "id": "LPLC2-split-DBD",
+      "nom": "LPLC2-split-GAL4-DBD",
+      "type": "SPLIT_DBD",
+      "pattern": "LPLC2",
+      "neuron_glow": 1.25,
+      "description": "Hémidriver DBD — intersection split-GAL4 LPLC2"
+    },
+    {
+      "id": "SS00311",
+      "nom": "SS00311 (split LPLC2)",
+      "type": "SPLIT_GAL4",
+      "pattern": "LPLC2",
+      "neuron_glow": 1.4,
+      "split_parts": ["LPLC2-split-AD", "LPLC2-split-DBD"],
+      "description": "Lignée split-GAL4 intersection LPLC2 (pédagogie)"
+    },
+    {
+      "id": "UAS-GFP",
+      "nom": "UAS-GFP",
+      "type": "UAS",
+      "reporter": "GFP",
+      "reporter_hex": 3342387,
+      "description": "Reporter vert fluorescent"
+    },
+    {
+      "id": "UAS-ChR2",
+      "nom": "UAS-ChR2",
+      "type": "UAS",
+      "reporter": "ChR2",
+      "reporter_hex": 4691967,
+      "optogenetic": true,
+      "description": "Channelrhodopsine (optogénétique pédagogique)"
+    },
+    {
+      "id": "UAS-Kir2.1",
+      "nom": "UAS-Kir2.1",
+      "type": "UAS",
+      "reporter": "Kir2.1",
+      "reporter_hex": 13631488,
+      "silence_boost": true,
+      "description": "Hyperpolarisation / silence neuronal"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fruitfly.local/schemas/run_card.schema.json",
+  "title": "fruitfly run_card",
+  "type": "object",
+  "required": [
+    "run_id",
+    "created_at",
+    "engine",
+    "engine_version",
+    "circuit_id",
+    "circuit_version",
+    "dataset_hash",
+    "seed",
+    "params",
+    "inputs",
+    "action"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "engine": { "type": "string" },
+    "engine_version": { "type": "string" },
+    "circuit_id": { "type": "string" },
+    "circuit_version": { "type": "string" },
+    "adapters_version": { "type": "string" },
+    "dataset_hash": { "type": "string" },
+    "adapters_hash": { "type": "string" },
+    "seed": { "type": "integer" },
+    "params": { "type": "object" },
+    "inputs": { "type": "object" },
+    "policies": { "type": "object" },
+    "action": { "type": "string", "enum": ["ESCAPE", "EAT", "IDLE"] },
+    "decision_ms": { "type": ["number", "null"] },
+    "provenance": { "type": "object" },
+    "wall_note": { "type": "string" }
+  },
+  "additionalProperties": true
+}

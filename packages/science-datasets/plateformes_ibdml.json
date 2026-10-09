@@ -1,0 +1,232 @@
+{
+  "version": "1.0.0",
+  "organisme": "IBDM / IBDML — Institut de Biologie du Développement de Marseille-Luminy",
+  "campus": "Luminy · CNRS / Aix-Marseille Université",
+  "categories": [
+    {
+      "id": "plateformes",
+      "nom": "Plateformes et infrastructures",
+      "outils": [
+        {
+          "id": "picsl",
+          "nom": "PiCsL — Plateforme d’Imagerie Commune du site de Luminy",
+          "type": "imagerie",
+          "lien": "https://www.ibdm.univ-amu.fr/fr/plateformes-scientifiques/",
+          "lien_fbi": "https://france-bioimaging.org/site/ibdm-picsl/",
+          "passerelle_fruitfly": "exporter_imagerie",
+          "aide": "Lier un essai LIF à une session d’imagerie (métadonnées, empreinte circuit, protocole)."
+        },
+        {
+          "id": "em_ibdm",
+          "nom": "Service de microscopie électronique de l’IBDM",
+          "type": "ultrastructure",
+          "lien": "https://www.ibdm.univ-amu.fr/fr/team/microscopie-electronique/",
+          "passerelle_fruitfly": "export_clem",
+          "aide": "Exporter une fiche CLEM (corrélation lumière / électron) depuis un essai."
+        },
+        {
+          "id": "bioinfo_ibdm",
+          "nom": "Plateforme bioinformatique / informatique de l’IBDM",
+          "type": "calcul",
+          "lien": "https://www.ibdm.univ-amu.fr/fr/plateformes-scientifiques/",
+          "passerelle_fruitfly": "export_pipeline",
+          "aide": "Paquet JSON/CSV pour pipelines d’analyse et valorisation des données."
+        },
+        {
+          "id": "maelstrom",
+          "nom": "Maelstrom — pipelines omics & génomique fonctionnelle",
+          "type": "bioinformatique",
+          "passerelle_fruitfly": "export_genomique",
+          "aide": "Depuis fruitfly : carte CRISPR 2, motifs neurones, empreintes d’essai → bundle pour analyse différentielle / enrichissement (connecté au workflow Protocole)."
+        },
+        {
+          "id": "argon",
+          "nom": "Argon — environnements reproductibles (conteneurs / snapshots)",
+          "type": "reproductibilite",
+          "passerelle_fruitfly": "export_argon_manifest",
+          "aide": "Figé moteur LIF, graine, version atlas et dépendances science-engine pour rejouer un run_id sur cluster ou poste labo."
+        },
+        {
+          "id": "france_bioimaging",
+          "nom": "France-BioImaging / GIS IBiSA / France Génomique",
+          "type": "infrastructure",
+          "lien": "https://france-bioimaging.org/site/ibdm-picsl/",
+          "passerelle_fruitfly": "lien_externe",
+          "aide": "Accès nationaux séquençage et imagerie de pointe — références dans les Méthodes."
+        }
+      ]
+    },
+    {
+      "id": "optique",
+      "nom": "Microscopie optique (vivant)",
+      "outils": [
+        {
+          "id": "fluorescence",
+          "nom": "Fluorescence large champ",
+          "type": "imagerie",
+          "passerelle_fruitfly": "fiche_protocole",
+          "aide": "Protocole time-lapse cellules / tissus / embryons lié à un motif fruitfly."
+        },
+        {
+          "id": "confocal",
+          "nom": "Confocal à balayage laser (Leica SP, Zeiss LSM…)",
+          "type": "imagerie",
+          "passerelle_fruitfly": "fiche_protocole",
+          "aide": "Stacks 3D embryons / larves — métadonnées d’essai pour reproductibilité."
+        },
+        {
+          "id": "spinning",
+          "nom": "Disque tournant (spinning disk)",
+          "type": "imagerie",
+          "passerelle_fruitfly": "fiche_protocole",
+          "aide": "Dynamiques rapides in vivo — horodatage aligné sur graine d’essai."
+        },
+        {
+          "id": "superres",
+          "nom": "Super-résolution (STED, SIM, PALM/STORM)",
+          "type": "imagerie",
+          "passerelle_fruitfly": "fiche_protocole",
+          "aide": "Structures 20–100 nm — fiche de claim (niveau de preuve) fruitfly."
+        },
+        {
+          "id": "multiphoton",
+          "nom": "Multi-photon (imagerie profonde)",
+          "type": "imagerie",
+          "passerelle_fruitfly": "fiche_protocole",
+          "aide": "Tissus vivants profonds — lien France-BioImaging / PiCsL."
+        },
+        {
+          "id": "incubation",
+          "nom": "Chambres d’incubation contrôlées (température, CO₂)",
+          "type": "instrument",
+          "passerelle_fruitfly": "fiche_protocole",
+          "aide": "Time-lapse long terme — paramètres environnementaux dans la fiche d’essai."
+        }
+      ]
+    },
+    {
+      "id": "em",
+      "nom": "Microscopie électronique",
+      "outils": [
+        {
+          "id": "tem_tecnai",
+          "nom": "TEM FEI Tecnai G2 200 kV (tomo, STEM, cryo-EM)",
+          "type": "ultrastructure",
+          "passerelle_fruitfly": "export_clem",
+          "aide": "Tomographie / STEM — export CLEM depuis fruitfly."
+        },
+        {
+          "id": "tem_morgagni",
+          "nom": "TEM FEI Morgagni 120 kV",
+          "type": "ultrastructure",
+          "passerelle_fruitfly": "export_clem",
+          "aide": "TEM rapide — fiche échantillon + essai."
+        },
+        {
+          "id": "sem_teneo",
+          "nom": "SEM FEI Teneo VS (Serial Block-Face)",
+          "type": "ultrastructure",
+          "passerelle_fruitfly": "export_clem",
+          "aide": "Acquisition 3D automatisée — volume EM ↔ motif connectome."
+        },
+        {
+          "id": "prep_em",
+          "nom": "Préparation EM (EMPact 2, AFS 2, AMW, UC7)",
+          "type": "preparation",
+          "passerelle_fruitfly": "export_clem",
+          "aide": "Chaîne cryo / ultramicrotomie documentée dans le pont CLEM."
+        }
+      ]
+    },
+    {
+      "id": "elevage",
+      "nom": "Élevage et manipulation",
+      "outils": [
+        {
+          "id": "salles_climat",
+          "nom": "Salles / armoires climatisées d’élevage",
+          "type": "vivarium",
+          "passerelle_fruitfly": "journal_colonie",
+          "aide": "Conditions (T°, humidité, cycle) associées à une session partagée."
+        },
+        {
+          "id": "dissection",
+          "nom": "Postes de dissection et micro-manipulation",
+          "type": "vivarium",
+          "passerelle_fruitfly": "journal_colonie",
+          "aide": "Notes embryons / larves / tissus liées à un motif."
+        },
+        {
+          "id": "stereo",
+          "nom": "Stéréomicroscopes de tri",
+          "type": "vivarium",
+          "passerelle_fruitfly": "journal_colonie",
+          "aide": "Tri phénotypique — étiquettes d’essai."
+        }
+      ]
+    },
+    {
+      "id": "genetique",
+      "nom": "Génétique et biologie moléculaire",
+      "outils": [
+        {
+          "id": "gal4_uas",
+          "nom": "Systèmes binaires GAL4/UAS, LexA, QF, GeneSwitch",
+          "type": "genetique",
+          "passerelle_fruitfly": "carte_genetique",
+          "aide": "Mapper une lignée / driver sur des neurones motif (silence, opto virtuelle)."
+        },
+        {
+          "id": "crispr",
+          "nom": "CRISPR/Cas9 (knock-out, knock-in, activation)",
+          "type": "genetique",
+          "passerelle_fruitfly": "carte_genetique",
+          "aide": "Hypothèses d’édition ↔ perturbations fruitfly."
+        },
+        {
+          "id": "stocks",
+          "nom": "Stock centers (Bloomington, TRiP…)",
+          "type": "genetique",
+          "lien": "https://bdsc.indiana.edu/",
+          "passerelle_fruitfly": "lien_externe",
+          "aide": "Références de lignées dans la fiche d’essai / Méthodes."
+        },
+        {
+          "id": "tgml",
+          "nom": "Séquençage TGML / France Génomique",
+          "type": "omics",
+          "lien": "https://www.france-genomique.org/plateformes-et-equipements/plateforme-sequencage-tgml-marseille/",
+          "passerelle_fruitfly": "export_pipeline",
+          "aide": "Empreintes et carnets pour corréler omique et motifs."
+        }
+      ]
+    },
+    {
+      "id": "numerique",
+      "nom": "Outils numériques et logiciels",
+      "outils": [
+        {
+          "id": "fiji",
+          "nom": "Fiji / ImageJ, ZEN, LAS X, Imaris",
+          "type": "logiciel",
+          "passerelle_fruitfly": "bridge_imagerie",
+          "aide": "Export CSV/JSON pour reconstruction 3D, segmentation, suivi."
+        },
+        {
+          "id": "cluster",
+          "nom": "Cluster de calcul / stockage omique et imagerie",
+          "type": "calcul",
+          "passerelle_fruitfly": "export_pipeline",
+          "aide": "Paquet portable (empreintes + essais) pour le cluster IBDML."
+        },
+        {
+          "id": "modelisation",
+          "nom": "Modélisation mécanique / morphogenèse",
+          "type": "modelisation",
+          "passerelle_fruitfly": "export_pipeline",
+          "aide": "Lireouts LIF comme hypothèses à tester en modèles physiques."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+id: horloge_sommeil_v1
+name: Horloge circadienne (lecture)
+version: "1.0.0"
+claim_level: lecture_seule
+paths:
+  circuit: circuits/horloge_sommeil_v1/circuit.json
+  adapters: circuits/horloge_sommeil_v1/adapters.json

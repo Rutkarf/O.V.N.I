@@ -1,0 +1,88 @@
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+<app-preface-drawer (ferme)="onPrefaceClosed()" />
+<app-organism-select-drawer
+  [show]="organismSelectOpen()"
+  (choisi)="onOrganismChosen($event)"
+  (ferme)="onOrganismSelectClosed()"
+/>
+<div class="shell">
+  <nav class="top">
+    <div class="brand-cluster">
+      <a
+        routerLink="/lab"
+        class="logo"
+        (click)="onLogoSecret()"
+        [attr.title]="brand.tagline"
+        [attr.aria-label]="brand.tagline"
+      >
+        <span class="logo-mark">{{ brand.short }}</span>
+        <span class="logo-sub">{{ brand.full }}</span>
+      </a>
+    </div>
+    <div class="nav-center" [class.solo]="!showBelief()">
+      <button
+        type="button"
+        class="org-chip"
+        (click)="organismSelectOpen.set(true)"
+        [attr.title]="'Changer le croisement · ' + crossingLabel()"
+      >
+        {{ crossingLabel() }}
+      </button>
+      @if (showBelief()) {
+        <p class="belief">I Want to Believe</p>
+      }
+    </div>
+    <div class="links">
+      <a routerLink="/lab" routerLinkActive="active">Labo 3D</a>
+      <a routerLink="/atlas" routerLinkActive="active">Atlas</a>
+      <a routerLink="/experiment" routerLinkActive="active">Expérience</a>
+      <a routerLink="/rules" routerLinkActive="active">Règles</a>
+      <a routerLink="/batch" routerLinkActive="active">Lots</a>
+      <a routerLink="/runs" routerLinkActive="active">Essais</a>
+      <a routerLink="/data" routerLinkActive="active">Données</a>
+      <a routerLink="/passerelles" routerLinkActive="active">Passerelles</a>
+      <a routerLink="/workflow" routerLinkActive="active">Protocole</a>
+      <a routerLink="/validation" routerLinkActive="active">Validation</a>
+      <a routerLink="/publication" routerLinkActive="active">Publication</a>
+      <a routerLink="/voix" routerLinkActive="active">Voix</a>
+      <a routerLink="/organisms" routerLinkActive="active">Organismes</a>
+      @if (auth.authEnabled()) {
+        @if (auth.isAuthenticated()) {
+          <span class="who">{{ auth.user()?.displayName }}</span>
+          <button type="button" class="logout" (click)="auth.logout()">Déconnexion</button>
+        } @else {
+          <a routerLink="/login" routerLinkActive="active">Connexion</a>
+        }
+      } @else {
+        <span class="who">démonstration ouverte</span>
+      }
+    </div>
+  </nav>
+  <main id="main-content">
+    <router-outlet />
+  </main>
+</div>
+
+@if (easterOpen()) {
+  <div class="easter-backdrop" role="dialog" aria-modal="true" aria-label="Teaser multi-organismes">
+    <div class="easter-card">
+      <p class="easter-kicker">projet fermé · teaser</p>
+      <h2>Au-delà de <i>Drosophila</i></h2>
+      <p>
+        <strong>{{ brand.tagline }}</strong> vise d’abord la drosophile (LIF + connectome).
+        {{ brand.explain }} En coulisse : même instrument pour
+        <strong>Homo sapiens</strong>, chien, souris, plantes, champignons, bactéries… — atlas et claims
+        séparés par organisme.
+      </p>
+      <ul>
+        <li>Humain · chien · modèles vertébrés (comportement / clinique)</li>
+        <li>Plantes · champignons · réseaux métaboliques</li>
+        <li>Chaque espèce = moteur + passerelles PiCsL / Maelstrom / Argon dédiées</li>
+      </ul>
+      <div class="easter-actions">
+        <a routerLink="/organisms" (click)="closeEaster()">Brouillon Organismes</a>
+        <button type="button" class="ghost" (click)="closeEaster()">Fermer</button>
+      </div>
+    </div>
+  </div>
+}

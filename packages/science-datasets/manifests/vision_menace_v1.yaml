@@ -1,0 +1,7 @@
+id: vision_menace_v1
+name: Vision menace (approche)
+version: "1.0.0"
+claim_level: motif_literature
+paths:
+  circuit: circuits/vision_menace_v1/circuit.json
+  adapters: circuits/vision_menace_v1/adapters.json

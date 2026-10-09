@@ -1,0 +1,177 @@
+<section
+  class="voix-page"
+  [class.embedded]="embedded()"
+  [class.collapsed]="embedded() && collapsed()"
+  (click)="focusCmd()"
+>
+  @if (!embedded()) {
+    <header class="hero">
+      <p class="eyebrow">voix · chimère · hors preuve</p>
+      <h1>Terminal O.V.N.I.</h1>
+      <p class="lede">
+        Dialogue avec la chimère née du croisement
+        <strong>{{ crossing() }}</strong>.
+        Le cerveau reste le LIF ; ce shell ne fait que lire le <code>run_card</code>.
+      </p>
+    </header>
+
+    <app-claim-banner
+      titre="Voix = pédagogie"
+      texte="Interdit comme preuve biologique. Toute phrase est double-vérifiée contre le run_card. Mode LLM = reformulation Ollama optionnelle, jamais une décision neurale."
+    />
+
+    @if (error()) {
+      <p class="err-banner">{{ error() }}</p>
+    }
+  }
+
+  <div class="layout" [class.layout-embed]="embedded()">
+    <div class="kali-window" role="region" aria-label="Terminal voix O.V.N.I.">
+      <div class="kali-titlebar">
+        <div class="dots" aria-hidden="true">
+          <span class="d close"></span>
+          <span class="d min"></span>
+          <span class="d max"></span>
+        </div>
+        <div class="title">
+          @if (embedded()) {
+            ovni@chimere — voix LIF
+          } @else {
+            root@ovni:~/chimere — {{ promptHost() }} — double_verif {{ lastVerif() || '—' }}
+          }
+        </div>
+        <div class="title-meta">
+          {{ mode() }} · {{ boundRunId()?.slice(0, 8) || 'no-run' }}
+          @if (lastVerif()) {
+            · {{ lastVerif() }}
+          }
+          @if (embedded()) {
+            <button
+              type="button"
+              class="collapse-btn"
+              (click)="$event.stopPropagation(); toggleCollapsed()"
+              [attr.aria-expanded]="!collapsed()"
+              [attr.title]="collapsed() ? 'Déplier le terminal' : 'Replier le terminal'"
+            >
+              {{ collapsed() ? '▴' : '▾' }}
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (!collapsed()) {
+        <div class="kali-toolbar">
+          <button type="button" (click)="quick('help')" [disabled]="busy()">help</button>
+          <button type="button" (click)="quick('whoami')" [disabled]="busy()">whoami</button>
+          <button type="button" (click)="quick('status')" [disabled]="busy()">status</button>
+          @if (!embedded()) {
+            <button type="button" (click)="quick('lexique')" [disabled]="busy()">lexique</button>
+            <button type="button" (click)="quick('gabarit')" [disabled]="busy()">gabarit</button>
+          }
+          <button type="button" (click)="quick('last')" [disabled]="busy()">last</button>
+          <button type="button" (click)="dockStimulate()" [disabled]="busy()">stimulate</button>
+          <button type="button" (click)="quick('replay')" [disabled]="busy()">replay</button>
+          <button type="button" (click)="quick('verify')" [disabled]="busy()">verify</button>
+          @if (!embedded()) {
+            <button type="button" (click)="quick('journal')" [disabled]="busy()">journal</button>
+            <button type="button" (click)="quick('export')" [disabled]="busy()">export</button>
+          }
+          <button type="button" (click)="quick('clear')" [disabled]="busy()">clear</button>
+          <span class="spacer"></span>
+          <button
+            type="button"
+            class="mode"
+            [class.on]="mode() === 'gabarit'"
+            (click)="setMode('gabarit')"
+          >
+            gabarit
+          </button>
+          <button type="button" class="mode" [class.on]="mode() === 'llm'" (click)="setMode('llm')">
+            llm
+          </button>
+        </div>
+
+        <div #scrollBox class="kali-screen" tabindex="0">
+          @for (line of lines(); track $index) {
+            <div class="line" [attr.data-kind]="line.kind">{{ line.text }}</div>
+          }
+          @if (busy()) {
+            <div class="line" data-kind="muted">… calcul LIF / voix …</div>
+          }
+        </div>
+
+        <form class="kali-prompt" (submit)="$event.preventDefault(); submit()">
+          <label class="sr" for="voix-cmd">Commande</label>
+          <span class="ps1">{{ promptHost() }}:~$</span>
+          <input
+            #cmdInput
+            id="voix-cmd"
+            name="cmd"
+            [(ngModel)]="command"
+            (keydown)="onKey($event)"
+            autocomplete="off"
+            spellcheck="false"
+            [disabled]="busy()"
+            placeholder="ask Qui es-tu ? · stimulate · help"
+          />
+          <button type="submit" class="go" [disabled]="busy()">↵</button>
+        </form>
+      }
+    </div>
+
+    @if (!embedded()) {
+      <aside class="side">
+        <div class="panel">
+          <h2>Fiche chimère</h2>
+          <pre>{{ fichePreview() || 'chargement…' }}</pre>
+          <button type="button" class="ghost" (click)="refreshFiche()">rafraîchir</button>
+          <a routerLink="/lab">← Labo 3D</a>
+          <a routerLink="/runs">Essais</a>
+        </div>
+
+        <div class="panel">
+          <h2>Stimulate dock</h2>
+          <label
+            >sugar
+            <input type="number" min="0" max="1" step="0.05" [(ngModel)]="sugar" name="sugar"
+          /></label>
+          <label
+            >bitter
+            <input type="number" min="0" max="1" step="0.05" [(ngModel)]="bitter" name="bitter"
+          /></label>
+          <label
+            >looming
+            <input type="number" min="0" max="1" step="0.05" [(ngModel)]="looming" name="looming"
+          /></label>
+          <label
+            >hunger
+            <input type="number" min="0" max="1" step="0.05" [(ngModel)]="hunger" name="hunger"
+          /></label>
+          <label
+            >seed
+            <input type="number" step="1" [(ngModel)]="seed" name="seed"
+          /></label>
+          <button type="button" class="primary" (click)="dockStimulate()" [disabled]="busy()">
+            Lancer LIF + lier
+          </button>
+        </div>
+
+        <div class="panel tips">
+          <h2>Questions types</h2>
+          <button type="button" (click)="quick('ask Qui es-tu ?')">Qui es-tu ?</button>
+          <button type="button" (click)="quick('ask Quel est ton atlas ?')">Atlas ?</button>
+          <button type="button" (click)="quick('ask Quel neurone est le plus actif ?')">
+            Neurone top ?
+          </button>
+          <button type="button" (click)="quick('ask Quelle est ton action ?')">Action ?</button>
+          <button type="button" (click)="quick('ask Quel est ton niveau de claim ?')">Claim ?</button>
+          <p class="hint">
+            Docs dépôt : <code>docs/science/VOIX_CHIMERE.md</code>,
+            <code>VOIX_TUTORIEL.md</code>, <code>VOIX_HYPOTHESE.md</code>,
+            <code>VOIX_DOUBLE_VERIF.md</code>
+          </p>
+        </div>
+      </aside>
+    }
+  </div>
+</section>

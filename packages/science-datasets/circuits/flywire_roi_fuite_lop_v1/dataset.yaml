@@ -1,0 +1,8 @@
+id: flywire_roi_fuite_lop_v1
+version: "1.0.0"
+empreinte_sha256_16: 41baa6d0f093647a
+licence: recherche-interne
+niveau_preuve: reconstruction_roi_en_attente_export
+roi: [LOP, VEN, SEZ, VNC, LH]
+sexe: female
+importer: scripts/importer_roi_connectome.py

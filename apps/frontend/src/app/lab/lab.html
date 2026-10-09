@@ -1,0 +1,557 @@
+<section class="lab">
+  <div class="stage-wrap">
+    <app-viewport [visual]="store.visual()" />
+    <header class="brand">
+      <p class="mark">O.V.N.I.</p>
+      <div class="claim-float" aria-label="Croisement observé">
+        <p class="claim-k">Croisement observé</p>
+        <p class="claim-row" data-axis="taxon">
+          <span>Taxonomie</span>
+          <strong>{{ store.selectedOrganismLabel() }}</strong>
+          <em>{{ taxonLine() }}</em>
+        </p>
+        <p class="claim-row" data-axis="motif">
+          <span>Motif ROI LIF</span>
+          <strong>{{ compositionMotifLabel() }}</strong>
+          <em>{{ motifDetail() }}</em>
+        </p>
+        <p class="claim-row" data-axis="brain">
+          <span>Atlas cérébral</span>
+          <strong>{{ compositionBrainLabel() }}</strong>
+          <em>{{ brainDetail() }}</em>
+        </p>
+        <p class="claim-note">
+          Proxy pédagogique — le nuage et le LIF ne sont pas une simulation 1:1 du connectome.
+        </p>
+      </div>
+    </header>
+
+    <aside class="composition-float" aria-label="Composition expérimentale active">
+      <span class="cf-k">composition</span>
+      <strong>{{ store.selectedOrganismLabel() }}</strong>
+      <span class="cf-x">×</span>
+      <strong>{{ compositionMotifLabel() }}</strong>
+      <span class="cf-x">×</span>
+      <strong>{{ compositionBrainLabel() }}</strong>
+    </aside>
+
+    <div class="live-chip" [class.ovni-on]="store.ovniActive()">
+      <span class="dot" [class.busy]="store.busy() || store.ovniActive()"></span>
+      @if (store.ovniActive()) {
+        <b>O.V.N.I.</b>
+        <span>pas {{ store.ovniTick() }}</span>
+      }
+      <b>{{ actionLabel(store.visual().action) }}</b>
+      <span>{{ store.status() || 'prêt' }}</span>
+      @if (store.visual().runId; as rid) {
+        <code>{{ rid.slice(0, 8) }}</code>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="methods-fab"
+      [class.on]="store.methodsOnly()"
+      (click)="store.setMethodsOnly(!store.methodsOnly())"
+      [attr.aria-pressed]="store.methodsOnly()"
+      aria-label="Basculer mode Methods-only"
+    >
+      {{ store.methodsOnly() ? 'Methods-only ON' : 'Methods-only' }}
+    </button>
+
+    @if (!store.methodsOnly()) {
+    <button
+      type="button"
+      class="autonomy-fab"
+      [class.on]="store.ovniActive()"
+      (click)="toggleOvni()"
+      [attr.aria-pressed]="store.ovniActive()"
+      aria-label="Activer l’autonomie visuelle de la drosophile"
+    >
+      {{ store.ovniActive() ? '■ Autonomie ON' : '▶ Autonomie 3D · 1 clic' }}
+    </button>
+    }
+
+    <div class="quick-presets">
+      @if (!store.methodsOnly()) {
+      <button
+        type="button"
+        class="ovni-toggle"
+        [class.on]="store.ovniActive()"
+        (click)="toggleOvni()"
+      >
+        {{ store.ovniActive() ? '■ Arrêter O.V.N.I.' : '▶ O.V.N.I. autonome' }}
+      </button>
+      }
+      <button type="button" (click)="preset('escape')">1 · menace → Fuite</button>
+      <button type="button" (click)="preset('eat')">2 · sucre → Alimentation</button>
+      <button type="button" (click)="preset('bitter')">3 · blocage amer</button>
+      <button type="button" class="primary-go" (click)="run()" [disabled]="store.busy()">
+        {{ store.busy() ? 'Simulation…' : 'Lancer l’essai' }}
+      </button>
+      <button type="button" class="ghost" (click)="exportMethods()" [disabled]="!store.lastRun()">
+        Méthodes papier
+      </button>
+      <button type="button" class="ghost" (click)="store.copyShareLink()">Lien démo</button>
+    </div>
+
+    <div class="voix-dock" aria-label="Terminal voix chimère">
+      <app-voix-terminal [embedded]="true" />
+    </div>
+  </div>
+
+  <aside class="hud">
+    <nav class="tabs tabs-8">
+      <button type="button" [class.on]="tab() === 'guide'" (click)="setTab('guide')">Guide</button>
+      <button type="button" [class.on]="tab() === 'stim'" (click)="setTab('stim')">Stimuli</button>
+      <button type="button" [class.on]="tab() === 'brain'" (click)="setTab('brain')">Cerveau</button>
+      <button type="button" [class.on]="tab() === 'rules'" (click)="setTab('rules')">Règles</button>
+      <button type="button" [class.on]="tab() === 'compare'" (click)="setTab('compare')">A / B</button>
+      <button type="button" [class.on]="tab() === 'sweep'" (click)="setTab('sweep')">Courbes</button>
+      @if (!store.methodsOnly()) {
+        <button type="button" [class.on]="tab() === 'genetics'" (click)="setTab('genetics')">Génétique</button>
+        <button type="button" [class.on]="tab() === 'life'" (click)="setTab('life')">Vie</button>
+      }
+    </nav>
+
+    @if (store.validation()) {
+      <p class="banner">{{ store.validation() }}</p>
+    }
+    @if (store.error()) {
+      <p class="err">{{ store.error() }}</p>
+    }
+    @if (store.demoLink()) {
+      <p class="banner link-banner">{{ store.demoLink() }}</p>
+    }
+
+    @if (tab() === 'guide') {
+      <div class="panel guide">
+        <p class="kicker">guide IBDML — démarrage</p>
+        <div class="claim-strip" style="margin:0">
+          <div>
+            <strong>{{ compositionMotifCount() }} LIF · {{ compositionBrainCount() }} atlas</strong>
+            Le LIF affiché est {{ compositionMotifLabel() }} ({{ compositionMotifCount() }} neurones).
+            Le nuage 4D est {{ compositionBrainLabel() }} ({{ compositionBrainCount() }}{{ compositionVncNote() }})
+            — pédagogie, pas LIF 1:1.
+          </div>
+        </div>
+        <ol class="steps">
+          <li [class.done]="store.guideStep() >= 1">
+            <strong>Trois presets</strong>
+            <span>Menace → Fuite · Sucre → Alimentation · Blocage amer — regardez la scène réagir.</span>
+          </li>
+          <li [class.done]="store.guideStep() >= 2">
+            <strong>Lire l’action + le cerveau</strong>
+            <span>Pastille, anneau, motif ROI à gauche, nuage cerveau/SNC à droite. Onglet Cerveau pour influencer.</span>
+          </li>
+          <li [class.done]="store.guideStep() >= 3">
+            <strong>Exporter Méthodes</strong>
+            <span>Fichier prêt papier + page Protocole pour lignée / CRISPR / pont PiCsL.</span>
+          </li>
+        </ol>
+        <div class="guide-actions">
+          <button type="button" class="primary" (click)="preset('escape')">Essayer Fuite</button>
+          <button type="button" (click)="exportMethods()" [disabled]="!store.lastRun()">Exporter Méthodes</button>
+          <button type="button" class="ghost" (click)="store.copyMethods()" [disabled]="!store.methodsText()">
+            Copier le texte
+          </button>
+          <button type="button" class="ghost" (click)="store.copyShareLink()">Copier lien démo</button>
+        </div>
+        @if (store.methodsText()) {
+          <pre class="brain methods">{{ store.methodsText() }}</pre>
+        }
+        <p class="muted">
+          Ensuite : onglet <b>A / B</b> pour avant/après règle ·
+          <a routerLink="/batch">Lots</a> pour figures ·
+          <a routerLink="/data">Données</a> pour CSV MaleCNS.
+        </p>
+      </div>
+    }
+
+    @if (tab() === 'brain') {
+      <div class="panel">
+        <p class="kicker">connectome 4D · influence ludique</p>
+        <div class="claim-strip" style="margin:0 0 0.75rem">
+          <div>
+            {{ connectomeClaim.note }}
+            Atlas affiché : {{ compositionBrainLabel() }} · {{ compositionBrainCount() }}{{ compositionVncNote() }}.
+            Motif LIF affiché : {{ compositionMotifLabel() }} · {{ compositionMotifCount() }} neurones.
+          </div>
+        </div>
+
+        <p class="kicker">vue</p>
+        <div class="genetics-actions">
+          <button type="button" [class.on]="store.nervousMode() === 'brain'" (click)="store.setNervousMode('brain')">
+            Cerveau seul
+          </button>
+          <button type="button" [class.on]="store.nervousMode() === 'cns'" (click)="store.setNervousMode('cns')">
+            SNC complet
+          </button>
+          <button type="button" [class.on]="store.nervousMode() === 'motif_roi'" (click)="store.setNervousMode('motif_roi')">
+            Motif ROI (LIF)
+          </button>
+        </div>
+        <p class="muted tiny">
+          Atlas = {{ compositionBrainLabel() }} · {{ compositionBrainCount() }}{{ compositionVncNote() }}.
+          Motif = {{ compositionMotifLabel() }} · {{ compositionMotifCount() }} neurones LIF.
+        </p>
+
+        <p class="kicker">influencer le comportement</p>
+        <label>lobes optiques (menace / fuite)
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.nervousOptic()" (ngModelChange)="store.nervousOptic.set($event)" name="nOpt" />
+          <b>{{ store.nervousOptic() | number: '1.2-2' }}</b>
+        </label>
+        <label>corps pédonculés / KC (mémoire / faim)
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.nervousMushroom()" (ngModelChange)="store.nervousMushroom.set($event)" name="nMush" />
+          <b>{{ store.nervousMushroom() | number: '1.2-2' }}</b>
+        </label>
+        <label>SEZ / goût (alimentation)
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.nervousSez()" (ngModelChange)="store.nervousSez.set($event)" name="nSez" />
+          <b>{{ store.nervousSez() | number: '1.2-2' }}</b>
+        </label>
+        <label>chaîne nerveuse VNC (moteur)
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.nervousVnc()" (ngModelChange)="store.nervousVnc.set($event)" name="nVnc" />
+          <b>{{ store.nervousVnc() | number: '1.2-2' }}</b>
+        </label>
+        <label>drive global
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.nervousDrive()" (ngModelChange)="store.nervousDrive.set($event)" name="nDrv" />
+          <b>{{ store.nervousDrive() | number: '1.2-2' }}</b>
+        </label>
+
+        <div class="action-block">
+          <span class="kicker">labo interactif 3D</span>
+          <p class="muted tiny">
+            Cliquez un point du cerveau / VNC ou une sphère du motif ROI : hyperfocus caméra + étude.
+            Esc ou « Dézoomer » pour revenir. Les données scientifiques (stimuli, rates) animent le nuage en direct.
+          </p>
+        </div>
+
+        @if (store.labFocus(); as focus) {
+          <div class="claim-strip" style="margin:0.5rem 0">
+            <div>
+              <strong>{{ focus.label }}</strong>
+              {{ focus.detail }}
+              @if (focus.kind === 'roi') {
+                <span> · {{ focus.hz | number: '1.1-1' }} Hz</span>
+              }
+            </div>
+          </div>
+          <label>Hz (ROI LIF)
+            <input type="range" min="0" max="120" step="5"
+              [ngModel]="store.neuronHz()" (ngModelChange)="store.neuronHz.set($event)" name="focusHz"
+              [disabled]="focus.kind !== 'roi'" />
+            <b>{{ store.neuronHz() }}</b>
+          </label>
+          <div class="genetics-actions">
+            <button type="button" class="primary" (click)="store.stimulateFocused(store.neuronHz() || 80)" [disabled]="store.busy()">
+              Activer sélection
+            </button>
+            <button type="button" (click)="store.silenceFocused()" [disabled]="store.busy() || focus.kind !== 'roi'">
+              Silence ROI
+            </button>
+            <button type="button" (click)="exitLabFocus()">Quitter focus · dézoomer</button>
+          </div>
+        }
+
+        <button type="button" class="primary" (click)="run()" [disabled]="store.busy()">
+          Relancer LIF avec ces gains
+        </button>
+        <button type="button" (click)="preset('escape')" [disabled]="store.busy()">Tester Fuite</button>
+        <button type="button" (click)="preset('eat')" [disabled]="store.busy()">Tester Alimentation</button>
+        <p class="muted tiny" style="margin-top:0.75rem">
+          Alternative éthique : hypothèses & enseignement in silico — réduit la nécessité de disséquer des organismes vivants.
+          Preuve publication = motif + empreinte, pas le nuage 4D seul.
+        </p>
+      </div>
+    }
+
+    @if (tab() === 'stim') {
+      <div class="panel">
+        <p class="kicker">capteurs → intégration-décharge → action (scène en direct)</p>
+        <label>sucre
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.sugar()" (ngModelChange)="store.sugar.set($event)" name="sugar" />
+          <b>{{ store.sugar() | number: '1.2-2' }}</b>
+        </label>
+        <label>amer
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.bitter()" (ngModelChange)="store.bitter.set($event)" name="bitter" />
+          <b>{{ store.bitter() | number: '1.2-2' }}</b>
+        </label>
+        <label>menace
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.looming()" (ngModelChange)="store.looming.set($event)" name="loom" />
+          <b>{{ store.looming() | number: '1.2-2' }}</b>
+        </label>
+        <label>faim
+          <input type="range" min="0" max="1" step="0.05"
+            [ngModel]="store.hunger()" (ngModelChange)="store.hunger.set($event)" name="hunger" />
+          <b>{{ store.hunger() | number: '1.2-2' }}</b>
+        </label>
+        <label>graine aléatoire
+          <input type="number" [ngModel]="store.seed()" (ngModelChange)="store.seed.set($event)" name="seed" />
+        </label>
+        <label>durée (ms)
+          <input type="number" step="50"
+            [ngModel]="store.durationMs()" (ngModelChange)="store.durationMs.set($event)" name="dur" />
+        </label>
+        <label>silence neurones
+          <input [ngModel]="store.silence()" (ngModelChange)="store.silence.set($event)" name="sil" placeholder="MN9,…" />
+        </label>
+        <label class="check">
+          <input type="checkbox" [ngModel]="store.shuffle()" (ngModelChange)="store.shuffle.set($event)" name="sh" />
+          mélanger / couper les connexions
+        </label>
+
+        <fieldset>
+          <legend>environnement · essaim (scène 3D)</legend>
+          <label>photopériode
+            <select [ngModel]="store.circadian()" (ngModelChange)="store.circadian.set($event)" name="circ">
+              <option value="day">Jour — activité diurne</option>
+              <option value="night">Nuit — repos / fuite atténuée</option>
+            </select>
+          </label>
+          <label>température chambre (°C)
+            <input type="range" min="15" max="32" step="0.5"
+              [ngModel]="store.temperatureC()" (ngModelChange)="store.temperatureC.set($event)" name="temp" />
+            <b>{{ store.temperatureC() | number: '1.1-1' }} °C</b>
+          </label>
+          <label>individus dans l’arène
+            <input type="range" min="1" max="5" step="1"
+              [ngModel]="store.flyCohort()" (ngModelChange)="store.flyCohort.set($event)" name="cohort" />
+            <b>{{ store.flyCohort() }}</b>
+          </label>
+          <p class="muted tiny">
+            La mouche « référence LIF » suit l’essai ; les autres portent des décalages de stimuli (essaim pédagogique).
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>stimulation neurone directe</legend>
+          <select [ngModel]="store.neuronId()" (ngModelChange)="store.neuronId.set($event)" name="nid">
+            @for (n of store.atlas()?.neurons || []; track n.id) {
+              <option [value]="n.id">{{ n.id }}</option>
+            }
+          </select>
+          <label>fréquence (Hz)
+            <input type="number" min="0" max="200"
+              [ngModel]="store.neuronHz()" (ngModelChange)="store.neuronHz.set($event)" name="nhz" />
+          </label>
+        </fieldset>
+
+        <div class="action-block">
+          <span class="kicker">dernière action</span>
+          <p class="action">{{ actionLabel(store.visual().action) }}</p>
+          <p class="muted">{{ store.visual().outcome }}</p>
+          <pre class="brain">{{ store.visual().brain }}</pre>
+        </div>
+
+        <button type="button" class="primary" (click)="run()" [disabled]="store.busy()">
+          Lancer LIF → mettre à jour la 3D
+        </button>
+        <button type="button" class="ghost" (click)="exportMethods()" [disabled]="!store.lastRun()">
+          Méthodes papier
+        </button>
+        <button type="button" class="ghost" (click)="store.validate()">Suite de tests</button>
+      </div>
+    }
+
+    @if (tab() === 'rules') {
+      <div class="panel">
+        <p class="kicker">adaptateurs / politiques → scène</p>
+        @if (store.adapters(); as a) {
+          <p class="meta">v{{ a.version }} · {{ a._meta?.customized ? 'personnalisé' : 'usine' }} · {{ a._meta?.hash }}</p>
+        }
+        <label class="check">
+          <input type="checkbox" [(ngModel)]="bitterSuppress" name="bs" />
+          l’amer inhibe le sucre
+        </label>
+        <label>seuil d’amer
+          <input type="number" step="0.05" [(ngModel)]="bitterGate" name="bg" />
+        </label>
+        <label>force synaptique
+          <input type="number" step="0.5" [(ngModel)]="synStrength" name="ss" />
+        </label>
+        <button type="button" class="primary" (click)="savePolicies()" [disabled]="store.busy()">
+          Appliquer et relancer
+        </button>
+        <a routerLink="/rules" class="link">éditeur de règles complet →</a>
+      </div>
+    }
+
+    @if (tab() === 'compare') {
+      <div class="panel">
+        <p class="kicker">comparer 2 conditions (avant / après règle)</p>
+        <ol class="steps compact">
+          <li>Réglez stimuli, lancez LIF, puis <b>Figer A</b></li>
+          <li>Changez une règle ci-dessous</li>
+          <li><b>Appliquer → B</b> puis basculez la scène A / B</li>
+        </ol>
+        <div class="ab-row">
+          <button type="button" (click)="store.snapshotA()" [disabled]="store.busy()">Figer A</button>
+          <button type="button" class="primary" (click)="applyRuleThenB()" [disabled]="store.busy()">
+            Appliquer règle → B
+          </button>
+        </div>
+        <label class="check">
+          <input type="checkbox" [(ngModel)]="bitterSuppress" name="bs2" />
+          l’amer inhibe le sucre
+        </label>
+        <label>seuil d’amer
+          <input type="number" step="0.05" [(ngModel)]="bitterGate" name="bg2" />
+        </label>
+        <label>force synaptique
+          <input type="number" step="0.5" [(ngModel)]="synStrength" name="ss2" />
+        </label>
+        <div class="ab-cards">
+          <button type="button" class="ab-card" [class.on]="store.compareFocus() === 'A'" (click)="store.showCompare('A')">
+            <span>A</span>
+            <b>{{ store.runA() ? actionLabel(store.runA()!.action) : '—' }}</b>
+            <small>{{ store.runA()?.run_card?.run_id?.slice(0, 8) || 'non figé' }}</small>
+          </button>
+          <button type="button" class="ab-card" [class.on]="store.compareFocus() === 'B'" (click)="store.showCompare('B')">
+            <span>B</span>
+            <b>{{ store.runB() ? actionLabel(store.runB()!.action) : '—' }}</b>
+            <small>{{ store.runB()?.run_card?.run_id?.slice(0, 8) || 'non lancé' }}</small>
+          </button>
+          <button type="button" class="ab-card" [class.on]="store.compareFocus() === 'live'" (click)="store.showCompare('live')">
+            <span>Live</span>
+            <b>{{ actionLabel(store.visual().action) }}</b>
+            <small>scène courante</small>
+          </button>
+        </div>
+        @if (store.compareNote()) {
+          <p class="banner">{{ store.compareNote() }}</p>
+        }
+      </div>
+    }
+
+    @if (tab() === 'sweep') {
+      <div class="panel">
+        <p class="kicker">dose-réponse rapide → courbe + 3D</p>
+        <button type="button" class="primary" (click)="dose('looming')" [disabled]="store.busy()">
+          Balayer la menace
+        </button>
+        <button type="button" (click)="dose('sugar')" [disabled]="store.busy()">Balayer le sucre</button>
+        <button type="button" (click)="dose('bitter')" [disabled]="store.busy()">Balayer l’amer</button>
+        @if (store.doseSummary()) {
+          <pre class="brain">{{ store.doseSummary() }}</pre>
+        }
+        <a routerLink="/batch" class="link">lots / figures PNG·SVG →</a>
+      </div>
+    }
+
+    @if (tab() === 'genetics') {
+      <app-genetics-panel />
+    }
+
+    @if (tab() === 'life') {
+      <div class="panel">
+        <p class="kicker">{{ ovniCharter.acronym }}</p>
+        <p class="muted tiny">
+          Naître un OVNI avec la génétique choisie (onglet Génétique), le développer œuf → larve →
+          nymphe → adulte → sénescence → mort. Cerveau = LIF. Alternative éthique aux protocoles
+          d’hypothèse sur animaux — pas un remplacement total du wet-lab.
+        </p>
+
+        <p class="kicker">Échelle de mesure</p>
+        <div class="genetics-actions">
+          <button type="button" [class.on]="store.ovniEchelle() === 'argon'" (click)="store.setOvniEchelle('argon')">
+            Argon (fin)
+          </button>
+          <button type="button" [class.on]="store.ovniEchelle() === 'essai'" (click)="store.setOvniEchelle('essai')">
+            Essai
+          </button>
+          <button type="button" [class.on]="store.ovniEchelle() === 'maelstrom'" (click)="store.setOvniEchelle('maelstrom')">
+            Maelstrom (vaste)
+          </button>
+        </div>
+        <p class="muted tiny">
+          Argon = résolution / empreinte / 1 individu · Maelstrom = cohorte / population pédagogique.
+        </p>
+
+        <p class="kicker">Naissance & cycle</p>
+        <button type="button" class="primary" (click)="store.birthOvni()" [disabled]="store.geneticsBusy()">
+          Faire naître l’OVNI (génotype actuel)
+        </button>
+        @if (store.ovniLife(); as life) {
+          <div class="row"><span>Stade</span><strong>{{ life.stage }}</strong></div>
+          <div class="row"><span>Âge (ticks)</span><strong>{{ life.age_ticks }}</strong></div>
+          <div class="row"><span>Forme 3D</span><strong>{{ life.form }}</strong></div>
+          <div class="genetics-actions">
+            <button type="button" (click)="store.forceOvniStage('egg')">Œuf</button>
+            <button type="button" (click)="store.forceOvniStage('larva')">Larve</button>
+            <button type="button" (click)="store.forceOvniStage('pupa')">Nymphe</button>
+            <button type="button" (click)="store.forceOvniStage('adult')">Adulte</button>
+            <button type="button" (click)="store.forceOvniStage('senescence')">Sénescence</button>
+            <button type="button" (click)="store.forceOvniStage('dead')">Mort</button>
+          </div>
+        }
+
+        <div class="ovni-charter">
+          <div>
+            <strong>Devoirs</strong>
+            <ul>
+              @for (d of ovniCharter.devoirs; track d) {
+                <li>{{ d }}</li>
+              }
+            </ul>
+          </div>
+          <div>
+            <strong>Droits</strong>
+            <ul>
+              @for (d of ovniCharter.droits; track d) {
+                <li>{{ d }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+        <button type="button" class="primary" (click)="toggleOvni()">
+          {{ store.ovniActive() ? 'Rendre la mouche dépendante (manuel)' : 'Rendre indépendante (O.V.N.I.)' }}
+        </button>
+        @if (store.ovniLog().length) {
+          <pre class="brain">{{ store.ovniLog().join('\n') }}</pre>
+        }
+        <p class="banner">
+          Boucle Ollama (ci-dessous) = option pédagogique séparée — pas le cerveau OVNI LIF.
+        </p>
+        <p class="kicker">boucle de vie Ollama (secondaire)</p>
+        @if (lifeState(); as s) {
+          <div class="row">
+            <span>pas</span><strong>{{ s.tick }}</strong>
+          </div>
+          <div class="row">
+            <span>énergie</span>
+            <div class="meter"><i [style.width.%]="s.energy * 100"></i></div>
+          </div>
+          <p class="muted">{{ s.action }} — {{ s.outcome || (s.alive ? 'en vie' : s.cause_of_death) }}</p>
+          <pre class="brain">{{ s.brain }}</pre>
+        }
+        <div class="life-controls">
+          <button type="button" (click)="lifeTick()" [disabled]="lifePending()">Pas</button>
+          <button type="button" class="ghost" (click)="toggleLifeAuto()">{{ lifeAutoLabel }}</button>
+          <button type="button" class="ghost" (click)="lifeReset()">Réinitialiser</button>
+        </div>
+        <select [(ngModel)]="lifeMode" (ngModelChange)="changeLifeMode()" name="lm">
+          <option value="rules">règles (rapide)</option>
+          <option value="fruitfly">LLM pédagogique (hors preuve — pas le cerveau O.V.N.I.)</option>
+        </select>
+      </div>
+    }
+
+    <footer class="hud-foot">
+      <a routerLink="/atlas">Atlas</a>
+      <a routerLink="/experiment">Expérience</a>
+      <a routerLink="/batch">Lots</a>
+      <a routerLink="/data">Données</a>
+      <a routerLink="/passerelles">Passerelles</a>
+      <a routerLink="/runs">Essais</a>
+      <a routerLink="/voix">Voix chimère</a>
+    </footer>
+  </aside>
+</section>

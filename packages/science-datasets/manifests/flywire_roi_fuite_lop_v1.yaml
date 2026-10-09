@@ -1,0 +1,5 @@
+id: flywire_roi_fuite_lop_v1
+name: ROI FlyWire contrôle fuite (femelle)
+version: "1.0.0"
+claim_level: reconstruction_roi_en_attente_export
+golden_suite: fuite_alimentation

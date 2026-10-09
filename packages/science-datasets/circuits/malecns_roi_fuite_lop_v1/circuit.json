@@ -1,0 +1,332 @@
+{
+  "id": "malecns_roi_fuite_lop_v1",
+  "name": "ROI MaleCNS fuite LOP/VEN",
+  "version": "20261009T063421Z",
+  "provenance": {
+    "type": "roi_connectome_export",
+    "not_full_connectome": true,
+    "claim_level": "export_neuprint",
+    "roi": [
+      "LOP",
+      "VEN",
+      "SEZ",
+      "VNC",
+      "LH"
+    ],
+    "sexe": "male",
+    "citations": [
+      "MaleCNS v1.0 Berg et al. Cell 2026 — nomenclature types",
+      "FlyWire female brain — contrôle concordance",
+      "Littérature fuite visuelle LPLC2/LC4→DNp01"
+    ],
+    "disclaimer": "Arêtes importées depuis export neuprint. Vérifier les body IDs avant publication.",
+    "comment_claimer": "Après import export officiel : claim_level=export_neuprint|export_flywire + empreinte.",
+    "imported_at": "2026-10-09T06:34:21.227304+00:00",
+    "source_file": "neuprint_roi_fuite_lop_v1.csv"
+  },
+  "neurons": [
+    {
+      "id": "LPLC2",
+      "malecns_type": "LPLC2",
+      "malecns_body_id": "720575940623976123",
+      "flywire_root_id": null,
+      "type": "visuel",
+      "class": "LPLC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "male",
+      "tags": [
+        "menace"
+      ],
+      "provenance_cellule": "nomenclature_MaleCNS"
+    },
+    {
+      "id": "LC4",
+      "malecns_type": "LC4",
+      "malecns_body_id": "720575940623976456",
+      "flywire_root_id": null,
+      "type": "visuel",
+      "class": "LC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "male",
+      "tags": [
+        "menace"
+      ],
+      "provenance_cellule": "nomenclature_MaleCNS"
+    },
+    {
+      "id": "LPLC1",
+      "malecns_type": "LPLC1",
+      "malecns_body_id": "720575940623976789",
+      "flywire_root_id": null,
+      "type": "visuel",
+      "class": "LPLC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "male",
+      "tags": [
+        "menace"
+      ],
+      "provenance_cellule": "nomenclature_MaleCNS"
+    },
+    {
+      "id": "DNp01_L",
+      "malecns_type": "DNp01",
+      "malecns_body_id": "720575940624100001",
+      "flywire_root_id": null,
+      "type": "descendant",
+      "class": "DNp01",
+      "hemisphere": "G",
+      "roi": "VEN",
+      "sex": "male",
+      "tags": [
+        "fuite",
+        "readout"
+      ],
+      "provenance_cellule": "nomenclature_MaleCNS"
+    },
+    {
+      "id": "DNp01_R",
+      "malecns_type": "DNp01",
+      "malecns_body_id": "720575940624100002",
+      "flywire_root_id": null,
+      "type": "descendant",
+      "class": "DNp01",
+      "hemisphere": "D",
+      "roi": "VEN",
+      "sex": "male",
+      "tags": [
+        "fuite",
+        "readout"
+      ],
+      "provenance_cellule": "nomenclature_MaleCNS"
+    },
+    {
+      "id": "MN9",
+      "malecns_type": "MN9",
+      "malecns_body_id": "720575940626500301",
+      "flywire_root_id": null,
+      "type": "moteur",
+      "class": "MN9",
+      "hemisphere": "bilateral",
+      "roi": "VNC",
+      "sex": "male",
+      "tags": [
+        "alimentation",
+        "readout"
+      ],
+      "provenance_cellule": "nomenclature_MaleCNS"
+    },
+    {
+      "id": "GF",
+      "type": "importe",
+      "class": "connectome",
+      "roi": "LOP",
+      "sex": "male",
+      "malecns_body_id": "720575940624200010",
+      "provenance_cellule": "export_neuprint"
+    },
+    {
+      "id": "MN_escape_L",
+      "type": "importe",
+      "class": "connectome",
+      "roi": "VEN",
+      "sex": "male",
+      "malecns_body_id": "720575940625300101",
+      "provenance_cellule": "export_neuprint"
+    },
+    {
+      "id": "MN_escape_R",
+      "type": "importe",
+      "class": "connectome",
+      "roi": "VEN",
+      "sex": "male",
+      "malecns_body_id": "720575940625300102",
+      "provenance_cellule": "export_neuprint"
+    },
+    {
+      "id": "SugarGRN",
+      "type": "importe",
+      "class": "connectome",
+      "roi": "SEZ",
+      "sex": "male",
+      "malecns_body_id": "720575940626400201",
+      "provenance_cellule": "export_neuprint"
+    },
+    {
+      "id": "BitterGRN",
+      "type": "importe",
+      "class": "connectome",
+      "roi": "SEZ",
+      "sex": "male",
+      "malecns_body_id": "720575940626400202",
+      "provenance_cellule": "export_neuprint"
+    },
+    {
+      "id": "Hunger",
+      "type": "importe",
+      "class": "connectome",
+      "roi": "SEZ",
+      "sex": "male",
+      "malecns_body_id": "720575940626400203",
+      "provenance_cellule": "export_neuprint"
+    }
+  ],
+  "edges": [
+    {
+      "pre": "LPLC2",
+      "post": "DNp01_L",
+      "weight": 2.4,
+      "sign": 1,
+      "synapses": 18,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LPLC2",
+      "post": "DNp01_R",
+      "weight": 2.2,
+      "sign": 1,
+      "synapses": 16,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LC4",
+      "post": "DNp01_L",
+      "weight": 2.0,
+      "sign": 1,
+      "synapses": 14,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LC4",
+      "post": "DNp01_R",
+      "weight": 1.9,
+      "sign": 1,
+      "synapses": 12,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LPLC1",
+      "post": "DNp01_L",
+      "weight": 1.4,
+      "sign": 1,
+      "synapses": 9,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LPLC2",
+      "post": "GF",
+      "weight": 0.8,
+      "sign": 1,
+      "synapses": 6,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "LC4",
+      "post": "GF",
+      "weight": 0.7,
+      "sign": 1,
+      "synapses": 5,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "LOP"
+    },
+    {
+      "pre": "DNp01_L",
+      "post": "MN_escape_L",
+      "weight": 2.6,
+      "sign": 1,
+      "synapses": 22,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "VEN"
+    },
+    {
+      "pre": "DNp01_R",
+      "post": "MN_escape_R",
+      "weight": 2.5,
+      "sign": 1,
+      "synapses": 20,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "VEN"
+    },
+    {
+      "pre": "GF",
+      "post": "MN_escape_L",
+      "weight": 1.1,
+      "sign": 1,
+      "synapses": 8,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "VEN"
+    },
+    {
+      "pre": "SugarGRN",
+      "post": "MN9",
+      "weight": 2.1,
+      "sign": 1,
+      "synapses": 15,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "SEZ"
+    },
+    {
+      "pre": "BitterGRN",
+      "post": "MN9",
+      "weight": 3.5,
+      "sign": -1,
+      "synapses": 18,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "SEZ"
+    },
+    {
+      "pre": "Hunger",
+      "post": "SugarGRN",
+      "weight": 1.2,
+      "sign": 1,
+      "synapses": 7,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "SEZ"
+    },
+    {
+      "pre": "BitterGRN",
+      "post": "SugarGRN",
+      "weight": 2.2,
+      "sign": -1,
+      "synapses": 10,
+      "source": "export_neuprint",
+      "citation": "Import neuprint_roi_fuite_lop_v1.csv",
+      "claim_level": "export_neuprint",
+      "roi": "SEZ"
+    }
+  ]
+}

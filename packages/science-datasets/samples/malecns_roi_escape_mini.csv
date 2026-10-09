@@ -1,0 +1,12 @@
+pre,post,weight,sign,synapses,roi
+LPLC2,DNp01_L,2.4,1,15,LOP
+LPLC2,DNp01_R,2.2,1,14,LOP
+LC4,DNp01_L,2.0,1,11,LOP
+LC4,DNp01_R,2.1,1,12,LOP
+# Exemple d'IDs « style MaleCNS » (fictifs pour brancher le pipeline ROI)
+MCNS_LPLC2_R,MCNS_DNp01_L,2.5,1,18,LOP
+MCNS_LPLC2_R,MCNS_DNp01_R,2.3,1,16,LOP
+MCNS_LC4_R,MCNS_DNp01_L,1.9,1,12,LOP
+MCNS_LC4_R,MCNS_DNp01_R,2.0,1,13,LOP
+sugar_sensory,MN9,1.8,1,12,SEZ
+bitter_sensory,MN9,4.5,-1,10,SEZ

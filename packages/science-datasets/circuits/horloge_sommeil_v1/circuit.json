@@ -1,0 +1,65 @@
+{
+  "id": "horloge_sommeil_v1",
+  "name": "Horloge circadienne (lecture)",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "stub_lecture",
+    "not_full_connectome": true,
+    "disclaimer": "Stub horloge — lecture atlas puis stimulate pédagogique.",
+    "citations": [
+      "Neurones horloge LN_v (littérature)"
+    ],
+    "claim_level": "lecture_seule"
+  },
+  "neurons": [
+    {
+      "id": "LN_clock",
+      "type": "horloge",
+      "class": "LN_v",
+      "hemisphere": "bilateral",
+      "roi": "PI",
+      "sex": "iso",
+      "tags": [
+        "horloge"
+      ]
+    },
+    {
+      "id": "DN1",
+      "type": "horloge",
+      "class": "DN1",
+      "hemisphere": "bilateral",
+      "roi": "PI",
+      "sex": "iso",
+      "tags": [
+        "horloge"
+      ]
+    },
+    {
+      "id": "sleep_promo",
+      "type": "interneurone",
+      "class": "sommeil",
+      "hemisphere": "bilateral",
+      "roi": "CX",
+      "sex": "iso",
+      "tags": [
+        "sommeil"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "pre": "LN_clock",
+      "post": "DN1",
+      "weight": 1.0,
+      "sign": 1,
+      "synapses": 4
+    },
+    {
+      "pre": "DN1",
+      "post": "sleep_promo",
+      "weight": 1.1,
+      "sign": 1,
+      "synapses": 3
+    }
+  ]
+}

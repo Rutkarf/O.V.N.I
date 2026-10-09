@@ -1,0 +1,119 @@
+<section class="page">
+  <div class="flag-bar"></div>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">instrument · expérience</p>
+      <h1>Stimuler → Tracer</h1>
+      <p class="lede">
+        Intégration-décharge à fuite déterministe. Le modèle de langage n’est jamais une preuve.
+      </p>
+    </div>
+    <div class="presets">
+      <button type="button" (click)="preset('escape')">menace → Fuite</button>
+      <button type="button" (click)="preset('eat')">sucre → Alimentation</button>
+      <button type="button" (click)="preset('bitter')">blocage amer</button>
+      <button type="button" class="ghost" (click)="runValidate()">Suite de tests</button>
+    </div>
+  </header>
+
+  <div class="claim-strip">
+    <div>
+      <strong>Protocole expert</strong>
+      Choisissez un motif ROI, notez graine + empreinte, exportez Méthodes, puis validez en imagerie
+      (page Protocole / Passerelles). Les adaptateurs restent des hypothèses jusqu’à preuve optique.
+    </div>
+  </div>
+
+  <div class="toolbar" style="margin: 0.75rem 0; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+    <label>motif
+      <select [(ngModel)]="motifId" name="motif" (ngModelChange)="changerMotif($event)">
+        @for (m of motifs(); track m.id) {
+          <option [value]="m.id">{{ m.nom || m.id }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @if (validation()) {
+    <p class="banner">{{ validation() }}</p>
+  }
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  <div class="layout">
+    <form class="controls" (submit)="$event.preventDefault(); run()">
+      <label>sucre <input type="range" min="0" max="1" step="0.05" [(ngModel)]="sugar" name="sugar" /><b>{{ sugar }}</b></label>
+      <label>amer <input type="range" min="0" max="1" step="0.05" [(ngModel)]="bitter" name="bitter" /><b>{{ bitter }}</b></label>
+      <label>menace <input type="range" min="0" max="1" step="0.05" [(ngModel)]="looming" name="looming" /><b>{{ looming }}</b></label>
+      <label>faim <input type="range" min="0" max="1" step="0.05" [(ngModel)]="hunger" name="hunger" /><b>{{ hunger }}</b></label>
+      <label>graine aléatoire <input type="number" [(ngModel)]="seed" name="seed" /></label>
+      <label>durée (ms) <input type="number" min="50" step="50" [(ngModel)]="durationMs" name="dur" /></label>
+      <label>silence neurones <input [(ngModel)]="silence" name="silence" placeholder="MN9,DNp01_L" /></label>
+      <label class="check"><input type="checkbox" [(ngModel)]="shuffle" name="shuffle" /> mélanger / couper les connexions</label>
+      <label>bruit synaptique <input type="number" min="0" max="1" step="0.05" [(ngModel)]="bruit" name="bruit" /></label>
+      <label class="check"><input type="checkbox" [(ngModel)]="plasticite" name="plasticite" /> plasticité courte durée</label>
+      <label>optogénétique virtuelle (classe)
+        <input [(ngModel)]="optoClasse" name="opto" placeholder="ex. DNp01" />
+      </label>
+      <label>fréquence opto (Hz) <input type="number" min="0" [(ngModel)]="optoHz" name="optoHz" /></label>
+
+      <fieldset>
+        <legend>stimulation neurone directe</legend>
+        <select [(ngModel)]="neuronId" name="neuronId">
+          @for (n of atlas()?.neurons || []; track n.id) {
+            <option [value]="n.id">{{ n.id }}</option>
+          }
+        </select>
+        <label>fréquence (Hz) <input type="number" min="0" max="200" [(ngModel)]="neuronHz" name="neuronHz" /></label>
+      </fieldset>
+
+      <button type="button" class="ghost" (click)="showAdvanced = !showAdvanced">
+        {{ showAdvanced ? 'Masquer les options avancées' : 'Options avancées (LIF / politiques)' }}
+      </button>
+      @if (showAdvanced) {
+        <fieldset>
+          <legend>paramètres pour cet essai seulement</legend>
+          <label>force synaptique <input type="number" step="0.5" [(ngModel)]="ovSynStrength" name="oss" placeholder="défaut" /></label>
+          <label>tau synaptique (ms) <input type="number" step="0.5" [(ngModel)]="ovSynTau" name="ost" /></label>
+          <label>seuil de potentiel <input type="number" step="1" [(ngModel)]="ovVThresh" name="ovt" /></label>
+        </fieldset>
+        <fieldset>
+          <legend>politiques pour cet essai</legend>
+          <label>seuil d’amer <input type="number" step="0.05" [(ngModel)]="ovBitterGate" name="obg" /></label>
+          <label class="check">
+            <input type="checkbox"
+              [ngModel]="ovBitterSuppress === true"
+              (ngModelChange)="ovBitterSuppress = $event ? true : false"
+              name="obs" />
+            forcer : l’amer inhibe le sucre
+          </label>
+        </fieldset>
+      }
+
+      <button type="submit" [disabled]="busy()">{{ busy() ? 'en cours…' : 'Lancer LIF' }}</button>
+    </form>
+
+    <div class="trace">
+      <canvas #raster class="raster"></canvas>
+      @if (result(); as r) {
+        <div class="meta">
+          <div>
+            <span class="kicker">action</span>
+            <strong class="action">{{ actionLabel(r.action) }}</strong>
+          </div>
+          <div>
+            <span class="kicker">essai</span>
+            <code>{{ r.run_card.run_id.slice(0, 8) }}</code>
+          </div>
+          <div>
+            <span class="kicker">empreinte</span>
+            <code>{{ r.run_card.dataset_hash }}</code>
+          </div>
+          <button type="button" class="ghost" (click)="downloadSpikes(r.run_card.run_id)">spikes.csv</button>
+          <button type="button" class="ghost" (click)="downloadMethods(r.run_card.run_id)">methods.md</button>
+        </div>
+      }
+    </div>
+  </div>
+</section>

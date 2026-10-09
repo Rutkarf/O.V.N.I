@@ -1,0 +1,558 @@
+@if (show()) {
+  <div class="fond" role="presentation">
+    <aside
+      class="tiroir"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="org-select-titre"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="bandeau">
+        <div class="titre-bloc">
+          <h1 id="org-select-titre">Choose Your O.V.N.I.</h1>
+          <p class="acronym">O.rganisme V.ivant N.umerique I.ntelligent</p>
+        </div>
+      </header>
+
+      <div class="corps">
+        <div class="lede-zone">
+          <p class="lede"><em>Hybridations contrôlées documentées.</em></p>
+          <div class="cherche" role="search" aria-label="Taxonomie fois Motif ROI LIF fois Atlas cérébral égale un O.V.N.I.">
+            <div class="cherche-bar">
+              @for (field of searchFields; track field.part) {
+                @if (field.part > 0) {
+                  <span class="cherche-fois" aria-hidden="true">×</span>
+                }
+                <label class="cherche-cell" [attr.data-part]="field.part">
+                  <span>{{ field.label }}</span>
+                  <input
+                    type="search"
+                    [value]="searchParts()[field.part]"
+                    [placeholder]="field.placeholder"
+                    autocomplete="off"
+                    [attr.aria-label]="field.aria"
+                    (input)="onGlobalSearch(field.part, $any($event.target).value)"
+                    (focus)="onGlobalSearch(field.part, searchParts()[field.part])"
+                    (keydown)="onSearchKey(field.part, $event)"
+                    (blur)="closeGlobalSearchSoon()"
+                  />
+                </label>
+              }
+              <span class="cherche-eq" aria-hidden="true">=</span>
+              <span class="cherche-ovni" title="Organisme Vivant Numérique Intelligent">O.V.N.I.</span>
+            </div>
+            @if (activeSearchPart() !== null && searchHits().length) {
+              <ul class="cherche-propositions" role="listbox">
+                @for (hit of searchHits(); track hit.kind + hit.id; let i = $index) {
+                  <li>
+                    <button
+                      type="button"
+                      role="option"
+                      [class.on]="suggestHighlight() === i"
+                      [attr.data-kind]="hit.kind"
+                      (mousedown)="$event.preventDefault()"
+                      (click)="pickGlobalHit(hit)"
+                    >
+                      <small>{{ hit.kindLabel }}</small>
+                      <strong>{{ hit.label }}</strong>
+                      <span>{{ hit.detail }}</span>
+                    </button>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
+
+        <!-- ①②③ pods = commutateurs de carrousel 3D -->
+        <div class="composition" aria-label="Changer de carrousel 3D">
+          <button
+            type="button"
+            class="comp-pod"
+            data-axis="taxon"
+            [class.on]="axis() === 'taxon'"
+            (click)="setAxis('taxon')"
+            aria-label="Afficher le carrousel taxonomie"
+          >
+            <span class="comp-cue left" aria-hidden="true">‹</span>
+            <span class="comp-k">① Taxonomie</span>
+            <strong>{{ compositionTaxonLabel() }}</strong>
+            <small>Organisme-hôte</small>
+            <span class="comp-cue right" aria-hidden="true">›</span>
+            <span class="comp-pointer" aria-hidden="true"></span>
+          </button>
+          <span class="comp-x" aria-hidden="true">×</span>
+          <button
+            type="button"
+            class="comp-pod"
+            data-axis="motif"
+            [class.on]="axis() === 'motif'"
+            (click)="setAxis('motif')"
+            aria-label="Afficher le carrousel motif ROI LIF"
+          >
+            <span class="comp-cue left" aria-hidden="true">‹</span>
+            <span class="comp-k">② Motif ROI LIF</span>
+            <strong>{{ compositionMotifLabel() }}</strong>
+            <small>{{ compositionMotifSpecies() }}</small>
+            <span class="comp-cue right" aria-hidden="true">›</span>
+            <span class="comp-pointer" aria-hidden="true"></span>
+          </button>
+          <span class="comp-x" aria-hidden="true">×</span>
+          <button
+            type="button"
+            class="comp-pod"
+            data-axis="brain"
+            [class.on]="axis() === 'brain'"
+            (click)="setAxis('brain')"
+            aria-label="Afficher le carrousel atlas cérébral"
+          >
+            <span class="comp-cue left" aria-hidden="true">‹</span>
+            <span class="comp-k">③ Atlas cérébral</span>
+            <strong>{{ compositionBrainLabel() }}</strong>
+            <small>{{ compositionBrainSpecies() }}</small>
+            <span class="comp-cue right" aria-hidden="true">›</span>
+            <span class="comp-pointer" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="chaines">
+          <nav class="fil" data-axis="taxon" aria-label="Taxonomie">
+            @for (r of ranks; track r) {
+              @if (!$first) {
+                <span class="fil-sep">›</span>
+              }
+              <label
+                class="fil-chip"
+                [class.lead]="$first"
+                [class.on]="!!filter()[r]"
+                [class.here]="axis() === 'taxon' && searchRank() === r"
+              >
+                <small>{{ rankLabels[r] }}</small>
+                <span class="fil-saisie">
+                  <input
+                    type="text"
+                    [value]="rankQueries()[r]"
+                    placeholder="—"
+                    autocomplete="off"
+                    [attr.aria-label]="rankLabels[r]"
+                    (focus)="onRankFocus(r)"
+                    (input)="onRankInput(r, $any($event.target).value)"
+                    (keydown)="onRankKeydown(r, $event)"
+                    (blur)="onRankBlur()"
+                  />
+                </span>
+                <span class="fil-actions">
+                  <button type="button" class="fil-mini annule" aria-label="Annuler cette case" (mousedown)="$event.preventDefault()" (click)="clearFrom(r)">annuler</button>
+                  <button type="button" class="fil-mini ok" aria-label="Ok pour cette case" (mousedown)="$event.preventDefault()" (click)="commitRankSearch(r)">OK</button>
+                </span>
+                @if (openSuggestRank() === r && rankSuggestions().length) {
+                  <ul class="fil-suggest" role="listbox">
+                    @for (name of rankSuggestions(); track name; let i = $index) {
+                      <li>
+                        <button
+                          type="button"
+                          role="option"
+                          [class.on]="suggestHighlight() === i"
+                          (mousedown)="$event.preventDefault()"
+                          (click)="commitRankSearch(r, name)"
+                        >{{ name }}</button>
+                      </li>
+                    }
+                  </ul>
+                }
+              </label>
+            }
+            <button
+              type="button"
+              class="fil-random"
+              [class.toss]="dieToss() === 'taxon'"
+              aria-label="Tirer la taxonomie au hasard"
+              title="Tirer la taxonomie au hasard"
+              (click)="playDie('taxon'); randomizeTaxonomyChain()"
+            >
+              <svg class="de" viewBox="0 0 64 56" aria-hidden="true">
+                <path fill="currentColor" d="M32 3 58 17 32 31 6 17Z" />
+                <path fill="currentColor" fill-opacity="0.55" d="M6 17 32 31 32 53 6 39Z" />
+                <path fill="currentColor" fill-opacity="0.78" d="M58 17 32 31 32 53 58 39Z" />
+                <g fill="#121212">
+                  <path transform="translate(32 17.5) scale(1.7)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                  <path transform="translate(19 35.5) scale(1.55)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                  <path transform="translate(45 35.5) scale(1.55)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                </g>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="fil-reset"
+              aria-label="Vider la taxonomie"
+              title="Vider la taxonomie"
+              [disabled]="!taxonChainFilled()"
+              (click)="clearTaxonomyChain()"
+            >
+              <svg class="corbeille" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M10 1.5h4v1.7h-4z" />
+                <path fill="currentColor" d="M4 4.4h16v1.8H4z" />
+                <path fill="currentColor" d="M6.5 8h11l-.8 13.1a1 1 0 0 1-1 .9H8.3a1 1 0 0 1-1-.9L6.5 8z" />
+                <path fill="#121212" d="M9.7 10.2h1.2v8.6H9.7zm3.4 0h1.2v8.6h-1.2z" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="fil-valider"
+              [class.locked]="taxonChainLocked()"
+              [disabled]="!taxonChainReady()"
+              [attr.aria-pressed]="taxonChainLocked()"
+              [attr.aria-label]="taxonChainLocked() ? 'Taxonomie verrouillée' : 'Valider la taxonomie'"
+              (click)="validateTaxonomy()"
+            >
+              Valider
+            </button>
+            <span
+              class="fil-cadenas"
+              [class.locked]="taxonChainLocked()"
+              role="img"
+              [attr.aria-label]="taxonChainLocked() ? 'Taxonomie verrouillée' : 'Validez pour verrouiller la ligne et débloquer l’entrée du laboratoire'"
+              [title]="taxonChainLocked() ? 'Ligne verrouillée' : 'Validez pour verrouiller la ligne et débloquer l’entrée du laboratoire'"
+            >
+              @if (taxonChainLocked()) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9z"
+                  />
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M6.5 11h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z" />
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    d="M8 11.2V7.6a4 4 0 0 1 7.2-2.4"
+                  />
+                </svg>
+              }
+            </span>
+          </nav>
+          <nav class="fil" data-axis="motif" aria-label="Motif ROI LIF">
+            @for (field of motifLine; track field.id) {
+              @if (!$first) {
+                <span class="fil-sep">›</span>
+              }
+              <label
+                class="fil-chip"
+                [class.lead]="$first"
+                [class.on]="!!motifQueries()[field.id]"
+                [class.here]="axis() === 'motif' && searchMotifSlot() === field.id"
+                [title]="motifQueries()[field.id] || field.label"
+              >
+                <small>{{ field.label }}</small>
+                <span class="fil-saisie">
+                  <input
+                    type="text"
+                    [value]="motifQueries()[field.id]"
+                    placeholder="—"
+                    autocomplete="off"
+                    [attr.aria-label]="field.label"
+                    (focus)="onMotifSlotFocus(field.id)"
+                    (input)="onMotifSlotInput(field.id, $any($event.target).value)"
+                    (keydown)="onMotifSlotKeydown(field.id, $event)"
+                    (blur)="onListBlur()"
+                  />
+                </span>
+                <span class="fil-actions">
+                  <button type="button" class="fil-mini annule" aria-label="Annuler cette case" (mousedown)="$event.preventDefault()" (click)="clearMotifField(field.id)">annuler</button>
+                  <button type="button" class="fil-mini ok" aria-label="Ok pour cette case" (mousedown)="$event.preventDefault()" (click)="commitMotifSearch()">OK</button>
+                </span>
+                @if (openSuggestList() === 'motif' && searchMotifSlot() === field.id && motifSuggestions().length) {
+                  <ul class="fil-suggest" role="listbox">
+                    @for (name of motifSuggestions(); track name; let i = $index) {
+                      <li>
+                        <button
+                          type="button"
+                          role="option"
+                          [class.on]="suggestHighlight() === i"
+                          (mousedown)="$event.preventDefault()"
+                          (click)="commitMotifSearch(name)"
+                        >{{ name }}</button>
+                      </li>
+                    }
+                  </ul>
+                }
+              </label>
+            }
+            <button
+              type="button"
+              class="fil-random"
+              [class.toss]="dieToss() === 'motif'"
+              aria-label="Tirer le motif ROI LIF au hasard"
+              title="Tirer le motif ROI LIF au hasard"
+              (click)="playDie('motif'); randomizeMotifChain()"
+            >
+              <svg class="de" viewBox="0 0 64 56" aria-hidden="true">
+                <path fill="currentColor" d="M32 3 58 17 32 31 6 17Z" />
+                <path fill="currentColor" fill-opacity="0.55" d="M6 17 32 31 32 53 6 39Z" />
+                <path fill="currentColor" fill-opacity="0.78" d="M58 17 32 31 32 53 58 39Z" />
+                <g fill="#121212">
+                  <path transform="translate(32 17.5) scale(1.7)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                  <path transform="translate(19 35.5) scale(1.55)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                  <path transform="translate(45 35.5) scale(1.55)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                </g>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="fil-reset"
+              aria-label="Vider le motif ROI LIF"
+              title="Vider le motif ROI LIF"
+              [disabled]="!motifChainFilled()"
+              (click)="clearMotifChain()"
+            >
+              <svg class="corbeille" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M10 1.5h4v1.7h-4z" />
+                <path fill="currentColor" d="M4 4.4h16v1.8H4z" />
+                <path fill="currentColor" d="M6.5 8h11l-.8 13.1a1 1 0 0 1-1 .9H8.3a1 1 0 0 1-1-.9L6.5 8z" />
+                <path fill="#121212" d="M9.7 10.2h1.2v8.6H9.7zm3.4 0h1.2v8.6h-1.2z" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="fil-valider"
+              [class.locked]="motifChainLocked()"
+              [disabled]="!motifChainReady()"
+              [attr.aria-pressed]="motifChainLocked()"
+              [attr.aria-label]="motifChainLocked() ? 'Motif ROI LIF verrouillé' : 'Valider le motif ROI LIF'"
+              (click)="validateMotif()"
+            >
+              Valider
+            </button>
+            <span
+              class="fil-cadenas"
+              [class.locked]="motifChainLocked()"
+              role="img"
+              [attr.aria-label]="motifChainLocked() ? 'Motif ROI LIF verrouillé' : 'Validez pour verrouiller la ligne et débloquer l’entrée du laboratoire'"
+              [title]="motifChainLocked() ? 'Ligne verrouillée' : 'Validez pour verrouiller la ligne et débloquer l’entrée du laboratoire'"
+            >
+              @if (motifChainLocked()) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9z"
+                  />
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M6.5 11h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z" />
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    d="M8 11.2V7.6a4 4 0 0 1 7.2-2.4"
+                  />
+                </svg>
+              }
+            </span>
+          </nav>
+          <nav class="fil" data-axis="brain" aria-label="Atlas cérébral">
+            @for (field of brainLine; track field.id) {
+              @if (!$first) {
+                <span class="fil-sep">›</span>
+              }
+              <label
+                class="fil-chip"
+                [class.lead]="$first"
+                [class.on]="!!brainQueries()[field.id]"
+                [class.here]="axis() === 'brain' && searchBrainSlot() === field.id"
+                [title]="brainQueries()[field.id] || field.label"
+              >
+                <small>{{ field.label }}</small>
+                <span class="fil-saisie">
+                  <input
+                    type="text"
+                    [value]="brainQueries()[field.id]"
+                    placeholder="—"
+                    autocomplete="off"
+                    [attr.aria-label]="field.label"
+                    (focus)="onBrainSlotFocus(field.id)"
+                    (input)="onBrainSlotInput(field.id, $any($event.target).value)"
+                    (keydown)="onBrainSlotKeydown(field.id, $event)"
+                    (blur)="onListBlur()"
+                  />
+                </span>
+                <span class="fil-actions">
+                  <button type="button" class="fil-mini annule" aria-label="Annuler cette case" (mousedown)="$event.preventDefault()" (click)="clearBrainField(field.id)">annuler</button>
+                  <button type="button" class="fil-mini ok" aria-label="Ok pour cette case" (mousedown)="$event.preventDefault()" (click)="commitBrainSearch()">OK</button>
+                </span>
+                @if (openSuggestList() === 'brain' && searchBrainSlot() === field.id && brainSuggestions().length) {
+                  <ul class="fil-suggest" role="listbox">
+                    @for (name of brainSuggestions(); track name; let i = $index) {
+                      <li>
+                        <button
+                          type="button"
+                          role="option"
+                          [class.on]="suggestHighlight() === i"
+                          (mousedown)="$event.preventDefault()"
+                          (click)="commitBrainSearch(name)"
+                        >{{ name }}</button>
+                      </li>
+                    }
+                  </ul>
+                }
+              </label>
+            }
+            <button
+              type="button"
+              class="fil-random"
+              [class.toss]="dieToss() === 'brain'"
+              aria-label="Tirer l’atlas cérébral au hasard"
+              title="Tirer l’atlas cérébral au hasard"
+              (click)="playDie('brain'); randomizeBrainChain()"
+            >
+              <svg class="de" viewBox="0 0 64 56" aria-hidden="true">
+                <path fill="currentColor" d="M32 3 58 17 32 31 6 17Z" />
+                <path fill="currentColor" fill-opacity="0.55" d="M6 17 32 31 32 53 6 39Z" />
+                <path fill="currentColor" fill-opacity="0.78" d="M58 17 32 31 32 53 58 39Z" />
+                <g fill="#121212">
+                  <path transform="translate(32 17.5) scale(1.7)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                  <path transform="translate(19 35.5) scale(1.55)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                  <path transform="translate(45 35.5) scale(1.55)" d="M0-5.2c-2.35 0-4 1.45-4 3.4h2.35c0-.9.7-1.5 1.65-1.5 1.1 0 1.8.6 1.8 1.55 0 1-.65 1.45-1.75 1.95-1.35.55-2.35 1.35-2.35 2.7v.35h2.25v-.25c0-.9.65-1.4 1.65-1.85 1.35-.6 2.45-1.45 2.45-3 0-1.9-1.65-3.35-4.05-3.35zM-1.05 4.55h2.15v2.15h-2.15z" />
+                </g>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="fil-reset"
+              aria-label="Vider l’atlas cérébral"
+              title="Vider l’atlas cérébral"
+              [disabled]="!brainChainFilled()"
+              (click)="clearBrainChain()"
+            >
+              <svg class="corbeille" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M10 1.5h4v1.7h-4z" />
+                <path fill="currentColor" d="M4 4.4h16v1.8H4z" />
+                <path fill="currentColor" d="M6.5 8h11l-.8 13.1a1 1 0 0 1-1 .9H8.3a1 1 0 0 1-1-.9L6.5 8z" />
+                <path fill="#121212" d="M9.7 10.2h1.2v8.6H9.7zm3.4 0h1.2v8.6h-1.2z" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="fil-valider"
+              [class.locked]="brainChainLocked()"
+              [disabled]="!brainChainReady()"
+              [attr.aria-pressed]="brainChainLocked()"
+              [attr.aria-label]="brainChainLocked() ? 'Atlas cérébral verrouillé' : 'Valider l’atlas cérébral'"
+              (click)="validateBrain()"
+            >
+              Valider
+            </button>
+            <span
+              class="fil-cadenas"
+              [class.locked]="brainChainLocked()"
+              role="img"
+              [attr.aria-label]="brainChainLocked() ? 'Atlas cérébral verrouillé' : 'Validez pour verrouiller la ligne et débloquer l’entrée du laboratoire'"
+              [title]="brainChainLocked() ? 'Ligne verrouillée' : 'Validez pour verrouiller la ligne et débloquer l’entrée du laboratoire'"
+            >
+              @if (brainChainLocked()) {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9z"
+                  />
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M6.5 11h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z" />
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    d="M8 11.2V7.6a4 4 0 0 1 7.2-2.4"
+                  />
+                </svg>
+              }
+            </span>
+          </nav>
+        </div>
+
+        <!-- Carrousel 3D -->
+        <div class="stage-wrap" [attr.data-axis]="axis()">
+          <button
+            type="button"
+            class="nav prev"
+            [class.tap]="chevronTap() === 'prev'"
+            aria-label="Précédent dans le carrousel"
+            title="Précédent"
+            (click)="$event.preventDefault(); $event.stopPropagation(); playChevron('prev'); prev()"
+          >
+            <svg class="chevron" viewBox="0 0 28 48" aria-hidden="true">
+              <path d="M20 6 L8 24 L20 42" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <canvas
+            #stage
+            class="stage"
+            (pointerdown)="onPointerDown($event)"
+            (click)="onCanvasClick($event)"
+            (dblclick)="onCanvasDblClick()"
+            aria-label="Espace 3D de sélection O.V.N.I."
+          ></canvas>
+          <button
+            type="button"
+            class="nav next"
+            [class.tap]="chevronTap() === 'next'"
+            aria-label="Suivant dans le carrousel"
+            title="Suivant"
+            (click)="$event.preventDefault(); $event.stopPropagation(); playChevron('next'); next()"
+          >
+            <svg class="chevron" viewBox="0 0 28 48" aria-hidden="true">
+              <path d="M8 6 L20 24 L8 42" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="stage-glow" aria-hidden="true"></div>
+          <p class="stage-hint">{{ axisHint() }}</p>
+        </div>
+
+        @if (selectedItem(); as item) {
+          <div class="fiche" [attr.data-status]="item.status" [attr.data-kind]="item.kind">
+            <div class="fiche-top">
+              <p class="fiche-name">{{ item.name }}</p>
+              <span class="badge" [attr.data-status]="item.status">
+                {{ kindBadge(item.kind) }}
+              </span>
+            </div>
+            <p class="fiche-sci">{{ item.subtitle }}</p>
+            @if (item.kind === 'taxon') {
+              <p class="fiche-tag">
+                {{ item.childCount }} modèle(s) — Entrée pour descendre.
+              </p>
+            } @else if (item.organism; as org) {
+              <p class="fiche-tag">{{ org.tagline }}</p>
+            } @else if (item.motif; as m) {
+              <p class="fiche-tag">
+                {{ m.neuronCount }} LIF · {{ m.sourceSpecies }}
+              </p>
+            } @else if (item.brain; as b) {
+              <p class="fiche-tag">
+                {{ b.proxyCount | number }} · {{ b.tagline }} · {{ b.sourceSpecies }}
+              </p>
+            }
+          </div>
+        }
+
+        <button
+          type="button"
+          class="random-pick"
+          [class.tap]="enterTap()"
+          [disabled]="!chainsLocked()"
+          [title]="chainsLocked() ? 'Croiser les trois lignes verrouillées' : 'Verrouillez les trois chaînes pour entrer'"
+          (click)="playEnter()"
+        >
+          Entrer dans le laboratoire
+        </button>
+      </div>
+    </aside>
+  </div>
+}

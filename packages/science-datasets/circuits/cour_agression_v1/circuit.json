@@ -1,0 +1,68 @@
+{
+  "id": "cour_agression_v1",
+  "name": "Cour et agression (hypothèse)",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "hypothese",
+    "not_full_connectome": true,
+    "disclaimer": "HYPOThèse : câblage P1/TN1 non sourcé. Interdit comme preuve connectome.",
+    "citations": [
+      "Stubs P1 / TN1 — à remplacer"
+    ],
+    "claim_level": "hypothese"
+  },
+  "neurons": [
+    {
+      "id": "P1",
+      "type": "central",
+      "class": "P1",
+      "hemisphere": "bilateral",
+      "roi": "pC1",
+      "sex": "male",
+      "tags": [
+        "cour",
+        "hypothese"
+      ]
+    },
+    {
+      "id": "TN1",
+      "type": "moteur",
+      "class": "TN1",
+      "hemisphere": "bilateral",
+      "roi": "VNC",
+      "sex": "male",
+      "tags": [
+        "cour",
+        "hypothese"
+      ]
+    },
+    {
+      "id": "aIPg",
+      "type": "central",
+      "class": "aIPg",
+      "hemisphere": "bilateral",
+      "roi": "GNG",
+      "sex": "male",
+      "tags": [
+        "agression",
+        "hypothese"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "pre": "P1",
+      "post": "TN1",
+      "weight": 1.6,
+      "sign": 1,
+      "synapses": 5
+    },
+    {
+      "pre": "aIPg",
+      "post": "TN1",
+      "weight": 1.2,
+      "sign": -1,
+      "synapses": 3
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# Copier vers application-oidc.yml et activer le profil Spring `oidc`.
+# Dépendance runtime : spring-boot-starter-oauth2-client (ajouter au pom si besoin).
+fruitfly:
+  security:
+    enabled: true
+    oidc:
+      enabled: true
+      issuer-uri: https://auth.example.org/realms/luminy
+      client-id: fruitfly
+      client-secret: change-me
+
+# spring:
+#   security:
+#     oauth2:
+#       client:
+#         registration:
+#           fruitfly:
+#             client-id: ${fruitfly.security.oidc.client-id}
+#             client-secret: ${fruitfly.security.oidc.client-secret}
+#             scope: openid,profile,email
+#         provider:
+#           fruitfly:
+#             issuer-uri: ${fruitfly.security.oidc.issuer-uri}

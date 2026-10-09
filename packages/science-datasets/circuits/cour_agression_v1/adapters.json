@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "dataset_claim": "cour_agression_v1_hypothese",
+  "notes": "Déclaré hypothèse.",
+  "inputs": {
+    "sugar": {
+      "targets": [
+        "P1"
+      ],
+      "max_rate_hz": 70.0
+    },
+    "bitter": {
+      "targets": [
+        "aIPg"
+      ],
+      "max_rate_hz": 70.0
+    },
+    "looming": {
+      "targets": [],
+      "max_rate_hz": 0
+    }
+  },
+  "policies": {
+    "syn_strength": 8.0,
+    "syn_tau_ms": 5.0,
+    "shuffle_keep_fraction": 0.2
+  },
+  "readouts": {
+    "ESCAPE": {
+      "neurons": [
+        "aIPg"
+      ],
+      "rule": "any_spike",
+      "window_ms": 50
+    },
+    "EAT": {
+      "neurons": [
+        "TN1"
+      ],
+      "rule": "spike_count_ge",
+      "count": 2,
+      "window_ms": 80
+    },
+    "IDLE": {
+      "rule": "default"
+    }
+  },
+  "priority": [
+    "ESCAPE",
+    "EAT",
+    "IDLE"
+  ],
+  "parameters": {
+    "dt_ms": 0.1,
+    "duration_ms": 500,
+    "v_rest": -65.0,
+    "v_reset": -70.0,
+    "v_thresh": -50.0,
+    "tau_ms": 20.0,
+    "r_mohm": 10.0,
+    "refractory_ms": 2.0
+  }
+}

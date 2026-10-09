@@ -1,0 +1,41 @@
+<section class="page">
+  <header>
+    <p class="eyebrow">instrument · essais</p>
+    <h1>Fiches d’essai</h1>
+    <p class="lede">Chaque essai a un identifiant, une graine, une empreinte de circuit, et un export Méthodes.</p>
+  </header>
+
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  <div class="split">
+    <ul>
+      @for (r of runs(); track r.run_id) {
+        <li (click)="open(r.run_id)">
+          <strong>{{ actionLabel(r.action) }}</strong>
+          <span>{{ r.run_id.slice(0, 8) }} · graine {{ r.seed }} · {{ r.created_at | slice: 0:19 }}</span>
+        </li>
+      } @empty {
+        <li class="empty">Aucun essai — lancez une expérience.</li>
+      }
+    </ul>
+
+    <aside>
+      @if (selected(); as s) {
+        <h2>{{ actionLabel(s.action) }}</h2>
+        <pre>{{ s.run_card | json }}</pre>
+        <div class="links">
+          <button type="button" (click)="replay(s.run_card.run_id)">Rejouer (reproductibilité)</button>
+          <button type="button" (click)="downloadSpikes(s.run_card.run_id)">spikes.csv</button>
+          <button type="button" (click)="downloadMethods(s.run_card.run_id)">methods.md</button>
+        </div>
+        @if (replayNote()) {
+          <p class="banner">{{ replayNote() }}</p>
+        }
+      } @else {
+        <p class="muted">Ouvrez un essai pour voir la fiche complète.</p>
+      }
+    </aside>
+  </div>
+</section>

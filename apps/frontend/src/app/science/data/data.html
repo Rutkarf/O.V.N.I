@@ -1,0 +1,63 @@
+<section class="page">
+  <header>
+    <p class="eyebrow">instrument · données</p>
+    <h1>Entrée de données</h1>
+    <p class="lede">
+      Importez un CSV de connexions pour tester un câblage — motif fruitfly ou mini-ROI
+      style MaleCNS (nouveaux identifiants acceptés).
+    </p>
+  </header>
+
+  <div class="modes">
+    <label class="check">
+      <input type="radio" name="mode" value="motif" [(ngModel)]="mode" />
+      Motif (neurones connus seulement)
+    </label>
+    <label class="check">
+      <input type="radio" name="mode" value="malecns" [(ngModel)]="mode" />
+      MaleCNS / ROI (nouveaux IDs autorisés)
+    </label>
+    <label class="check">
+      <input type="radio" name="mode" value="flywire" [(ngModel)]="mode" />
+      FlyWire / ROI (contrôle femelle)
+    </label>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" class="ghost" (click)="loadMotifSample()">Exemple motif</button>
+    <button type="button" class="ghost" (click)="loadMalecnsSample()">Exemple ROI MaleCNS</button>
+    <label class="file">
+      Charger un fichier CSV
+      <input type="file" accept=".csv,text/csv,text/plain" (change)="onFile($event)" />
+    </label>
+    <label class="roi">
+      Filtre ROI (optionnel)
+      <input [(ngModel)]="roiFilter" name="roi" placeholder="LOP, SEZ…" />
+    </label>
+  </div>
+
+  <p class="hint">
+    Colonnes : <code>pre,post,weight,sign[,synapses][,roi]</code>.
+    En mode MaleCNS, les IDs inconnus sont ajoutés au circuit (à retargeter dans Règles pour les capteurs).
+  </p>
+
+  <textarea [(ngModel)]="csv" name="csv" rows="16" spellcheck="false"></textarea>
+
+  <div class="actions">
+    <button type="button" (click)="upload()">Activer ce circuit</button>
+    <button type="button" class="ghost" (click)="reset()">Rétablir le motif v1</button>
+  </div>
+
+  @if (status()) {
+    <p class="ok">{{ status() }}</p>
+  }
+  @if (newNeurons().length) {
+    <p class="ok">
+      Nouveaux neurones importés :
+      <code>{{ newNeurons().join(', ') }}</code>
+    </p>
+  }
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+</section>

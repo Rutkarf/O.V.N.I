@@ -1,0 +1,5 @@
+# Mini ROI exemple — remplacer body_id par export neuPrint réel
+pre,post,weight,sign,synapses,roi,pre_body_id,post_body_id
+LPLC2,DNp01_L,2.4,1,15,LOP,5812345678,5812345679
+LPLC2,DNp01_R,2.2,1,14,LOP,5812345678,5812345680
+LC4,DNp01_L,2.0,1,11,LOP,5812345681,5812345679

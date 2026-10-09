@@ -1,0 +1,9 @@
+# Copier vers application-prod.yml ou variables d’environnement en production.
+fruitfly:
+  security:
+    enabled: true
+  cors:
+    allowed-origins:
+      - https://votre-labo.ibdm.univ-amu.fr
+
+# Angular : src/app/core/auth.config.ts → AUTH_ENABLED = true

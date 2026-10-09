@@ -1,0 +1,87 @@
+.auth {
+  min-height: calc(100vh - 3.5rem);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.card {
+  width: min(26rem, 100%);
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: rgba(14, 18, 12, 0.92);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
+.sub {
+  margin: 0.3rem 0 1.2rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.tabs button {
+  background: transparent;
+}
+
+.tabs button.active {
+  background: #2a3424;
+  border-color: rgba(212, 162, 76, 0.45);
+}
+
+form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+input,
+button {
+  font: inherit;
+  color: var(--ink);
+  background: #2a3424;
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.8rem;
+}
+
+button[type='submit'] {
+  background: var(--amber);
+  color: #1a2118;
+  border-color: transparent;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+.err {
+  color: var(--threat);
+  font-size: 0.8rem;
+}
+
+.ghost-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}

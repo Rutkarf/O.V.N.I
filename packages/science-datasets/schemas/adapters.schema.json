@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fruitfly.local/schemas/adapters.schema.json",
+  "title": "fruitfly adapters",
+  "type": "object",
+  "required": ["version", "inputs", "readouts", "priority", "parameters"],
+  "properties": {
+    "version": { "type": "string" },
+    "inputs": { "type": "object" },
+    "readouts": { "type": "object" },
+    "priority": { "type": "array", "items": { "type": "string" } },
+    "parameters": { "type": "object" },
+    "policies": { "type": "object" }
+  }
+}

@@ -1,0 +1,75 @@
+<section class="page">
+  <header class="hero">
+    <div class="brand-bar" aria-hidden="true"></div>
+    <div>
+      <p class="eyebrow">passerelles · IBDML · PiCsL</p>
+      <h1>Travailler en commun avec les outils Luminy</h1>
+      <p class="lede">
+        {{ organisme() }} — connectez un essai fruitfly aux plateformes d’imagerie, EM,
+        génétique, bioinformatique et élevage. Chaque pont produit un JSON à coller dans
+        vos pipelines (Fiji, cluster, registre labo).
+      </p>
+    </div>
+  </header>
+
+  <div class="bar">
+    <label>
+      Identifiant d’essai (optionnel)
+      <input [(ngModel)]="runId" name="rid" placeholder="uuid de l’essai" />
+    </label>
+    <label>
+      Filtrer
+      <input [(ngModel)]="filtre" name="f" placeholder="confocal, CRISPR, PiCsL…" />
+    </label>
+    <label>
+      Lignée / stock
+      <input [(ngModel)]="ligne" name="lg" placeholder="ex. Bloomington…" />
+    </label>
+    <label>
+      Driver
+      <input [(ngModel)]="driver" name="dr" />
+    </label>
+  </div>
+
+  @if (erreur()) {
+    <p class="err">{{ erreur() }}</p>
+  }
+  @if (statut()) {
+    <p class="banner">{{ statut() }}</p>
+  }
+
+  <div class="layout">
+    <div class="cats">
+      @for (cat of categories(); track cat.id) {
+        <section class="cat">
+          <h2>{{ cat.nom }}</h2>
+          <ul>
+            @for (o of outilsFiltres(cat); track o.id) {
+              <li>
+                <div>
+                  <strong>{{ o.nom }}</strong>
+                  <span class="type">{{ o.type }}</span>
+                  <p>{{ o.aide }}</p>
+                  @if (o.lien) {
+                    <a [href]="o.lien" target="_blank" rel="noopener">fiche plateforme</a>
+                  }
+                </div>
+                <button type="button" (click)="generer(o)">Générer le pont</button>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+
+    <aside class="export">
+      <h2>Export pont</h2>
+      <p class="hint">À déposer sur le cluster IBDML, dans Fiji, ou à joindre aux Méthodes.</p>
+      <div class="actions">
+        <button type="button" class="ghost" (click)="copier()" [disabled]="!exportJson()">Copier</button>
+        <button type="button" (click)="telecharger()" [disabled]="!exportJson()">Télécharger JSON</button>
+      </div>
+      <pre>{{ exportJson() || 'Sélectionnez un outil pour générer un pont…' }}</pre>
+    </aside>
+  </div>
+</section>

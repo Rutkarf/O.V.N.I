@@ -1,0 +1,89 @@
+{
+  "id": "vision_menace_v1",
+  "name": "Vision menace (approche)",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "motif_literature",
+    "not_full_connectome": true,
+    "disclaimer": "Motif vision menace inspiré LPLC2/LC4→DNp01. Remplacer par arêtes MaleCNS pour claims.",
+    "citations": [
+      "Littérature fuite visuelle drosophile (LPLC2, LC4, DNp01)"
+    ]
+  },
+  "neurons": [
+    {
+      "id": "LPLC2",
+      "type": "visuel",
+      "class": "LPLC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "iso",
+      "tags": [
+        "menace"
+      ]
+    },
+    {
+      "id": "LC4",
+      "type": "visuel",
+      "class": "LC",
+      "hemisphere": "D",
+      "roi": "LOP",
+      "sex": "iso",
+      "tags": [
+        "menace"
+      ]
+    },
+    {
+      "id": "DNp01_L",
+      "type": "descendant",
+      "class": "DNp01",
+      "hemisphere": "G",
+      "roi": "VEN",
+      "sex": "iso",
+      "tags": [
+        "fuite"
+      ]
+    },
+    {
+      "id": "DNp01_R",
+      "type": "descendant",
+      "class": "DNp01",
+      "hemisphere": "D",
+      "roi": "VEN",
+      "sex": "iso",
+      "tags": [
+        "fuite"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "pre": "LPLC2",
+      "post": "DNp01_L",
+      "weight": 2.4,
+      "sign": 1,
+      "synapses": 15
+    },
+    {
+      "pre": "LPLC2",
+      "post": "DNp01_R",
+      "weight": 2.2,
+      "sign": 1,
+      "synapses": 14
+    },
+    {
+      "pre": "LC4",
+      "post": "DNp01_L",
+      "weight": 2.0,
+      "sign": 1,
+      "synapses": 11
+    },
+    {
+      "pre": "LC4",
+      "post": "DNp01_R",
+      "weight": 2.1,
+      "sign": 1,
+      "synapses": 12
+    }
+  ]
+}

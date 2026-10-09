@@ -1,0 +1,7 @@
+id: cour_agression_v1
+name: Cour et agression (hypothèse)
+version: "1.0.0"
+claim_level: hypothese
+paths:
+  circuit: circuits/cour_agression_v1/circuit.json
+  adapters: circuits/cour_agression_v1/adapters.json

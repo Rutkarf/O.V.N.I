@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: fruitfly-backend
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/fruitfly
+    username: fruitfly
+    password: fruitfly
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+fruitfly:
+  worker:
+    base-url: http://127.0.0.1:8765
+  cors:
+    allowed-origins:
+      - http://localhost:4200
+      - http://127.0.0.1:4200
+  security:
+    # false = accès ouvert pendant le développement (JWT branché, non exigé).
+    # Remettre true et AUTH_ENABLED=true côté Angular pour réactiver.
+    enabled: false
+    jwt-secret: "fruitfly-dev-secret-change-me-32chars-min!!"
+    jwt-expiration-minutes: 720
+    oidc:
+      enabled: false
+      issuer-uri: ${FRUITFLY_OIDC_ISSUER:}
+      client-id: ${FRUITFLY_OIDC_CLIENT_ID:fruitfly}
+      client-secret: ${FRUITFLY_OIDC_CLIENT_SECRET:}
+  jobs:
+    poll-ms: 2000
+    max-attempts: 3
+

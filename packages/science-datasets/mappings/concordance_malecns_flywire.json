@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "notes": "Table de concordance motif literature ↔ identifiants MaleCNS / FlyWire (hypothèses documentées).",
+  "entries": [
+    {
+      "motif_id": "LPLC2",
+      "malecns_type": "LPLC2",
+      "flywire_type": "LPLC2",
+      "roi": "LOP",
+      "role": "vision_menace"
+    },
+    {
+      "motif_id": "LC4",
+      "malecns_type": "LC4",
+      "flywire_type": "LC4",
+      "roi": "LOP",
+      "role": "vision_menace"
+    },
+    {
+      "motif_id": "DNp01_L",
+      "malecns_type": "DNp01",
+      "flywire_type": "DNp01",
+      "roi": "VEN",
+      "role": "fuite",
+      "hemisphere": "G"
+    },
+    {
+      "motif_id": "DNp01_R",
+      "malecns_type": "DNp01",
+      "flywire_type": "DNp01",
+      "roi": "VEN",
+      "role": "fuite",
+      "hemisphere": "D"
+    },
+    {
+      "motif_id": "MN9",
+      "malecns_type": "MN9",
+      "flywire_type": "MN9",
+      "roi": "VNC",
+      "role": "alimentation"
+    },
+    {
+      "motif_id": "sugar_sensory",
+      "malecns_type": "GRN_sugar",
+      "flywire_type": "GRN",
+      "roi": "SEZ",
+      "role": "gout"
+    },
+    {
+      "motif_id": "bitter_sensory",
+      "malecns_type": "GRN_bitter",
+      "flywire_type": "GRN",
+      "roi": "SEZ",
+      "role": "gout"
+    },
+    {
+      "motif_id": "KC",
+      "malecns_type": "KC",
+      "flywire_type": "KC",
+      "roi": "MB",
+      "role": "olfaction"
+    },
+    {
+      "motif_id": "MBON_app",
+      "malecns_type": "MBON_approach",
+      "flywire_type": "MBON",
+      "roi": "MB",
+      "role": "valence_approche"
+    },
+    {
+      "motif_id": "MBON_av",
+      "malecns_type": "MBON_avoid",
+      "flywire_type": "MBON",
+      "roi": "MB",
+      "role": "valence_evitement"
+    },
+    {
+      "motif_id": "P1",
+      "malecns_type": "P1",
+      "flywire_type": "P1",
+      "roi": "pC1",
+      "role": "cour",
+      "claim": "hypothese"
+    },
+    {
+      "motif_id": "TN1",
+      "malecns_type": "TN1",
+      "flywire_type": "TN1",
+      "roi": "VNC",
+      "role": "cour",
+      "claim": "hypothese"
+    },
+    {
+      "motif_id": "LN_clock",
+      "malecns_type": "LN_v",
+      "flywire_type": "LN_v",
+      "roi": "PI",
+      "role": "horloge",
+      "claim": "lecture_seule"
+    }
+  ]
+}

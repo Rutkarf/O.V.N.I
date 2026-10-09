@@ -1,0 +1,26 @@
+{
+  "format": "fruitfly.picsl.observation.v1",
+  "source": "PiCsL / comportement escape",
+  "protocol_id": "picsl-escape-looming-v1",
+  "organism": "Drosophila melanogaster",
+  "n": 48,
+  "action_counts": {
+    "ESCAPE": 31,
+    "EAT": 4,
+    "IDLE": 13
+  },
+  "escape": 31,
+  "stimulus": {
+    "channel": "looming",
+    "level": 0.85,
+    "duration_ms": 500
+  },
+  "acquisition": {
+    "rig": "PiCsL-behavior-01",
+    "fps": 100,
+    "temperature_c": 25,
+    "circadian": "day"
+  },
+  "ethics_note": "Données d’exemple pour pipeline validation — remplacer par essai labo réel avant publication.",
+  "created_at": "2026-10-09T00:00:00Z"
+}

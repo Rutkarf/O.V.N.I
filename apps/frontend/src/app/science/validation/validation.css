@@ -1,0 +1,40 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel,
+.out {
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background: var(--panel);
+}
+
+.panel label {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.panel input,
+.panel textarea {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.out pre {
+  max-height: 16rem;
+  overflow: auto;
+  font-size: 0.75rem;
+}
+
+.err {
+  color: var(--rouge);
+}

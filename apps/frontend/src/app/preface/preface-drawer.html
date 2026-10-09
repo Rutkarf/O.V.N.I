@@ -1,0 +1,163 @@
+@if (ouvert()) {
+  <div
+    class="fond"
+    role="presentation"
+    (click)="onFond($event)"
+  >
+    <aside
+      class="tiroir"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="preface-titre"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="croix"
+        aria-label="Fermer la préface"
+        (click)="fermer()"
+      >
+        ×
+      </button>
+
+      <div class="corps">
+        <p class="ligne-sigle" id="preface-titre">
+          <span class="init">O</span>.rganisme&nbsp;<span class="init">V</span>.ivant&nbsp;<span class="init">N</span>.umerique&nbsp;<span class="init">I</span>.ntelligent
+        </p>
+
+        <p class="ligne-quote">
+          Animals are not ours to experiment on, eat, wear, use for entertainment, or abuse in any
+          way.
+        </p>
+
+        <p class="ligne-italique">
+          Pour les équipes de recherche mondial ayant Mutilé le vivant
+        </p>
+
+        <p class="ligne-choix">
+          Maintenant grâce à l’Étude des O.V.N.I vous avez le choix entre
+          <br />
+          commettre un Crime contre le vivant
+          <br />
+          ou utiliser
+          <br />
+          Notre Solution Polluante Numerique ( Anti-Tech Resistance )
+        </p>
+
+        <div class="defs" aria-label="Définitions des trois axes expérimentaux">
+          <p class="def def-taxon">
+            «&nbsp;<span class="def-terme">Taxonomie</span> — classification du vivant en rangs (règne, embranchement, classe, ordre, famille, genre, espèce) selon caractères communs et relations évolutives.&nbsp;»
+          </p>
+          <p class="def def-motif">
+            «&nbsp;<span class="def-terme">Motif ROI LIF</span> — sous-circuit d’une région d’intérêt simulé en Leaky Integrate-and-Fire : couche preuve seedable, pas l’atlas entier.&nbsp;»
+          </p>
+          <p class="def def-atlas">
+            «&nbsp;<span class="def-terme">Atlas cérébral</span> — carte anatomique ou connectomique de référence (Brodmann, HCP, FlyWire…) pour visualiser l’échelle, distincte du moteur LIF.&nbsp;»
+          </p>
+        </div>
+
+        <div class="intro-tech" aria-label="Présentation technique et scientifique">
+          <div class="intro-col" data-layer="preuve">
+            <p class="intro-col-titre">Couche preuve</p>
+            <ul class="intro-list">
+              <li>
+                <span class="k">LIF</span>
+                Moteur intégration-décharge seedable sur motif ROI
+              </li>
+              <li>
+                <span class="k">ROI</span>
+                Circuits versionnés MaleCNS / FlyWire — replay Methods
+              </li>
+              <li>
+                <span class="k">Essai</span>
+                Empreintes, graine, dose–réponse, silence, A/B, opto virtuelle
+              </li>
+              <li>
+                <span class="k">Trace</span>
+                RO-Crate / Argon · passerelles PiCsL, EM, bioinformatique
+              </li>
+            </ul>
+          </div>
+          <div class="intro-col" data-layer="pedago">
+            <p class="intro-col-titre">Couche pédagogique</p>
+            <ul class="intro-list">
+              <li>
+                <span class="k">Scène</span>
+                Labo Three.js 3D/4D · nuage cerveau–SNC (proxies GPU)
+              </li>
+              <li>
+                <span class="k">Gène</span>
+                GAL4 × UAS / CRISPR — phénotype déclaré, pas un LLM
+              </li>
+              <li>
+                <span class="k">Vie</span>
+                Cycle et sélection taxonomique d’un O.V.N.I. in silico
+              </li>
+              <li>
+                <span class="k">Cadre</span>
+                Enseignement — jamais confondu avec la preuve Methods
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <blockquote class="merci">
+          <p class="merci-label">DON'T FORGET</p>
+          <p class="merci-texte">Tic tac fait le temps</p>
+        </blockquote>
+
+        <p class="ligne-planet">SAVE THE PLANET</p>
+
+        <p class="ligne-act">ACT NOW</p>
+
+        <div class="cta-block">
+          <button type="button" class="entrer" (click)="fermer()">
+            <span class="entrer-led" aria-hidden="true"></span>
+            <span class="entrer-label">Entrer dans l’environnement de recherche</span>
+            <svg
+              class="cta-trace"
+              viewBox="0 0 360 40"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <defs>
+                <mask id="preface-trace-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="360" height="40">
+                  <path
+                    class="cta-trace-wave cta-mask-stroke"
+                    d="M0 20 H20 L28 7 L36 29 L44 9 L52 20 H88 L96 7 L104 29 L112 9 L120 20 H156 L164 7 L172 29 L180 9 L188 20 H224 L232 7 L240 29 L248 9 L256 20 H292 L300 7 L308 29 L316 9 L324 20 H360"
+                  />
+                </mask>
+              </defs>
+              <path class="cta-trace-grid" d="M0 20 H360" />
+              <g class="cta-helix" mask="url(#preface-trace-mask)">
+                <path
+                  class="cta-helix-strand"
+                  d="M0 20 H20 L28 4.7 L36 30.6 L44 7 L52 20 H88 L96 4.7 L104 30.6 L112 7 L120 20 H156 L164 4.7 L172 30.6 L180 7 L188 20 H224 L232 4.7 L240 30.6 L248 7 L256 20 H292 L300 4.7 L308 30.6 L316 7 L324 20 H360"
+                />
+                <path
+                  class="cta-helix-strand cta-helix-strand-b"
+                  d="M0 20 H20 L28 10.9 L36 26.3 L44 12.3 L52 20 H88 L96 10.9 L104 26.3 L112 12.3 L120 20 H156 L164 10.9 L172 26.3 L180 12.3 L188 20 H224 L232 10.9 L240 26.3 L248 12.3 L256 20 H292 L300 10.9 L308 26.3 L316 12.3 L324 20 H360"
+                />
+                <ellipse cx="28" cy="7" rx="8" ry="3.5" />
+                <ellipse cx="36" cy="29" rx="8" ry="3.5" />
+                <ellipse cx="96" cy="7" rx="8" ry="3.5" />
+                <ellipse cx="104" cy="29" rx="8" ry="3.5" />
+                <ellipse cx="164" cy="7" rx="8" ry="3.5" />
+                <ellipse cx="172" cy="29" rx="8" ry="3.5" />
+                <ellipse cx="232" cy="7" rx="8" ry="3.5" />
+                <ellipse cx="240" cy="29" rx="8" ry="3.5" />
+                <ellipse cx="300" cy="7" rx="8" ry="3.5" />
+                <ellipse cx="308" cy="29" rx="8" ry="3.5" />
+              </g>
+              <path
+                class="cta-trace-wave"
+                d="M0 20 H20 L28 7 L36 29 L44 9 L52 20 H88 L96 7 L104 29 L112 9 L120 20 H156 L164 7 L172 29 L180 9 L188 20 H224 L232 7 L240 29 L248 9 L256 20 H292 L300 7 L308 29 L316 9 L324 20 H360"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+}

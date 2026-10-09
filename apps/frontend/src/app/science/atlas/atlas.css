@@ -1,0 +1,188 @@
+.page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--axon);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  color: var(--signal);
+}
+
+.lede {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  max-width: 36rem;
+  line-height: 1.45;
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stats div {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 5rem;
+}
+
+.stats b {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.stats span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.disclaimer {
+  color: var(--muted);
+  font-size: 0.78rem;
+  border-left: 2px solid var(--synapse);
+  padding-left: 0.75rem;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr 10rem;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+input,
+select {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.7rem 0.8rem;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1rem;
+  min-height: 22rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.25);
+  max-height: 28rem;
+  overflow: auto;
+}
+
+.list li {
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.list li:hover,
+.list li.active {
+  background: rgba(57, 255, 155, 0.06);
+}
+
+.list span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.detail {
+  border: 1px solid var(--line-axon);
+  background: var(--panel);
+  padding: 1rem;
+}
+
+.detail h2 {
+  margin: 0 0 0.8rem;
+  color: var(--axon);
+  font-size: 1.6rem;
+}
+
+.detail h3 {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+dl {
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+dl div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+dt {
+  color: var(--muted);
+}
+
+.cites {
+  margin: 0;
+  padding-left: 1rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.err {
+  color: var(--synapse);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.hint {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .split,
+  .toolbar {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .stats {
+    flex-wrap: wrap;
+  }
+}

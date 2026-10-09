@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>fruitfly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="brand">
+        <p class="mark">fruitfly</p>
+        <p class="tag">cerveau local · capteurs → action</p>
+      </header>
+
+      <canvas id="stage" aria-label="Scène fruitfly"></canvas>
+
+      <aside class="hud">
+        <div class="panel">
+          <div class="row">
+            <span>tick</span>
+            <strong id="tick">0</strong>
+          </div>
+          <div class="row">
+            <span>énergie</span>
+            <div class="meter"><i id="energy-bar"></i></div>
+            <strong id="energy">0.75</strong>
+          </div>
+          <div class="sensors">
+            <label>sugar <b id="sugar">0</b><i id="sugar-bar"></i></label>
+            <label>bitter <b id="bitter">0</b><i id="bitter-bar"></i></label>
+            <label>looming <b id="looming">0</b><i id="looming-bar"></i></label>
+            <label>hunger <b id="hunger">0</b><i id="hunger-bar"></i></label>
+          </div>
+          <div class="action-block">
+            <span class="kicker">action</span>
+            <p id="action">IDLE</p>
+            <p id="outcome" class="muted">en attente</p>
+          </div>
+          <pre id="brain" class="brain"></pre>
+          <div class="memory">
+            <span class="kicker">mushroom body</span>
+            <p id="valence">valence 0</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-tick" type="button">Tick</button>
+          <button id="btn-auto" type="button" class="ghost">Auto</button>
+          <button id="btn-reset" type="button" class="ghost">Reset</button>
+          <label class="mode">
+            <select id="mode">
+              <option value="rules">rules (rapide)</option>
+              <option value="fruitfly">fruitfly (Ollama)</option>
+            </select>
+          </label>
+        </div>
+        <p id="status" class="status">prêt</p>
+      </aside>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

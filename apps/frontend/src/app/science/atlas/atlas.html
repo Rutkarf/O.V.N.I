@@ -1,0 +1,89 @@
+<section class="page">
+  <div class="flag-bar"></div>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">instrument · atlas</p>
+      <h1>Motif de connectome</h1>
+      <p class="lede">
+        Catalogue des neurones du motif actif — provenance, région, classe ; magasin SQLite pour l’échelle.
+        Contrôle FlyWire / concordance disponibles via l’API.
+      </p>
+    </div>
+    @if (atlas(); as a) {
+      <div class="stats">
+        <div><b>{{ a.neuron_count }}</b><span>neurones</span></div>
+        <div><b>{{ a.edge_count }}</b><span>connexions</span></div>
+        <div><b>{{ a.dataset_hash }}</b><span>empreinte</span></div>
+      </div>
+    }
+  </header>
+
+  <div class="claim-strip">
+    <div>
+      <strong>Pour les experts</strong>
+      @if (claimStatus(); as cs) {
+        Claim {{ cs['claim_level'] }} · placeholders {{ cs['placeholders'] }} / {{ cs['neuron_count'] }} neurones
+        @if (cs['pret_publication_connectome']) {
+          — prêt connectome
+        } @else {
+          — import neuPrint requis (<a routerLink="/data">Données</a>)
+        }
+      } @else {
+        Affichez l’empreinte et le niveau de claim du motif avant publication.
+      }
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  @if (atlas(); as a) {
+    <p class="disclaimer">{{ a.provenance.disclaimer }}</p>
+
+    <div class="toolbar">
+      <input [(ngModel)]="query" name="q" placeholder="identifiant, classe, étiquette…" />
+      <select [(ngModel)]="roi" name="roi">
+        <option value="">toutes les régions</option>
+        @for (r of a.rois; track r) {
+          <option [value]="r">{{ r }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="split">
+      <ul class="list">
+        @for (n of filtered(); track n.id) {
+          <li [class.active]="selected()?.id === n.id" (click)="pick(n)">
+            <strong>{{ n.id }}</strong>
+            <span>{{ n.class }} · {{ n.roi }} · {{ n.hemisphere }}</span>
+          </li>
+        }
+      </ul>
+
+      <aside class="detail">
+        @if (selected(); as n) {
+          <h2>{{ n.id }}</h2>
+          <dl>
+            <div><dt>type</dt><dd>{{ n.type }}</dd></div>
+            <div><dt>classe</dt><dd>{{ n.class }}</dd></div>
+            <div><dt>région</dt><dd>{{ n.roi }}</dd></div>
+            <div><dt>hémisphère</dt><dd>{{ n.hemisphere }}</dd></div>
+            <div><dt>sexe</dt><dd>{{ n.sex }}</dd></div>
+            <div><dt>étiquettes</dt><dd>{{ (n.tags || []).join(', ') || '—' }}</dd></div>
+          </dl>
+          <p class="hint">Stimulez ce neurone dans <a routerLink="/experiment">Expérience</a> ou le <a routerLink="/lab">Labo 3D</a>.</p>
+        } @else {
+          <p class="muted">Sélectionnez un neurone.</p>
+        }
+
+        <h3>citations</h3>
+        <ul class="cites">
+          @for (c of a.citations; track c) {
+            <li>{{ c }}</li>
+          }
+        </ul>
+      </aside>
+    </div>
+  }
+</section>

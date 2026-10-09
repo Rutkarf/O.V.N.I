@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mockup v3 — Character Select O.V.N.I. (validation visuelle)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --noir: #0a0a0a;
+      --blanc: #f5f5f2;
+      --vert: #007a3d;
+      --vert-clair: #1faa56;
+      --rouge: #ce1126;
+      --cyan: #48dbfb;
+      --amber: #e8c04a;
+      --muted: #9c9c97;
+      --line: rgba(245, 245, 242, 0.1);
+      --display: 'Orbitron', sans-serif;
+      --ui: 'Inter', sans-serif;
+      --space-xs: 0.35rem;
+      --space-sm: 0.55rem;
+      --space-md: 0.85rem;
+      --space-lg: 1.15rem;
+      --space-xl: 1.5rem;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--ui);
+      color: var(--blanc);
+      background: #040404;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-xl) var(--space-lg);
+      gap: var(--space-md);
+    }
+    .banner {
+      width: min(64rem, 100%);
+      padding: var(--space-md) var(--space-lg);
+      border: 1px solid rgba(31, 170, 86, 0.4);
+      background: rgba(0, 122, 61, 0.1);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: #c8e8d4;
+      text-align: center;
+    }
+    .banner strong { color: var(--vert-clair); }
+    .banner code {
+      font-size: 0.7rem;
+      color: #a8d4b8;
+      background: rgba(0,0,0,0.35);
+      padding: 0.12rem 0.4rem;
+      margin: 0 0.1rem;
+    }
+    .tiroir {
+      width: min(64rem, 100%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      max-height: min(94vh, 60rem);
+      overflow: hidden;
+      color: var(--blanc);
+      background:
+        radial-gradient(ellipse 90% 45% at 50% 0%, rgba(0, 122, 61, 0.22), transparent 55%),
+        radial-gradient(ellipse 35% 35% at 95% 85%, rgba(206, 17, 38, 0.08), transparent 50%),
+        linear-gradient(165deg, #121212 0%, #0a0a0a 55%, #050505 100%);
+      border: 1px solid rgba(244, 244, 242, 0.12);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.55);
+    }
+    .tiroir::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--noir), var(--blanc) 33%, var(--vert) 66%, var(--rouge));
+      z-index: 2;
+    }
+    .bandeau {
+      text-align: center;
+      padding: var(--space-lg) var(--space-xl) var(--space-md);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .bandeau h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(1.35rem, 3.2vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+    }
+    .acronym {
+      margin: 0.45rem 0 0;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .corps {
+      padding: var(--space-lg) var(--space-xl) var(--space-xl);
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      min-height: 0;
+    }
+    .lede {
+      margin: 0 auto;
+      max-width: 46rem;
+      padding: 0 var(--space-sm);
+      text-align: center;
+      font-size: 0.74rem;
+      line-height: 1.65;
+      color: #c8c8c4;
+    }
+    .lede strong { color: var(--vert-clair); font-weight: 600; }
+    .lede em { color: #e0e0d8; font-style: italic; }
+    .loadout {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: var(--space-sm);
+      align-items: stretch;
+      margin: var(--space-xs) 0;
+      padding: 0 var(--space-xs);
+    }
+    .pod {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.28rem;
+      min-width: 0;
+      padding: 0.75rem 0.65rem;
+      border: 1px solid rgba(245, 245, 242, 0.12);
+      background: rgba(0, 0, 0, 0.38);
+      color: var(--blanc);
+      font: inherit;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s, background 0.15s;
+    }
+    .pod:hover { transform: translateY(-1px); border-color: rgba(245, 245, 242, 0.22); }
+    .pod:focus-visible { outline: 2px solid var(--vert-clair); outline-offset: 3px; }
+    .pod[data-axis="taxon"].on { border-color: var(--vert-clair); background: rgba(0, 122, 61, 0.2); }
+    .pod[data-axis="motif"].on { border-color: var(--amber); background: rgba(232, 192, 74, 0.1); }
+    .pod[data-axis="brain"].on { border-color: var(--cyan); background: rgba(72, 219, 251, 0.08); }
+    .pod-k {
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 0.08rem;
+    }
+    .pod[data-axis="taxon"].on .pod-k { color: var(--vert-clair); }
+    .pod[data-axis="motif"].on .pod-k { color: var(--amber); }
+    .pod[data-axis="brain"].on .pod-k { color: var(--cyan); }
+    .pod strong {
+      font-family: var(--display);
+      font-size: clamp(0.68rem, 1.7vw, 0.85rem);
+      font-weight: 700;
+      line-height: 1.25;
+      word-break: break-word;
+      padding: 0 0.15rem;
+    }
+    .pod small {
+      font-size: 0.58rem;
+      color: var(--muted);
+      line-height: 1.35;
+      padding-top: 0.1rem;
+    }
+    .pod-x {
+      display: grid;
+      place-items: center;
+      padding: 0 0.15rem;
+      font-family: var(--display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--vert-clair);
+      opacity: 0.65;
+    }
+    .lane {
+      border: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.22);
+      padding: var(--space-md) var(--space-md) var(--space-lg);
+      margin-top: var(--space-xs);
+    }
+    .lane-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding: 0.15rem 0 0.35rem;
+      flex-wrap: wrap;
+    }
+    .lane-title {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .lane[data-axis="taxon"] .lane-title { color: var(--vert-clair); }
+    .lane[data-axis="motif"] .lane-title { color: var(--amber); }
+    .lane[data-axis="brain"] .lane-title { color: var(--cyan); }
+    .lane-badge {
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.5rem;
+      border: 1px solid currentColor;
+      opacity: 0.8;
+    }
+    .rank-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.4rem;
+      position: relative;
+      z-index: 6;
+      margin-bottom: var(--space-md);
+      padding: 0 0.1rem;
+    }
+    .rank-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 0;
+    }
+    .col-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      padding: 0.45rem 0.2rem;
+      border: 1px solid rgba(245, 245, 242, 0.1);
+      background: rgba(0, 0, 0, 0.35);
+      color: #c8c8c0;
+      cursor: pointer;
+      font: inherit;
+    }
+    .col-cell:hover { border-color: rgba(31, 170, 86, 0.35); }
+    .col-cell.on {
+      border-color: var(--vert-clair);
+      background: rgba(0, 122, 61, 0.2);
+      color: var(--blanc);
+    }
+    .col-cell.filled:not(.on) { border-color: rgba(31, 170, 86, 0.3); }
+    .col-rank {
+      font-size: 0.5rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .col-cell.on .col-rank { color: var(--vert-clair); }
+    .col-n { font-size: 0.58rem; font-family: var(--display); color: var(--muted); padding-top: 0.05rem; }
+    .col-cell.on .col-n { color: var(--vert-clair); }
+    .search-wrap { position: relative; }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.4rem 0.35rem;
+      border: 1px solid rgba(245, 245, 242, 0.12);
+      background: rgba(0, 0, 0, 0.55);
+      color: var(--blanc);
+      font-size: 0.62rem;
+      font-family: var(--ui);
+      outline: none;
+    }
+    .search-wrap input::placeholder { color: #5e5e5a; font-size: 0.55rem; }
+    .search-wrap input:focus {
+      border-color: var(--vert-clair);
+      box-shadow: 0 0 0 1px rgba(31, 170, 86, 0.3);
+    }
+    .search-wrap.has-value input { color: var(--vert-clair); border-color: rgba(31, 170, 86, 0.4); }
+    .lane[data-axis="motif"] .search-wrap input:focus { border-color: var(--amber); box-shadow: 0 0 0 1px rgba(232, 192, 74, 0.3); }
+    .lane[data-axis="brain"] .search-wrap input:focus { border-color: var(--cyan); box-shadow: 0 0 0 1px rgba(72, 219, 251, 0.3); }
+    .suggest {
+      display: none;
+      position: absolute;
+      left: 0; right: 0;
+      top: calc(100% + 4px);
+      max-height: 8.5rem;
+      overflow: auto;
+      background: #0c0c0a;
+      border: 1px solid rgba(31, 170, 86, 0.4);
+      z-index: 50;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.65);
+    }
+    .suggest.open { display: block; }
+    .suggest button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.4rem 0.45rem;
+      border: 0;
+      border-bottom: 1px solid rgba(245,245,242,0.05);
+      background: transparent;
+      color: #d8d8d0;
+      font: inherit;
+      font-size: 0.64rem;
+      cursor: pointer;
+    }
+    .suggest button:hover,
+    .suggest button.active { background: rgba(0, 122, 61, 0.35); color: var(--blanc); }
+    .suggest button mark {
+      background: transparent;
+      color: var(--vert-clair);
+      font-weight: 700;
+    }
+    .suggest .empty { padding: 0.5rem; font-size: 0.6rem; color: var(--muted); }
+    .ok-btn {
+      width: 100%;
+      margin-top: 0.22rem;
+      padding: 0.3rem 0.2rem;
+      border: 1px solid rgba(31, 170, 86, 0.35);
+      background: rgba(0, 122, 61, 0.18);
+      color: var(--vert-clair);
+      font-size: 0.52rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: var(--ui);
+    }
+    .ok-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .ok-btn:not(:disabled):hover { background: rgba(0, 122, 61, 0.4); }
+    .mono-search {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-sm);
+      max-width: 30rem;
+      margin: 0 auto var(--space-md);
+      width: 100%;
+      padding: 0 var(--space-sm);
+    }
+    .mono-search .search-wrap { flex: 1; }
+    .mono-search input { font-size: 0.78rem !important; padding: 0.55rem 0.7rem !important; }
+    .mono-search .ok-btn {
+      width: auto;
+      margin: 0;
+      padding: 0 1rem;
+      font-size: 0.68rem;
+    }
+    .stage-wrap {
+      position: relative;
+      height: clamp(11rem, 25vh, 14.5rem);
+      margin: var(--space-xs) 0 var(--space-sm);
+      border: 1px solid rgba(245, 245, 242, 0.1);
+      background:
+        radial-gradient(ellipse 50% 40% at 50% 72%, rgba(31, 170, 86, 0.12), transparent 60%),
+        linear-gradient(180deg, #0c0c0a, #070707);
+      overflow: hidden;
+    }
+    .lane[data-axis="motif"] .stage-wrap {
+      background:
+        radial-gradient(ellipse 50% 40% at 50% 72%, rgba(232, 192, 74, 0.12), transparent 60%),
+        linear-gradient(180deg, #0c0c0a, #070707);
+    }
+    .lane[data-axis="brain"] .stage-wrap {
+      background:
+        radial-gradient(ellipse 50% 40% at 50% 72%, rgba(72, 219, 251, 0.12), transparent 60%),
+        linear-gradient(180deg, #0c0c0a, #070707);
+    }
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 4;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid rgba(245, 245, 242, 0.2);
+      background: rgba(8, 8, 8, 0.82);
+      color: var(--blanc);
+      font-size: 1.35rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .nav.prev { left: 0.5rem; }
+    .nav.next { right: 0.5rem; }
+    .nav:hover { border-color: var(--vert-clair); color: var(--vert-clair); }
+    .carousel { position: absolute; inset: 0; perspective: 900px; }
+    .slot {
+      position: absolute;
+      bottom: 1.9rem;
+      left: 50%;
+      width: 4.4rem;
+      margin-left: -2.2rem;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s, filter 0.3s;
+    }
+    .avatar {
+      width: 2.7rem;
+      height: 2.7rem;
+      margin: 0 auto 0.4rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.55rem;
+      font-weight: 800;
+      font-family: var(--display);
+      color: #06140c;
+      border: 2px solid rgba(255,255,255,0.16);
+      box-shadow: 0 0 16px rgba(31, 170, 86, 0.25);
+    }
+    .pedestal {
+      width: 2.9rem;
+      height: 0.5rem;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(31, 170, 86, 0.5), transparent 70%);
+      border: 1px solid rgba(31, 170, 86, 0.3);
+    }
+    .slot.focus .avatar {
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 0.72rem;
+      box-shadow: 0 0 28px rgba(72, 219, 251, 0.4);
+      border-color: rgba(72, 219, 251, 0.5);
+    }
+    .slot.focus .pedestal {
+      width: 3.7rem;
+      background: radial-gradient(ellipse at center, rgba(72, 219, 251, 0.65), transparent 70%);
+    }
+    .slot-label {
+      position: absolute;
+      left: 50%;
+      top: -0.35rem;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 0.6rem;
+      padding: 0.18rem 0.5rem;
+      background: rgba(8,8,8,0.88);
+      border: 1px solid rgba(31, 170, 86, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      max-width: 10rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .slot.focus .slot-label { opacity: 1; }
+    .stage-hint {
+      position: absolute;
+      bottom: 0.45rem;
+      left: 0; right: 0;
+      text-align: center;
+      margin: 0;
+      padding: 0 var(--space-md);
+      font-size: 0.58rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .jump-flash {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 55%, rgba(31, 170, 86, 0.3), transparent 55%);
+      transition: opacity 0.3s;
+    }
+    .jump-flash.on { opacity: 1; }
+    .counter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      color: #c8c8c0;
+      text-align: center;
+      padding: var(--space-xs) 0 var(--space-sm);
+    }
+    .counter strong { color: var(--blanc); font-family: var(--display); }
+    .fiche {
+      text-align: center;
+      padding: var(--space-md) var(--space-lg);
+      border: 1px solid rgba(245, 245, 242, 0.1);
+      background: rgba(0, 0, 0, 0.28);
+      max-width: 42rem;
+      margin: var(--space-xs) auto 0;
+      width: 100%;
+    }
+    .fiche-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+    .fiche-sci { margin: 0.4rem 0 0; font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+    .fiche-tag { margin: 0.45rem 0 0; font-size: 0.72rem; color: var(--vert-clair); line-height: 1.4; }
+    .notice {
+      margin: var(--space-xs) auto 0;
+      max-width: 42rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--amber);
+      padding: 0.5rem 0.75rem;
+      border: 1px solid rgba(232, 192, 74, 0.28);
+      background: rgba(232, 192, 74, 0.06);
+      width: 100%;
+      line-height: 1.45;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: var(--space-sm);
+      max-width: 42rem;
+      margin: var(--space-sm) auto 0;
+      width: 100%;
+    }
+    .btn {
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(245, 245, 242, 0.18);
+      background: #0a0a0a;
+      color: var(--blanc);
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-align: center;
+    }
+    .btn.primary { background: var(--vert); border-color: var(--vert-clair); }
+    .btn.primary:hover { background: var(--vert-clair); color: #041208; }
+    .btn:hover { border-color: var(--blanc); }
+    .random-pick {
+      width: 100%;
+      margin-top: var(--space-sm);
+      padding: 1rem 1.15rem;
+      border: 1px solid rgba(245, 245, 242, 0.28);
+      background: linear-gradient(90deg, #0a0a0a, #121212 40%, #0c1a12 70%, #0a0a0a);
+      color: var(--blanc);
+      font-family: var(--display);
+      font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .random-pick:hover { border-color: var(--vert-clair); color: var(--vert-clair); }
+    .legend {
+      margin: var(--space-sm) 0 0;
+      padding: 0 var(--space-sm);
+      text-align: center;
+      font-size: 0.62rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tabs-mini {
+      display: flex;
+      justify-content: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      padding: var(--space-xs) 0;
+      margin: 0.1rem 0;
+    }
+    .tabs-mini button {
+      border: 1px solid rgba(245, 245, 242, 0.14);
+      background: rgba(0,0,0,0.3);
+      color: #c8c8c0;
+      font: inherit;
+      font-size: 0.68rem;
+      padding: 0.45rem 0.85rem;
+      cursor: pointer;
+    }
+    .tabs-mini button.on { font-weight: 700; color: var(--blanc); }
+    .tabs-mini button[data-axis="taxon"].on { border-color: var(--vert-clair); background: rgba(0,122,61,0.28); }
+    .tabs-mini button[data-axis="motif"].on { border-color: var(--amber); background: rgba(232,192,74,0.12); }
+    .tabs-mini button[data-axis="brain"].on { border-color: var(--cyan); background: rgba(72,219,251,0.1); }
+    .diff {
+      width: min(64rem, 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+      margin-top: var(--space-xs);
+    }
+    .diff article {
+      border: 1px solid var(--line);
+      padding: var(--space-md) var(--space-lg);
+      background: #0c0c0c;
+    }
+    .diff h2 {
+      margin: 0 0 0.55rem;
+      font-family: var(--display);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--vert-clair);
+    }
+    .diff ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.75rem;
+      color: #c8c8c4;
+      line-height: 1.55;
+    }
+    .diff li + li { margin-top: 0.3rem; }
+    .hidden { display: none !important; }
+    @media (max-width: 800px) {
+      body { padding: var(--space-md) var(--space-sm); }
+      .corps { padding: var(--space-md) var(--space-md) var(--space-lg); gap: var(--space-sm); }
+      .rank-grid { grid-template-columns: repeat(4, 1fr); gap: 0.35rem; }
+      .loadout { grid-template-columns: 1fr; gap: var(--space-xs); }
+      .pod { padding: 0.7rem 0.6rem; }
+      .pod-x { display: none; }
+      .actions { grid-template-columns: 1fr; }
+      .diff { grid-template-columns: 1fr; }
+      .lane { padding: var(--space-md); }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <strong>MOCKUP v3 — Character Select · validation visuelle uniquement</strong><br />
+    Tape sous un rang (<code>Ani</code>, <code>Arthro</code>, <code>Droso</code>) puis
+    <strong>Entrée</strong> → le carrousel 3D saute. Bascule
+    <strong>① Taxonomie / ② Motif ROI / ③ Atlas</strong> — chaque axe a recherche + carrousel.
+    Aucun code app modifié tant que tu n’as pas validé.
+  </div>
+
+  <aside class="tiroir" role="dialog" aria-labelledby="titre">
+    <header class="bandeau">
+      <h1 id="titre">Choose Your O.V.N.I.</h1>
+      <p class="acronym">O.rganisme V.ivant N.umerique I.ntelligent</p>
+    </header>
+
+    <div class="corps">
+      <p class="lede">
+        Interface de paramétrage expérimental de l’O.V.N.I. : sélectionnez l’organisme-hôte selon la
+        hiérarchie taxonomique du Catalogue of Life, puis composez indépendamment le
+        <strong>motif connectomique ROI</strong> soumis au moteur d’intégration-décharge (LIF) et l’
+        <strong>atlas cérébral</strong> de visualisation (échelle FlyWire / MaleCNS), afin de documenter
+        des hybridations contrôles — par exemple un motif sensorimoteur canin projeté sur un connectome
+        de <em>Drosophila</em>.
+      </p>
+
+      <!-- Loadout HUD -->
+      <div class="loadout" aria-label="Composition expérimentale">
+        <button type="button" class="pod on" data-axis="taxon" id="podTaxon">
+          <span class="pod-k">① Taxonomie</span>
+          <strong id="labTaxon">Animalia</strong>
+          <small>Organisme-hôte</small>
+        </button>
+        <span class="pod-x" aria-hidden="true">×</span>
+        <button type="button" class="pod" data-axis="motif" id="podMotif">
+          <span class="pod-k">② Motif ROI LIF</span>
+          <strong id="labMotif">escape_feed_v1</strong>
+          <small id="labMotifSp">Drosophila melanogaster</small>
+        </button>
+        <span class="pod-x" aria-hidden="true">×</span>
+        <button type="button" class="pod" data-axis="brain" id="podBrain">
+          <span class="pod-k">③ Atlas cérébral</span>
+          <strong id="labBrain">FlyWire brain 2024</strong>
+          <small id="labBrainSp">Drosophila melanogaster</small>
+        </button>
+      </div>
+
+      <div class="tabs-mini" role="tablist">
+        <button type="button" class="on" data-axis="taxon" role="tab">Carrousel taxonomie</button>
+        <button type="button" data-axis="motif" role="tab">Carrousel motif ROI</button>
+        <button type="button" data-axis="brain" role="tab">Carrousel atlas FlyWire</button>
+      </div>
+
+      <!-- LANE TAXON -->
+      <section class="lane" data-axis="taxon" id="laneTaxon">
+        <div class="lane-head">
+          <h2 class="lane-title">Taxonomie CoL</h2>
+          <span class="lane-badge">Recherche A→Z</span>
+        </div>
+
+        <div class="rank-grid" id="rankGrid"></div>
+
+        <div class="stage-wrap" id="stageTaxon">
+          <div class="jump-flash" id="flashTaxon"></div>
+          <button type="button" class="nav prev" data-stage="taxon" data-dir="-1" aria-label="Précédent">‹</button>
+          <div class="carousel" id="carTaxon"></div>
+          <button type="button" class="nav next" data-stage="taxon" data-dir="1" aria-label="Suivant">›</button>
+          <p class="stage-hint">Tape → Entrée / OK · le carrousel suit · ‹ › pour défiler</p>
+        </div>
+        <div class="counter">
+          <span>Avatar <strong id="idxTaxon">1</strong> / <strong id="totTaxon">7</strong> · <span id="rankName">Règne</span></span>
+        </div>
+      </section>
+
+      <!-- LANE MOTIF -->
+      <section class="lane hidden" data-axis="motif" id="laneMotif">
+        <div class="lane-head">
+          <h2 class="lane-title">Motif ROI LIF</h2>
+          <span class="lane-badge" style="color:var(--amber)">Circuit LIF</span>
+        </div>
+        <div class="mono-search">
+          <div class="search-wrap" data-list="motif">
+            <input type="search" id="searchMotif" placeholder="Rechercher un motif ROI… ex. canis, escape, vision" autocomplete="off" spellcheck="false" aria-label="Recherche motif ROI" />
+            <div class="suggest" id="sugMotif" role="listbox"></div>
+          </div>
+          <button type="button" class="ok-btn" id="okMotif" disabled>OK</button>
+        </div>
+        <div class="stage-wrap" id="stageMotif">
+          <div class="jump-flash" id="flashMotif"></div>
+          <button type="button" class="nav prev" data-stage="motif" data-dir="-1" aria-label="Précédent">‹</button>
+          <div class="carousel" id="carMotif"></div>
+          <button type="button" class="nav next" data-stage="motif" data-dir="1" aria-label="Suivant">›</button>
+          <p class="stage-hint">Motif indépendant du taxon — croise chien × mouche</p>
+        </div>
+        <div class="counter">
+          <span>Motif <strong id="idxMotif">1</strong> / <strong id="totMotif">8</strong></span>
+        </div>
+      </section>
+
+      <!-- LANE BRAIN -->
+      <section class="lane hidden" data-axis="brain" id="laneBrain">
+        <div class="lane-head">
+          <h2 class="lane-title">Atlas cérébral</h2>
+          <span class="lane-badge" style="color:var(--cyan)">FlyWire / MaleCNS</span>
+        </div>
+        <div class="mono-search">
+          <div class="search-wrap" data-list="brain">
+            <input type="search" id="searchBrain" placeholder="Rechercher un atlas… ex. FlyWire, Canis, MaleCNS" autocomplete="off" spellcheck="false" aria-label="Recherche atlas cérébral" />
+            <div class="suggest" id="sugBrain" role="listbox"></div>
+          </div>
+          <button type="button" class="ok-btn" id="okBrain" disabled>OK</button>
+        </div>
+        <div class="stage-wrap" id="stageBrain">
+          <div class="jump-flash" id="flashBrain"></div>
+          <button type="button" class="nav prev" data-stage="brain" data-dir="-1" aria-label="Précédent">‹</button>
+          <div class="carousel" id="carBrain"></div>
+          <button type="button" class="nav next" data-stage="brain" data-dir="1" aria-label="Suivant">›</button>
+          <p class="stage-hint">Atlas visu · proxies GPU — pas LIF 1:1</p>
+        </div>
+        <div class="counter">
+          <span>Atlas <strong id="idxBrain">1</strong> / <strong id="totBrain">6</strong></span>
+        </div>
+      </section>
+
+      <div class="fiche">
+        <p class="fiche-name" id="ficheName">Animalia</p>
+        <p class="fiche-sci" id="ficheSci">Règne · atlas O.V.N.I. · 1 / 7</p>
+        <p class="fiche-tag" id="ficheTag">Composition hybride prête à croiser.</p>
+      </div>
+      <p class="notice" id="notice">Prêt · choisis un axe · recherche live → Entrée déplace le carrousel</p>
+
+      <div class="actions">
+        <button type="button" class="btn" id="btnFly">★ Drosophile (recommandé)</button>
+        <button type="button" class="btn primary" id="btnLock">Verrouiller l’axe actif</button>
+      </div>
+      <button type="button" class="random-pick" id="btnRandom">Random Pick</button>
+      <p class="legend">
+        1 / 2 / 3 = axes · ← → défiler · Entrée = OK recherche · menu type character-select
+      </p>
+    </div>
+  </aside>
+
+  <section class="diff">
+    <article>
+      <h2>À valider (game UX)</h2>
+      <ul>
+        <li>Champ + autocomplétion sous <strong>chaque</strong> rang taxonomique</li>
+        <li>Entrée / OK → jump carrousel 3D de l’axe Taxonomie</li>
+        <li>Axe Motif ROI : recherche + carrousel dédié</li>
+        <li>Axe Atlas : recherche + carrousel dédié</li>
+        <li>HUD ① × ② × ③ + Random Pick pleine largeur</li>
+        <li>Look character-select (pods, flash, flèches, loadout)</li>
+      </ul>
+    </article>
+    <article>
+      <h2>Pas encore codé dans l’app</h2>
+      <ul>
+        <li>Ce fichier est un <strong>mockup HTML</strong> uniquement</li>
+        <li>Dis « validé » / ce qu’il faut changer</li>
+        <li>Ensuite seulement : portage Angular du 2ᵉ drawer</li>
+      </ul>
+    </article>
+  </section>
+
+  <script>
+    const RANKS = [
+      { id: 'regne', label: 'Règne', col: '~7', ph: 'ex. Animalia' },
+      { id: 'embranchement', label: 'Embranchement', col: '~96', ph: 'ex. Arthropoda' },
+      { id: 'classe', label: 'Classe', col: '~351', ph: 'ex. Insecta' },
+      { id: 'ordre', label: 'Ordre', col: '~1 467', ph: 'ex. Diptera' },
+      { id: 'famille', label: 'Famille', col: '~14 914', ph: 'ex. Drosophilidae' },
+      { id: 'genre', label: 'Genre', col: '~217 931', ph: 'ex. Drosophila' },
+      { id: 'espece', label: 'Espèce', col: '~2 221 237', ph: 'ex. melanogaster' },
+    ];
+
+    const TAXA = {
+      regne: ['Animalia', 'Archaea', 'Bacteria', 'Chromista', 'Fungi', 'Plantae', 'Protozoa'],
+      embranchement: [
+        'Annelida', 'Arthropoda', 'Ascomycota', 'Basidiomycota', 'Chordata',
+        'Cnidaria', 'Echinodermata', 'Euryarchaeota', 'Mollusca', 'Nematoda',
+        'Platyhelminthes', 'Porifera', 'Pseudomonadota', 'Tardigrada', 'Tracheophyta',
+      ],
+      classe: [
+        'Actinopterygii', 'Agaricomycetes', 'Amphibia', 'Arachnida', 'Aves',
+        'Gastropoda', 'Insecta', 'Magnoliopsida', 'Malacostraca', 'Mammalia', 'Reptilia',
+      ],
+      ordre: [
+        'Agaricales', 'Carnivora', 'Coleoptera', 'Diptera', 'Hymenoptera',
+        'Lepidoptera', 'Passeriformes', 'Primates', 'Rodentia', 'Rosales',
+      ],
+      famille: [
+        'Amanitaceae', 'Canidae', 'Culicidae', 'Drosophilidae', 'Enterobacteriaceae',
+        'Felidae', 'Formicidae', 'Hominidae', 'Poaceae', 'Rosaceae',
+      ],
+      genre: [
+        'Anopheles', 'Arabidopsis', 'Canis', 'Drosophila', 'Escherichia',
+        'Felis', 'Halobacterium', 'Homo', 'Mus', 'Saccharomyces',
+      ],
+      espece: [
+        'cerevisiae', 'coli', 'elegans', 'gambiae', 'melanogaster',
+        'musculus', 'rerio', 'salinarum', 'sapiens', 'thaliana',
+      ],
+    };
+
+    const MOTIFS = [
+      { id: 'arabidopsis_tropism_roi_v0', name: 'arabidopsis_tropism_roi_v0', species: 'Arabidopsis thaliana', short: 'ARA', color: '#007a3d' },
+      { id: 'canis_olfaction_roi_v0', name: 'canis_olfaction_roi_v0', species: 'Canis lupus familiaris', short: 'CAN', color: '#ceaa60' },
+      { id: 'escape_feed_v1', name: 'escape_feed_v1', species: 'Drosophila melanogaster', short: 'ESC', color: '#1faa56' },
+      { id: 'gout_alimentation_v1', name: 'gout_alimentation_v1', species: 'Drosophila melanogaster', short: 'GOU', color: '#f0a020' },
+      { id: 'homo_motor_roi_v0', name: 'homo_motor_roi_v0', species: 'Homo sapiens', short: 'HOM', color: '#9aa0a6' },
+      { id: 'mus_hippocampus_roi_v0', name: 'mus_hippocampus_roi_v0', species: 'Mus musculus', short: 'MUS', color: '#ff6b8a' },
+      { id: 'olfaction_champignon_v1', name: 'olfaction_champignon_v1', species: 'Drosophila melanogaster', short: 'OLF', color: '#8b5cf6' },
+      { id: 'vision_menace_v1', name: 'vision_menace_v1', species: 'Drosophila melanogaster', short: 'VIS', color: '#46c4ff' },
+    ];
+
+    const BRAINS = [
+      { id: 'c_elegans_full_v0', name: 'C. elegans connectome', species: 'Caenorhabditis elegans', short: 'CEL', color: '#4ecdc4' },
+      { id: 'canis_mri_proxy_v0', name: 'Canis MRI proxy', species: 'Canis lupus familiaris', short: 'CMR', color: '#ceaa60' },
+      { id: 'flywire_brain_2024', name: 'FlyWire brain 2024', species: 'Drosophila melanogaster', short: 'FLY', color: '#1faa56' },
+      { id: 'isotropic_brain_proxy', name: 'Isotropic brain proxy', species: 'Drosophila melanogaster', short: 'ISO', color: '#48dbfb' },
+      { id: 'malecns_brain_vnc_2026', name: 'MaleCNS brain + VNC', species: 'Drosophila melanogaster', short: 'CNS', color: '#46c4ff' },
+      { id: 'mus_allen_proxy_v0', name: 'Mus Allen proxy', species: 'Mus musculus', short: 'ALL', color: '#ff6b8a' },
+    ];
+
+    const COLORS = {
+      Animalia: '#1faa56', Archaea: '#c44569', Bacteria: '#4ecdc4', Chromista: '#48dbfb',
+      Fungi: '#ceaa60', Plantae: '#007a3d', Protozoa: '#ff6b6b',
+      Arthropoda: '#1faa56', Chordata: '#46c4ff', Insecta: '#1faa56', Diptera: '#1faa56',
+      Drosophilidae: '#1faa56', Drosophila: '#1faa56', melanogaster: '#1faa56',
+      Canis: '#ceaa60', Mammalia: '#ff6b8a',
+    };
+
+    const state = {
+      axis: 'taxon',
+      rank: 'regne',
+      filter: {},
+      taxonIndex: 0,
+      motifIndex: MOTIFS.findIndex((m) => m.id === 'escape_feed_v1'),
+      brainIndex: BRAINS.findIndex((b) => b.id === 'flywire_brain_2024'),
+      queries: Object.fromEntries(RANKS.map((r) => [r.id, ''])),
+      highlight: -1,
+      openSuggest: null,
+    };
+
+    function norm(s) {
+      return s.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+    }
+    function score(q, name) {
+      const a = norm(q), b = norm(name);
+      if (!a) return 0;
+      if (b === a) return 100;
+      if (b.startsWith(a)) return 90;
+      if (b.includes(a)) return 70;
+      let qi = 0;
+      for (let i = 0; i < b.length && qi < a.length; i++) if (b[i] === a[qi]) qi++;
+      return qi === a.length ? 40 : 0;
+    }
+    function suggestNames(list, q) {
+      if (!q.trim()) return [];
+      return list
+        .map((name) => ({ name, score: score(q, name) }))
+        .filter((x) => x.score > 0)
+        .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
+        .slice(0, 8)
+        .map((x) => x.name);
+    }
+    function hl(name, q) {
+      const qq = q.trim();
+      if (!qq) return name;
+      const i = norm(name).indexOf(norm(qq));
+      if (i < 0) return name;
+      return name.slice(0, i) + '<mark>' + name.slice(i, i + qq.length) + '</mark>' + name.slice(i + qq.length);
+    }
+    function shortOf(name) {
+      return (name || '??').replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '??';
+    }
+    function colorOf(name, fallback) {
+      return COLORS[name] || fallback || '#1faa56';
+    }
+    function taxonList() {
+      return TAXA[state.rank] || [];
+    }
+    function currentTaxon() {
+      return taxonList()[state.taxonIndex] || '—';
+    }
+    function currentMotif() {
+      return MOTIFS[state.motifIndex];
+    }
+    function currentBrain() {
+      return BRAINS[state.brainIndex];
+    }
+
+    /* —— Build rank grid —— */
+    const grid = document.getElementById('rankGrid');
+    RANKS.forEach((rank) => {
+      const col = document.createElement('div');
+      col.className = 'rank-col';
+      col.innerHTML = `
+        <button type="button" class="col-cell" data-rank="${rank.id}" id="cell-${rank.id}">
+          <span class="col-rank">${rank.label}</span>
+          <span class="col-n">${rank.col}</span>
+        </button>
+        <div class="search-wrap" data-rank="${rank.id}">
+          <input type="search" autocomplete="off" spellcheck="false"
+            placeholder="${rank.ph}" aria-label="Rechercher ${rank.label}" data-rank="${rank.id}" />
+          <div class="suggest" role="listbox" data-rank="${rank.id}"></div>
+          <button type="button" class="ok-btn" data-rank="${rank.id}" disabled>OK</button>
+        </div>`;
+      grid.appendChild(col);
+    });
+
+    function closeSuggest(except) {
+      document.querySelectorAll('.suggest').forEach((el) => {
+        if (el.dataset.rank !== except && el.id !== except) el.classList.remove('open');
+      });
+    }
+
+    function renderRankSuggest(rank) {
+      const box = document.querySelector(`.suggest[data-rank="${rank}"]`);
+      const ok = document.querySelector(`.ok-btn[data-rank="${rank}"]`);
+      const q = state.queries[rank] || '';
+      const list = suggestNames(TAXA[rank] || [], q);
+      state.highlight = list.length ? Math.max(0, Math.min(state.highlight, list.length - 1)) : -1;
+      if (!q.trim()) {
+        box.classList.remove('open');
+        ok.disabled = true;
+        return;
+      }
+      box.classList.add('open');
+      if (!list.length) {
+        box.innerHTML = '<div class="empty">Aucun taxon proche</div>';
+        ok.disabled = true;
+        return;
+      }
+      ok.disabled = false;
+      box.innerHTML = list
+        .map((n, i) => `<button type="button" data-name="${n}" class="${i === state.highlight ? 'active' : ''}">${hl(n, q)}</button>`)
+        .join('');
+      box.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          commitRank(rank, btn.dataset.name);
+        });
+      });
+    }
+
+    function commitRank(rank, name) {
+      if (!name) {
+        const list = suggestNames(TAXA[rank] || [], state.queries[rank] || '');
+        name = list[Math.max(0, state.highlight)] || list[0];
+      }
+      if (!name) return;
+      state.rank = rank;
+      state.queries[rank] = name;
+      const input = document.querySelector(`input[data-rank="${rank}"]`);
+      input.value = name;
+      input.parentElement.classList.add('has-value');
+
+      const idx = RANKS.findIndex((r) => r.id === rank);
+      Object.keys(state.filter).forEach((k) => {
+        if (RANKS.findIndex((r) => r.id === k) > idx) delete state.filter[k];
+      });
+      state.filter[rank] = name;
+      RANKS.forEach((r, i) => {
+        if (i > idx) {
+          state.queries[r.id] = '';
+          const inp = document.querySelector(`input[data-rank="${r.id}"]`);
+          inp.value = '';
+          inp.parentElement.classList.remove('has-value');
+        }
+      });
+
+      const list = TAXA[rank] || [];
+      const i = list.indexOf(name);
+      state.taxonIndex = i >= 0 ? i : 0;
+      closeSuggest();
+      setAxis('taxon');
+      flash('Taxon');
+      notice(`Taxonomie · ${RANKS.find((r) => r.id === rank).label} « ${name} » → carrousel positionné`);
+      renderAll();
+    }
+
+    function commitMotif(name) {
+      const i = MOTIFS.findIndex((m) => m.name === name || m.id === name);
+      if (i < 0) return;
+      state.motifIndex = i;
+      document.getElementById('searchMotif').value = MOTIFS[i].name;
+      document.getElementById('searchMotif').parentElement.classList.add('has-value');
+      document.getElementById('sugMotif').classList.remove('open');
+      document.getElementById('okMotif').disabled = true;
+      flash('Motif');
+      notice(`Motif ROI · ${MOTIFS[i].name} (${MOTIFS[i].species}) verrouillé — croisable`);
+      renderAll();
+    }
+
+    function commitBrain(name) {
+      const i = BRAINS.findIndex((b) => b.name === name || b.id === name);
+      if (i < 0) return;
+      state.brainIndex = i;
+      document.getElementById('searchBrain').value = BRAINS[i].name;
+      document.getElementById('searchBrain').parentElement.classList.add('has-value');
+      document.getElementById('sugBrain').classList.remove('open');
+      document.getElementById('okBrain').disabled = true;
+      flash('Brain');
+      notice(`Atlas · ${BRAINS[i].name} (${BRAINS[i].species}) verrouillé — croisable`);
+      renderAll();
+    }
+
+    function flash(which) {
+      const el = document.getElementById('flash' + which);
+      if (!el) return;
+      el.classList.add('on');
+      setTimeout(() => el.classList.remove('on'), 380);
+    }
+
+    function notice(msg) {
+      document.getElementById('notice').textContent = msg;
+    }
+
+    function setAxis(axis) {
+      state.axis = axis;
+      document.querySelectorAll('.pod').forEach((p) => p.classList.toggle('on', p.dataset.axis === axis));
+      document.querySelectorAll('.tabs-mini button').forEach((b) => b.classList.toggle('on', b.dataset.axis === axis));
+      document.getElementById('laneTaxon').classList.toggle('hidden', axis !== 'taxon');
+      document.getElementById('laneMotif').classList.toggle('hidden', axis !== 'motif');
+      document.getElementById('laneBrain').classList.toggle('hidden', axis !== 'brain');
+      updateFiche();
+    }
+
+    function renderCarousel(hostId, items, index, colorFn) {
+      const host = document.getElementById(hostId);
+      host.innerHTML = '';
+      const n = items.length;
+      const WINDOW = Math.min(7, n);
+      for (let off = -Math.floor(WINDOW / 2); off <= Math.floor(WINDOW / 2); off++) {
+        const i = ((index + off) % n + n) % n;
+        const it = items[i];
+        const name = typeof it === 'string' ? it : it.name;
+        const short = typeof it === 'string' ? shortOf(it) : it.short;
+        const color = typeof it === 'string' ? colorFn(it) : it.color;
+        const slot = document.createElement('div');
+        slot.className = 'slot' + (off === 0 ? ' focus' : '');
+        const x = off * 5.1;
+        const z = -Math.abs(off) * 2.1;
+        const scale = off === 0 ? 1 : 0.72 - Math.abs(off) * 0.05;
+        const opacity = Math.max(0.22, off === 0 ? 1 : 0.55 - Math.abs(off) * 0.08);
+        slot.style.transform = `translateX(${x}rem) translateZ(${z}rem) scale(${scale})`;
+        slot.style.opacity = String(opacity);
+        slot.style.filter = off === 0 ? 'none' : 'brightness(0.65)';
+        slot.innerHTML = `
+          <div class="slot-label">${name}</div>
+          <div class="avatar" style="background:${color}">${short}</div>
+          <div class="pedestal"></div>`;
+        host.appendChild(slot);
+      }
+    }
+
+    function updateFiche() {
+      if (state.axis === 'motif') {
+        const m = currentMotif();
+        document.getElementById('ficheName').textContent = m.name;
+        document.getElementById('ficheSci').textContent = `Motif ROI LIF · ${m.species}`;
+        document.getElementById('ficheTag').textContent = 'Circuit LIF indépendant — Entrée pour verrouiller.';
+      } else if (state.axis === 'brain') {
+        const b = currentBrain();
+        document.getElementById('ficheName').textContent = b.name;
+        document.getElementById('ficheSci').textContent = `Atlas cérébral · ${b.species}`;
+        document.getElementById('ficheTag').textContent = 'Proxies GPU visu — Entrée pour verrouiller.';
+      } else {
+        const name = currentTaxon();
+        const list = taxonList();
+        document.getElementById('ficheName').textContent = name;
+        document.getElementById('ficheSci').textContent =
+          `${RANKS.find((r) => r.id === state.rank).label} · ${state.taxonIndex + 1} / ${list.length}`;
+        document.getElementById('ficheTag').textContent =
+          'Entrée pour descendre / verrouiller ce nœud taxonomique.';
+      }
+    }
+
+    function renderAll() {
+      // cells
+      RANKS.forEach((r) => {
+        const cell = document.getElementById(`cell-${r.id}`);
+        cell.classList.toggle('on', state.rank === r.id);
+        cell.classList.toggle('filled', !!state.filter[r.id]);
+      });
+
+      const m = currentMotif();
+      const b = currentBrain();
+      const t = state.filter.espece || state.filter.genre || state.filter.regne || currentTaxon();
+      document.getElementById('labTaxon').textContent = t;
+      document.getElementById('labMotif').textContent = m.name;
+      document.getElementById('labMotifSp').textContent = m.species;
+      document.getElementById('labBrain').textContent = b.name;
+      document.getElementById('labBrainSp').textContent = b.species;
+
+      renderCarousel('carTaxon', taxonList(), state.taxonIndex, (n) => colorOf(n));
+      renderCarousel('carMotif', MOTIFS, state.motifIndex, () => '#e8c04a');
+      renderCarousel('carBrain', BRAINS, state.brainIndex, () => '#48dbfb');
+
+      document.getElementById('idxTaxon').textContent = String(state.taxonIndex + 1);
+      document.getElementById('totTaxon').textContent = String(taxonList().length);
+      document.getElementById('rankName').textContent = RANKS.find((r) => r.id === state.rank).label;
+      document.getElementById('idxMotif').textContent = String(state.motifIndex + 1);
+      document.getElementById('totMotif').textContent = String(MOTIFS.length);
+      document.getElementById('idxBrain').textContent = String(state.brainIndex + 1);
+      document.getElementById('totBrain').textContent = String(BRAINS.length);
+
+      updateFiche();
+    }
+
+    /* events — rank search */
+    document.querySelectorAll('.col-cell').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.rank = btn.dataset.rank;
+        state.taxonIndex = 0;
+        if (state.filter[state.rank]) {
+          const i = taxonList().indexOf(state.filter[state.rank]);
+          if (i >= 0) state.taxonIndex = i;
+        }
+        setAxis('taxon');
+        renderAll();
+      });
+    });
+
+    document.querySelectorAll('input[data-rank]').forEach((input) => {
+      const rank = input.dataset.rank;
+      input.addEventListener('focus', () => {
+        state.rank = rank;
+        state.highlight = 0;
+        setAxis('taxon');
+        renderRankSuggest(rank);
+        renderAll();
+      });
+      input.addEventListener('input', () => {
+        state.queries[rank] = input.value;
+        input.parentElement.classList.toggle('has-value', !!input.value.trim());
+        state.highlight = 0;
+        renderRankSuggest(rank);
+      });
+      input.addEventListener('keydown', (e) => {
+        const box = document.querySelector(`.suggest[data-rank="${rank}"]`);
+        const opts = [...box.querySelectorAll('button')];
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          state.highlight = Math.min(opts.length - 1, state.highlight + 1);
+          renderRankSuggest(rank);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          state.highlight = Math.max(0, state.highlight - 1);
+          renderRankSuggest(rank);
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          commitRank(rank);
+        } else if (e.key === 'Escape') {
+          closeSuggest();
+          input.blur();
+        }
+      });
+      input.addEventListener('blur', () => setTimeout(() => closeSuggest(), 140));
+    });
+
+    document.querySelectorAll('.ok-btn[data-rank]').forEach((btn) => {
+      btn.addEventListener('click', () => commitRank(btn.dataset.rank));
+    });
+
+    /* motif / brain search */
+    function wireListSearch(inputId, sugId, okId, catalog, commitFn) {
+      const input = document.getElementById(inputId);
+      const sug = document.getElementById(sugId);
+      const ok = document.getElementById(okId);
+      let hi = 0;
+      function paint() {
+        const names = catalog.map((x) => x.name);
+        const list = suggestNames(names, input.value);
+        hi = list.length ? Math.max(0, Math.min(hi, list.length - 1)) : -1;
+        if (!input.value.trim()) {
+          sug.classList.remove('open');
+          ok.disabled = true;
+          return;
+        }
+        sug.classList.add('open');
+        if (!list.length) {
+          sug.innerHTML = '<div class="empty">Aucune correspondance</div>';
+          ok.disabled = true;
+          return;
+        }
+        ok.disabled = false;
+        sug.innerHTML = list
+          .map((n, i) => `<button type="button" data-name="${n}" class="${i === hi ? 'active' : ''}">${hl(n, input.value)}</button>`)
+          .join('');
+        sug.querySelectorAll('button').forEach((btn) => {
+          btn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            commitFn(btn.dataset.name);
+          });
+        });
+      }
+      input.addEventListener('input', () => {
+        hi = 0;
+        input.parentElement.classList.toggle('has-value', !!input.value.trim());
+        paint();
+      });
+      input.addEventListener('focus', paint);
+      input.addEventListener('keydown', (e) => {
+        const opts = [...sug.querySelectorAll('button')];
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          hi = Math.min(opts.length - 1, hi + 1);
+          paint();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          hi = Math.max(0, hi - 1);
+          paint();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const list = suggestNames(catalog.map((x) => x.name), input.value);
+          commitFn(list[Math.max(0, hi)] || list[0]);
+        }
+      });
+      ok.addEventListener('click', () => {
+        const list = suggestNames(catalog.map((x) => x.name), input.value);
+        commitFn(list[Math.max(0, hi)] || list[0]);
+      });
+    }
+    wireListSearch('searchMotif', 'sugMotif', 'okMotif', MOTIFS, commitMotif);
+    wireListSearch('searchBrain', 'sugBrain', 'okBrain', BRAINS, commitBrain);
+
+    /* pods / tabs */
+    document.querySelectorAll('.pod, .tabs-mini button').forEach((el) => {
+      el.addEventListener('click', () => {
+        setAxis(el.dataset.axis);
+        renderAll();
+      });
+    });
+
+    /* nav arrows */
+    document.querySelectorAll('.nav[data-stage]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dir = Number(btn.dataset.dir);
+        const stage = btn.dataset.stage;
+        if (stage === 'taxon') {
+          const n = taxonList().length;
+          state.taxonIndex = (state.taxonIndex + dir + n) % n;
+          flash('Taxon');
+        } else if (stage === 'motif') {
+          state.motifIndex = (state.motifIndex + dir + MOTIFS.length) % MOTIFS.length;
+          flash('Motif');
+        } else {
+          state.brainIndex = (state.brainIndex + dir + BRAINS.length) % BRAINS.length;
+          flash('Brain');
+        }
+        renderAll();
+      });
+    });
+
+    document.getElementById('btnLock').addEventListener('click', () => {
+      if (state.axis === 'motif') commitMotif(currentMotif().name);
+      else if (state.axis === 'brain') commitBrain(currentBrain().name);
+      else commitRank(state.rank, currentTaxon());
+    });
+
+    document.getElementById('btnFly').addEventListener('click', () => {
+      const path = {
+        regne: 'Animalia', embranchement: 'Arthropoda', classe: 'Insecta',
+        ordre: 'Diptera', famille: 'Drosophilidae', genre: 'Drosophila', espece: 'melanogaster',
+      };
+      state.filter = { ...path };
+      Object.entries(path).forEach(([k, v]) => {
+        state.queries[k] = v;
+        const inp = document.querySelector(`input[data-rank="${k}"]`);
+        inp.value = v;
+        inp.parentElement.classList.add('has-value');
+      });
+      state.rank = 'espece';
+      state.taxonIndex = TAXA.espece.indexOf('melanogaster');
+      state.motifIndex = MOTIFS.findIndex((m) => m.id === 'escape_feed_v1');
+      state.brainIndex = BRAINS.findIndex((b) => b.id === 'flywire_brain_2024');
+      setAxis('taxon');
+      flash('Taxon');
+      notice('Référence · Drosophila × escape_feed_v1 × FlyWire — Methods-ready');
+      renderAll();
+    });
+
+    document.getElementById('btnRandom').addEventListener('click', () => {
+      const pick = (arr) => Math.floor(Math.random() * arr.length);
+      state.rank = 'regne';
+      state.taxonIndex = pick(TAXA.regne);
+      state.filter = { regne: TAXA.regne[state.taxonIndex] };
+      state.motifIndex = pick(MOTIFS);
+      state.brainIndex = pick(BRAINS);
+      RANKS.forEach((r) => {
+        const inp = document.querySelector(`input[data-rank="${r.id}"]`);
+        if (r.id === 'regne') {
+          inp.value = TAXA.regne[state.taxonIndex];
+          inp.parentElement.classList.add('has-value');
+          state.queries.regne = inp.value;
+        } else {
+          inp.value = '';
+          inp.parentElement.classList.remove('has-value');
+          state.queries[r.id] = '';
+        }
+      });
+      setAxis('taxon');
+      flash('Taxon');
+      const m = currentMotif();
+      const b = currentBrain();
+      notice(`Random Pick · ${currentTaxon()} × ${m.name} (${m.species}) × ${b.name} (${b.species})`);
+      renderAll();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.matches('input')) return;
+      if (e.key === '1') setAxis('taxon');
+      if (e.key === '2') setAxis('motif');
+      if (e.key === '3') setAxis('brain');
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const dir = e.key === 'ArrowRight' ? 1 : -1;
+        e.preventDefault();
+        if (state.axis === 'taxon') {
+          const n = taxonList().length;
+          state.taxonIndex = (state.taxonIndex + dir + n) % n;
+          flash('Taxon');
+        } else if (state.axis === 'motif') {
+          state.motifIndex = (state.motifIndex + dir + MOTIFS.length) % MOTIFS.length;
+          flash('Motif');
+        } else {
+          state.brainIndex = (state.brainIndex + dir + BRAINS.length) % BRAINS.length;
+          flash('Brain');
+        }
+        renderAll();
+      }
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+id: escape_feed_v1
+name: Escape × Feed motif
+version: "1.0.0"
+license: research-internal
+citation: |
+  Literature motif (LPLC2/LC4→DNp01 escape; sugar→MN9 feed).
+  Not a full MaleCNS extract — see CHARTER.
+paths:
+  circuit: circuits/escape_feed_v1/circuit.json
+  adapters: circuits/escape_feed_v1/adapters.json
+roi: [LOP, SEZ, VEN, VNC, MB, LH]
+sex: iso
+claim_level: literature_motif
+golden_suite: escape_eat_bitter_shuffle

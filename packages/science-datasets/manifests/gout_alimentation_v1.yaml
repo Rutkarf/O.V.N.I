@@ -1,0 +1,7 @@
+id: gout_alimentation_v1
+name: Goût et alimentation
+version: "1.0.0"
+claim_level: motif_literature
+paths:
+  circuit: circuits/gout_alimentation_v1/circuit.json
+  adapters: circuits/gout_alimentation_v1/adapters.json

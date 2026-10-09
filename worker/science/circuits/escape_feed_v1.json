@@ -1,0 +1,45 @@
+{
+  "id": "escape_feed_v1",
+  "name": "Escape × Feed motif",
+  "version": "1.0.0",
+  "provenance": {
+    "type": "literature_motif",
+    "not_full_connectome": true,
+    "citations": [
+      "MaleCNS v1.0 (Berg et al., Cell 2026) — nomenclature / pathways",
+      "FlyWire / looming escape literature (LPLC2, LC4, DNp01)",
+      "Feeding motor MN9 motif (engineered decoder)"
+    ],
+    "disclaimer": "Synthetic weighted motif for reproducible lab instrument. Replace with MaleCNS edges for publication claims."
+  },
+  "neurons": [
+    {"id": "sugar_sensory", "type": "sensory", "class": "gustatory", "hemisphere": "bilateral", "roi": "SEZ", "sex": "iso"},
+    {"id": "bitter_sensory", "type": "sensory", "class": "gustatory", "hemisphere": "bilateral", "roi": "SEZ", "sex": "iso"},
+    {"id": "LPLC2", "type": "visual", "class": "LPLC", "hemisphere": "R", "roi": "LOP", "sex": "iso", "tags": ["looming"]},
+    {"id": "LC4", "type": "visual", "class": "LC", "hemisphere": "R", "roi": "LOP", "sex": "iso", "tags": ["looming"]},
+    {"id": "M_loom", "type": "interneuron", "class": "inhibitory", "hemisphere": "bilateral", "roi": "LH", "sex": "iso", "tags": ["feed_escape_gate"]},
+    {"id": "DNp01_L", "type": "descending", "class": "DNp01", "hemisphere": "L", "roi": "VEN", "sex": "iso", "tags": ["escape", "readout"]},
+    {"id": "DNp01_R", "type": "descending", "class": "DNp01", "hemisphere": "R", "roi": "VEN", "sex": "iso", "tags": ["escape", "readout"]},
+    {"id": "MN9", "type": "motor", "class": "MN9", "hemisphere": "bilateral", "roi": "VNC", "sex": "iso", "tags": ["feeding", "readout"]},
+    {"id": "KC", "type": "kenyon", "class": "KC", "hemisphere": "R", "roi": "MB", "sex": "iso", "tags": ["learning"]},
+    {"id": "MBON_app", "type": "mbon", "class": "MBON", "hemisphere": "R", "roi": "MB", "sex": "iso", "tags": ["approach"]},
+    {"id": "MBON_av", "type": "mbon", "class": "MBON", "hemisphere": "R", "roi": "MB", "sex": "iso", "tags": ["avoid"]}
+  ],
+  "edges": [
+    {"pre": "sugar_sensory", "post": "MN9", "weight": 1.8, "sign": 1, "synapses": 12},
+    {"pre": "sugar_sensory", "post": "KC", "weight": 1.2, "sign": 1, "synapses": 8},
+    {"pre": "sugar_sensory", "post": "M_loom", "weight": 1.4, "sign": 1, "synapses": 6},
+    {"pre": "bitter_sensory", "post": "MN9", "weight": 4.5, "sign": -1, "synapses": 10},
+    {"pre": "bitter_sensory", "post": "MBON_av", "weight": 1.6, "sign": 1, "synapses": 7},
+    {"pre": "LPLC2", "post": "DNp01_L", "weight": 2.4, "sign": 1, "synapses": 15},
+    {"pre": "LPLC2", "post": "DNp01_R", "weight": 2.2, "sign": 1, "synapses": 14},
+    {"pre": "LC4", "post": "DNp01_L", "weight": 2.0, "sign": 1, "synapses": 11},
+    {"pre": "LC4", "post": "DNp01_R", "weight": 2.1, "sign": 1, "synapses": 12},
+    {"pre": "M_loom", "post": "LPLC2", "weight": 1.8, "sign": -1, "synapses": 9},
+    {"pre": "M_loom", "post": "LC4", "weight": 1.8, "sign": -1, "synapses": 9},
+    {"pre": "KC", "post": "MBON_app", "weight": 1.0, "sign": 1, "synapses": 5},
+    {"pre": "KC", "post": "MBON_av", "weight": 0.8, "sign": 1, "synapses": 4},
+    {"pre": "MBON_app", "post": "MN9", "weight": 0.9, "sign": 1, "synapses": 3},
+    {"pre": "MBON_av", "post": "MN9", "weight": 1.3, "sign": -1, "synapses": 4}
+  ]
+}

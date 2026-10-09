@@ -1,0 +1,39 @@
+<section class="auth">
+  <div class="card">
+    <h1>{{ brand.short }}</h1>
+    <p class="sub"><strong>{{ brand.full }}</strong></p>
+    <p class="sub">{{ brand.explain }}</p>
+    <p class="sub">accès labo — authentification locale</p>
+
+    <div class="tabs">
+      <button type="button" [class.active]="mode === 'login'" (click)="mode = 'login'">Connexion</button>
+      <button type="button" [class.active]="mode === 'register'" (click)="mode = 'register'">Créer un compte</button>
+    </div>
+
+    <form (submit)="$event.preventDefault(); submit()">
+      @if (mode === 'register') {
+        <label>
+          Nom
+          <input [(ngModel)]="displayName" name="displayName" required />
+        </label>
+      }
+      <label>
+        Courriel
+        <input [(ngModel)]="email" name="email" type="email" required />
+      </label>
+      <label>
+        Mot de passe
+        <input [(ngModel)]="password" name="password" type="password" minlength="8" required />
+      </label>
+      <button type="submit" [disabled]="pending()">
+        {{ mode === 'login' ? 'Entrer' : 'Créer' }}
+      </button>
+    </form>
+
+    @if (error()) {
+      <p class="err">{{ error() }}</p>
+    }
+
+    <a routerLink="/lab" class="ghost-link">retour au labo</a>
+  </div>
+</section>

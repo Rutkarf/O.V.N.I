@@ -1,0 +1,102 @@
+<section class="page">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">instrument · règles</p>
+      <h1>Adaptateurs et politiques</h1>
+      <p class="lede">
+        Personnalisez les règles d’entrée, le modèle LIF, les sorties et les priorités —
+        enregistré côté moteur (comme un fichier de configuration d’analyse).
+      </p>
+    </div>
+    <div class="presets">
+      <button type="button" (click)="save()" [disabled]="busy()">Enregistrer</button>
+      <button type="button" class="ghost" (click)="reload()">Recharger</button>
+      <button type="button" class="ghost" (click)="reset()">Réinitialiser (usine)</button>
+      <button type="button" class="ghost" (click)="showRaw = !showRaw">
+        {{ showRaw ? 'Formulaire' : 'JSON brut' }}
+      </button>
+    </div>
+  </header>
+
+  @if (status()) {
+    <p class="banner">{{ status() }}</p>
+  }
+  @if (error()) {
+    <p class="err">{{ error() }}</p>
+  }
+
+  @if (doc(); as d) {
+    <p class="meta-line">
+      version <code>{{ d.version }}</code>
+      · empreinte <code>{{ d._meta?.hash }}</code>
+      ·
+      {{ d._meta?.customized ? 'personnalisé actif' : 'réglages d’usine' }}
+    </p>
+  }
+
+  @if (showRaw) {
+    <div class="raw">
+      <textarea [(ngModel)]="rawJson" name="raw" rows="28" spellcheck="false"></textarea>
+      <button type="button" (click)="saveRaw()" [disabled]="busy()">Appliquer le JSON</button>
+    </div>
+  } @else {
+    <div class="grid">
+      <fieldset>
+        <legend>Métadonnées</legend>
+        <label>version <input [(ngModel)]="version" name="version" /></label>
+        <label>notes <textarea [(ngModel)]="notes" name="notes" rows="3"></textarea></label>
+        <label>priorité (liste) <input [(ngModel)]="priorityCsv" name="priority" placeholder="ESCAPE, EAT, IDLE" /></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Politiques comportementales</legend>
+        <label class="check">
+          <input type="checkbox" [(ngModel)]="bitterSuppresses" name="bs" />
+          l’amer inhibe le sucre
+        </label>
+        <label>seuil d’amer
+          <input type="number" step="0.05" [(ngModel)]="bitterGate" name="bg" />
+        </label>
+        <label>échelle sucre sous amer
+          <input type="number" step="0.01" [(ngModel)]="bitterScale" name="bsc" />
+        </label>
+        <label>fraction de connexions gardées (mélange)
+          <input type="number" step="0.05" min="0" max="1" [(ngModel)]="shuffleKeep" name="sk" />
+        </label>
+        <label>force synaptique
+          <input type="number" step="0.5" [(ngModel)]="synStrength" name="ss" />
+        </label>
+        <label>tau synaptique (ms)
+          <input type="number" step="0.5" [(ngModel)]="synTau" name="st" />
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Paramètres LIF</legend>
+        <label>pas de temps (ms) <input type="number" step="0.05" [(ngModel)]="dt" name="dt" /></label>
+        <label>durée (ms) <input type="number" step="10" [(ngModel)]="duration" name="dur" /></label>
+        <label>potentiel de repos <input type="number" step="1" [(ngModel)]="vRest" name="vr" /></label>
+        <label>potentiel de reset <input type="number" step="1" [(ngModel)]="vReset" name="vrs" /></label>
+        <label>seuil de potentiel <input type="number" step="1" [(ngModel)]="vThresh" name="vt" /></label>
+        <label>constante de temps (ms) <input type="number" step="1" [(ngModel)]="tau" name="tau" /></label>
+        <label>résistance membranaire <input type="number" step="1" [(ngModel)]="rMohm" name="rm" /></label>
+        <label>période réfractaire (ms) <input type="number" step="0.5" [(ngModel)]="refractory" name="ref" /></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Gains d’entrée (Hz max)</legend>
+        <label>sucre — taux max (Hz) <input type="number" [(ngModel)]="sugarRate" name="sr" /></label>
+        <label>sucre — gain par faim <input type="number" step="0.1" [(ngModel)]="sugarHungerGain" name="sg" /></label>
+        <label>amer — taux max (Hz) <input type="number" [(ngModel)]="bitterRate" name="br" /></label>
+        <label>menace — taux max (Hz) <input type="number" [(ngModel)]="loomingRate" name="lr" /></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sorties (décodage)</legend>
+        <label>Fuite — fenêtre (ms) <input type="number" [(ngModel)]="escapeWindow" name="ew" /></label>
+        <label>Alimentation — nombre de spikes <input type="number" [(ngModel)]="eatCount" name="ec" /></label>
+        <label>Alimentation — fenêtre (ms) <input type="number" [(ngModel)]="eatWindow" name="ew2" /></label>
+      </fieldset>
+    </div>
+  }
+</section>
